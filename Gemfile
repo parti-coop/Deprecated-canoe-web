@@ -29,12 +29,20 @@ gem 'sequenced', '~> 2.0'
 
 group :development, :test do
   gem 'byebug'
-  gem 'minitest-focus',     '~> 1.1', '>= 1.1.2'
   gem 'guard', '~> 2.13.0'
   gem 'guard-minitest',     '~> 2.4.4'
+  gem 'minitest-focus',     '~> 1.1', '>= 1.1.2'
+  gem 'spring'
+  gem 'spring-commands-rspec'
 end
 
 group :development do
   gem 'web-console', '~> 2.0'
-  gem 'spring'
+end
+
+group :test do
+  gem 'capybara'
+  gem 'database_cleaner'
+  gem 'factory_girl_rails'
+  gem 'rspec-rails', '~> 3.0.0'
 end
