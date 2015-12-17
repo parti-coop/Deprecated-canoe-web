@@ -1,2 +1,4 @@
 one:
   email: 'one@gmail.com'
+two:
+  email: 'two@gmail.com'

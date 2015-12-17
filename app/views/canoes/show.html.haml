@@ -1,3 +1,7 @@
 %h1= @canoe.title
 
 %p= @canoe.user.email
+= link_to [:edit, @canoe] do
+  %i.fa.fa-edit
+= link_to @canoe, method: :delete do
+  %i.fa.fa-times
