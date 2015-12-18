@@ -37,6 +37,7 @@ class CanoesTest < ActionDispatch::IntegrationTest
     delete canoe_path(id: canoes(:canoe1).id)
 
     refute Canoe.exists?(canoes(:canoe1).id)
+    assert_redirected_to canoes_path
   end
 
   test 'should not destory a canoe by the other' do

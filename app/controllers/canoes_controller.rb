@@ -35,7 +35,7 @@ class CanoesController < ApplicationController
 
   def destroy
     @canoe.destroy
-    redirect_to @canoe
+    redirect_to canoes_path
   end
 
   private
