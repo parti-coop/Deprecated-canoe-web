@@ -5,3 +5,8 @@
   %i.fa.fa-edit
 = link_to @canoe, method: :delete do
   %i.fa.fa-times
+
+%p
+  - @canoe.discussions.each do |discussion|
+    = link_to discussion.subject, discussion
+= link_to '논의 만들기', new_canoe_discussion_path(@canoe)

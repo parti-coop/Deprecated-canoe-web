@@ -3,5 +3,9 @@ Rails.application.routes.draw do
 
   sso_devise
 
-  resources :canoes
+  resources :canoes do
+    shallow do
+      resources :discussions
+    end
+  end
 end

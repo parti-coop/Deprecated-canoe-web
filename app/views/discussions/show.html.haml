@@ -1,0 +1,10 @@
+%h1
+  논의
+  = @discussion.subject
+  %small
+    = link_to [:edit, @discussion] do
+      %i.fa.fa-edit
+    = link_to @discussion, method: :delete do
+      %i.fa.fa-trash
+
+%p.lead= @discussion.body
