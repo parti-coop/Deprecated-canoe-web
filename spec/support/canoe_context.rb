@@ -1,8 +1,8 @@
 shared_context 'canoe' do
 
-  def create_canoe_titled(title)
+  def create_canoe(attrs)
     visit new_canoe_path
-    fill_in 'Title', with: title
+    fill_in 'Title', with: attrs[:title] if attrs.has_key? :title
     click_button '저장'
   end
 
