@@ -112,6 +112,10 @@ GEM
     guard-minitest (2.4.4)
       guard-compat (~> 1.2)
       minitest (>= 3.0)
+    guard-rspec (4.6.4)
+      guard (~> 2.1)
+      guard-compat (~> 1.1)
+      rspec (>= 2.99.0, < 4.0)
     haml (4.0.7)
       tilt
     haml-rails (0.9.0)
@@ -195,6 +199,10 @@ GEM
     rdoc (4.2.0)
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
+    rspec (3.0.0)
+      rspec-core (~> 3.0.0)
+      rspec-expectations (~> 3.0.0)
+      rspec-mocks (~> 3.0.0)
     rspec-core (3.0.4)
       rspec-support (~> 3.0.0)
     rspec-expectations (3.0.4)
@@ -278,6 +286,7 @@ DEPENDENCIES
   factory_girl_rails
   guard (~> 2.13.0)
   guard-minitest (~> 2.4.4)
+  guard-rspec
   haml-rails (~> 0.9.0)
   jbuilder (~> 2.0)
   jquery-rails
