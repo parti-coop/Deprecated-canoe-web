@@ -45,7 +45,7 @@ class CanoesController < ApplicationController
   end
 
   def correct_user
-    unless @canoe.user == current_user
+    unless fetch_canoe.user == current_user
       redirect_to(@canoe)
     end
   end

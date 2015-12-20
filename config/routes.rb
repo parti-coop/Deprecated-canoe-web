@@ -5,7 +5,9 @@ Rails.application.routes.draw do
 
   resources :canoes do
     shallow do
-      resources :discussions
+      resources :discussions do
+        resources :opinions
+      end
     end
   end
 end

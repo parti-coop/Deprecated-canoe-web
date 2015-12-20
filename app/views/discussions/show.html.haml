@@ -8,3 +8,17 @@
       %i.fa.fa-trash
 
 %p.lead= @discussion.body
+
+%ul
+  - @discussion.opinions.each do |opinion|
+    %li
+      = opinion.body
+      = opinion.user.email
+      = link_to [:edit, opinion] do
+        %i.fa.fa-edit
+      = link_to opinion, method: :delete do
+        %i.fa.fa-trash
+  = form_for [@discussion, @discussion.opinions.build] do |f|
+    = f.label :body
+    = f.text_area :body
+    = f.submit
