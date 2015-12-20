@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151220070915) do
+ActiveRecord::Schema.define(version: 20151220075707) do
 
   create_table "canoes", force: :cascade do |t|
     t.string   "title",      null: false
@@ -66,5 +66,16 @@ ActiveRecord::Schema.define(version: 20151220070915) do
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["nickname"], name: "index_users_on_nickname", unique: true
+
+  create_table "votes", force: :cascade do |t|
+    t.integer  "proposal_id", null: false
+    t.integer  "user_id",     null: false
+    t.integer  "choice",      null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "votes", ["proposal_id"], name: "index_votes_on_proposal_id"
+  add_index "votes", ["user_id"], name: "index_votes_on_user_id"
 
 end

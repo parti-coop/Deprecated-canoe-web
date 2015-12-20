@@ -2,5 +2,18 @@ class Discussion < ActiveRecord::Base
   belongs_to :user
   belongs_to :canoe
   has_many :opinions
-  has_many :proposals
+  has_many :proposals do
+    def tops
+      first = self.sort_by(&:point).reverse.first
+      if first.point > 0
+        self.select { |p| p.point == first.point }.sort_by { |p| [p.votes.in_favor.count, p.created_at] }.reverse
+      else
+        []
+      end
+    end
+
+    def bottoms
+      self.where.not(id: self.tops)
+    end
+  end
 end

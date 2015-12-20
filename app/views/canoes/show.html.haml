@@ -22,29 +22,6 @@
       .panel.panel-default
         .panel-heading
           %h4.text-muted
-            %i.fa.fa-comments
-            최근 의견
-        %ul.list-group
-          - @canoe.opinions.each do |opinion|
-            %li.list-group-item
-              %p
-                = link_to opinion.discussion do
-                  %i.fa.fa-flag
-                  = opinion.discussion.subject
-              %p.lead= opinion.body
-              %i.fa.fa-user
-              = opinion.user.nickname
-              %i.fa.fa-clock-o
-              = date_f opinion.created_at
-              - if opinion.user == current_user
-                = link_to [:edit, opinion] do
-                  %i.fa.fa-edit
-                = link_to opinion, method: :delete do
-                  %i.fa.fa-trash
-    .col-md-5
-      .panel.panel-default
-        .panel-heading
-          %h4.text-muted
             %i.fa.fa-flag
             논의
             %small
@@ -61,4 +38,26 @@
                   = discussion.user.nickname
                   %i.fa.fa-clock-o
                   = date_f discussion.created_at
-
+    .col-md-5
+      .panel.panel-default
+        .panel-heading
+          %h4.text-muted
+            %i.fa.fa-comments
+            최근 의견
+        %ul.list-group
+          - @canoe.opinions.last(5).each do |opinion|
+            %li.list-group-item
+              %p
+                = link_to opinion.discussion do
+                  %i.fa.fa-flag
+                  = opinion.discussion.subject
+              %p.lead= opinion.body
+              %i.fa.fa-user
+              = opinion.user.nickname
+              %i.fa.fa-clock-o
+              = date_f opinion.created_at
+              - if opinion.user == current_user
+                = link_to [:edit, opinion] do
+                  %i.fa.fa-edit
+                = link_to opinion, method: :delete do
+                  %i.fa.fa-trash
