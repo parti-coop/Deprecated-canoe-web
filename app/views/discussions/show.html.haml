@@ -1,38 +1,74 @@
-%h1
-  논의
-  = @discussion.subject
-  %small
-    = link_to [:edit, @discussion] do
-      %i.fa.fa-edit
-    = link_to @discussion, method: :delete do
-      %i.fa.fa-trash
+.bs-component
+  .panel.panel-default
+    .panel-heading
+      %h4.text-muted
+        %i.fa.fa-ship
+        = link_to @discussion.canoe.title, @discussion.canoe
+      %h3
+        %i.fa.fa-flag
+        #{@discussion.subject}
+        %small
+          %i.fa.fa-user
+          = @discussion.user.nickname
+          %i.fa.fa-clock-o
+          = date_f @discussion.created_at
+          - if @discussion.user == current_user
+            = link_to [:edit, @discussion] do
+              %i.fa.fa-edit
+            = link_to @discussion, method: :delete do
+              %i.fa.fa-trash
+    .panel-body
+      = @discussion.body
 
-%p.lead= @discussion.body
+  .row
+    .col-md-7
+      .panel.panel-default
+        .panel-heading
+          %h4.text-muted
+            %i.fa.fa-comments
+            의견
+        %ul.list-group
+          - @discussion.opinions.each do |opinion|
+            %li.list-group-item
+              %p.lead= opinion.body
+              %i.fa.fa-user
+              = opinion.user.nickname
+              %i.fa.fa-clock-o
+              = date_f opinion.created_at
+              - if opinion.user == current_user
+                = link_to [:edit, opinion] do
+                  %i.fa.fa-edit
+                = link_to opinion, method: :delete do
+                  %i.fa.fa-trash
+          - if user_signed_in?
+            %li.list-group-item
+              = form_for [@discussion, @discussion.opinions.build] do |f|
+                .form-group
+                  = f.text_area :body, style: "width: 100%; height: 100px;", placeholder: '내 의견은...'
+                = f.submit '의견올리기', class: 'btn btn-default'
+    .col-md-5
+      .panel.panel-default
+        .panel-heading
+          %h4.text-muted
+            %i.fa.fa-rocket
+            제안
+        %ul.list-group
+          - @discussion.proposals.each do |proposal|
+            %li.list-group-item
+              %p.lead= proposal.body
+              %i.fa.fa-user
+              = proposal.user.nickname
+              %i.fa.fa-clock-o
+              = date_f proposal.created_at
+              - if proposal.user == current_user
+                = link_to [:edit, proposal] do
+                  %i.fa.fa-edit
+                = link_to proposal, method: :delete do
+                  %i.fa.fa-trash
+          - if user_signed_in?
+            %li.list-group-item
+              = form_for [@discussion, @discussion.proposals.build] do |f|
+                .form-group
+                  = f.text_area :body, style: "width: 100%; height: 100px;", placeholder: '내 제안은...'
+                = f.submit '제안하기', class: 'btn btn-default'
 
-%ul
-  - @discussion.opinions.each do |opinion|
-    %li
-      = opinion.body
-      = opinion.user.email
-      = link_to [:edit, opinion] do
-        %i.fa.fa-edit
-      = link_to opinion, method: :delete do
-        %i.fa.fa-trash
-  = form_for [@discussion, @discussion.opinions.build] do |f|
-    = f.label :body
-    = f.text_area :body
-    = f.submit
-
-%ul
-  - @discussion.proposals.each do |proposal|
-    %li
-      = proposal.body
-      = proposal.user.email
-      = link_to [:edit, proposal] do
-        %i.fa.fa-edit
-      = link_to proposal, method: :delete do
-        %i.fa.fa-trash
-  = form_for [@discussion, @discussion.proposals.build] do |f|
-    = f.label :body
-    = f.text_area :body
-    = f.submit

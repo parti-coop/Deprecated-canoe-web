@@ -1,8 +1,8 @@
 GIT
   remote: git://github.com/parti-xyz/parti_sso_client.git
-  revision: 8ac3335d3624e14e7c9c12dc6768de5a777122f2
+  revision: 5902f505935d37ff801008ae80e9293c396da300
   specs:
-    parti_sso_client (0.0.1)
+    parti_sso_client (0.0.3)
       devise (~> 3.5.2)
       devise_cas_authenticatable (~> 1.6.0)
       rails (~> 4.2.4)
@@ -76,7 +76,7 @@ GEM
       responders
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
-    devise_cas_authenticatable (1.6.0)
+    devise_cas_authenticatable (1.6.1)
       devise (>= 1.2.0)
       rubycas-client (>= 2.2.1)
     envyable (0.2.0)
@@ -247,7 +247,7 @@ DEPENDENCIES
   jquery-rails
   minitest-focus (~> 1.1, >= 1.1.2)
   mysql2 (~> 0.3.13)
-  parti_sso_client!
+  parti_sso_client (~> 0.0.3)!
   rails (= 4.2.5)
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
