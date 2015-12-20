@@ -19,6 +19,16 @@ feature 'Canoe' do
     page_should_have_canoe_list( [ title: 'The only canoe' ] )
   end
 
+  scenario 'List empty with no canoe' do
+    set_no_canoe_exists
+    go_to_list_canoe_page
+    page_should_have_empty_canoe_list
+  end
+
+  def set_no_canoe_exists
+    Canoe.delete_all
+  end
+
   def set_all_canoes(attrs_set)
     Canoe.delete_all
     DatabaseCleaner.clean
@@ -32,11 +42,18 @@ feature 'Canoe' do
   end
 
   def page_should_have_canoe_list(attrs_set)
-    canoe_links = page.all("a[href]").select { |a|
+    canoe_titles = find_canoe_links(page).map(&:text)
+    expect(canoe_titles).to eq(['The only canoe'])
+  end
+
+  def page_should_have_empty_canoe_list
+    expect(find_canoe_links(page)).to be_empty
+  end
+
+  def find_canoe_links(page)
+    page.all("a[href]").select { |a|
       a[:href] =~ /#{Regexp.quote(canoes_path + '/')}\d+/
     }
-    canoe_titles = canoe_links.map(&:text)
-    expect(canoe_titles).to eq(['The only canoe'])
   end
 
 end
