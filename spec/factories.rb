@@ -1,7 +1,7 @@
 FactoryGirl.define do
 
   factory :user do
-    email 'test@example.com'
+    email 'factory@email.com'
   end
 
   factory :canoe do
