@@ -51,6 +51,6 @@ class CanoesController < ApplicationController
   end
 
   def canoe_params
-    params.require(:canoe).permit(:title)
+    params.require(:canoe).permit(:title, :theme)
   end
 end

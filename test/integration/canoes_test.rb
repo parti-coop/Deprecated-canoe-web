@@ -8,19 +8,21 @@ class CanoesTest < ActionDispatch::IntegrationTest
 
   test 'new' do
     sign_in users(:one)
-    post canoes_path(canoe: { title: 'test'} )
+    post canoes_path(canoe: { title: 'test', theme: 'theme'} )
 
     assert_equal users(:one), assigns(:canoe).user
     assert_equal 'test', assigns(:canoe).title
+    assert_equal 'theme', assigns(:canoe).theme
   end
 
   test 'edit by owner' do
     sign_in users(:one)
 
     title = canoes(:canoe1).title + 'xx'
-    put canoe_path(id: canoes(:canoe1).id, canoe: { title: title})
+    put canoe_path(id: canoes(:canoe1).id, canoe: { title: title, theme: 'theme' })
 
     assert_equal title, assigns(:canoe).title
+    assert_equal 'theme', assigns(:canoe).theme
   end
 
   test 'should not edit a canoe by the other' do
