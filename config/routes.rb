@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     shallow do
       resources :discussions do
         resources :opinions
+        resources :proposals
       end
     end
   end

@@ -22,3 +22,17 @@
     = f.label :body
     = f.text_area :body
     = f.submit
+
+%ul
+  - @discussion.proposals.each do |proposal|
+    %li
+      = proposal.body
+      = proposal.user.email
+      = link_to [:edit, proposal] do
+        %i.fa.fa-edit
+      = link_to proposal, method: :delete do
+        %i.fa.fa-trash
+  = form_for [@discussion, @discussion.proposals.build] do |f|
+    = f.label :body
+    = f.text_area :body
+    = f.submit
