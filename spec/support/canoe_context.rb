@@ -1,5 +1,17 @@
 shared_context 'canoe' do
 
+  def set_no_canoe_exists
+    Canoe.delete_all
+  end
+
+  def set_all_canoes(attrs_set)
+    Canoe.delete_all
+    DatabaseCleaner.clean
+    attrs_set.each do |attrs|
+      FactoryGirl.create(:canoe, attrs)
+    end
+  end
+
   def create_canoe(attrs)
     visit new_canoe_path
     fill_in 'Title', with: attrs[:title] if attrs.has_key? :title
