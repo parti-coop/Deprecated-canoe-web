@@ -1,8 +1,8 @@
 GIT
   remote: git://github.com/parti-xyz/parti_sso_client.git
-  revision: cd921f466752eaf1aa4f04d3c4ee2d539958a1b0
+  revision: 2328149a77f5b70c04a9574f861d96be6e9cee13
   specs:
-    parti_sso_client (0.0.4)
+    parti_sso_client (0.0.5)
       devise (~> 3.5.2)
       devise_cas_authenticatable (~> 1.6.0)
       rails (~> 4.2.4)
@@ -246,7 +246,7 @@ DEPENDENCIES
   jquery-rails
   minitest-focus (~> 1.1, >= 1.1.2)
   mysql2 (~> 0.3.13)
-  parti_sso_client (~> 0.0.4)!
+  parti_sso_client (~> 0.0.5)!
   rails (= 4.2.5)
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
