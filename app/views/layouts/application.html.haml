@@ -31,12 +31,8 @@
           %ul.nav.navbar-nav
             %li
               = link_to canoes_path do
-                %i.fa.fa-at
-                카누
-            %li
-              = link_to '#' do
-                %i.fa.fa-commenting-o
-                논의
+                %i.fa.fa-ship
+                내가 탑승한 카누
           %ul.nav.navbar-nav.pull-right
             - if user_signed_in?
               %li

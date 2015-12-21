@@ -8,8 +8,7 @@ gem 'sqlite3'
 
 # auth
 gem 'devise'
-gem 'parti_sso_client', path: '/Users/dali/workspace/parti_sso_client'
-#gem 'parti_sso_client', '~> 0.0.3', github: 'parti-xyz/parti_sso_client'
+gem 'parti_sso_client', '~> 0.0.4', github: 'parti-xyz/parti_sso_client'
 
 # ui
 gem 'sass-rails', '~> 5.0'

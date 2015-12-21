@@ -1,3 +1,8 @@
-dummy home
-
-= link_to '카누만들기', new_canoe_path
+%section.bs-component
+  .jumbotron
+    %h2 카누
+    %p
+      = Canoe.count
+      개의 카누를 타고 산으로 가는 중입니다
+    %p
+      = link_to '카누만들기', new_canoe_path, class: 'btn btn-primary btn-lg'

@@ -1,10 +1,16 @@
 = form_for @canoe do |f|
-  = f.label :title
-  = f.text_field :title
-  = f.label :theme
-  = f.text_area :theme
-  = f.label :slug
-  = f.text_area :slug
-  %em 영문자와 숫자만 넣어주세요
-  %em 이미 등록된 slug는 거부됩니다.
-  = f.submit '저장'
+  .form-group
+    = f.label :title
+    = f.text_field :title, class: 'form-control'
+  .form-group
+    = f.label :theme
+    = f.text_area :theme, class: 'form-control'
+  .form-group
+    = f.label :slug
+    .input-group
+      .input-group-addon
+        #{request.base_url}/
+      = f.text_field :slug, class: 'form-control'
+    %em 영문자와 숫자만 넣어주세요
+    %em 이미 등록된 slug는 거부됩니다.
+  = f.submit '저장', class: 'btn btn-default'

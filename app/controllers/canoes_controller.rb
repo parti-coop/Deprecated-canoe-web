@@ -1,11 +1,14 @@
 class CanoesController < ApplicationController
 
-  before_filter :authenticate_user!, except: [:index, :show, :short]
+  before_filter :authenticate_user!, except: [:show, :short]
   before_filter :fetch_canoe, only: [:show, :edit, :update, :destroy]
   before_filter :correct_user, only: [:edit, :update, :destroy]
 
   def index
-    @canoes = Canoe.all
+    @owning_canoes = current_user.canoes
+    @crewing_canoes = current_user.crewing_canoes
+    @canoes = [@owning_canoes, @crewing_canoes].flatten
+    @opinions = Opinion.joins(:discussion).where('discussions.canoe_id': @canoes).order(id: :desc)
   end
 
   def show

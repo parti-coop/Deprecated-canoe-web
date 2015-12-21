@@ -1,7 +1,49 @@
-canoes list
-
-= link_to '새로 카누만들기', new_canoe_path
-
-- @canoes.each do |canoe|
-  = link_to canoe_home_path(canoe) do
-    = canoe.title
+.bs-component
+  .row
+    .col-md-7
+      .panel.panel-default
+        .panel-heading
+          %h4
+            탑승한 카누
+        %ul.list-group
+          - [@owning_canoes, @crewing_canoes].flatten.each do |canoe|
+            %li.list-group-item
+              = link_to canoe_home_path(canoe) do
+                %p.lead
+                  %span.label.label-default= canoe.id
+                  = canoe.title
+                  - if canoe.user == current_user
+                    %span.label.label-warning 주인장
+                %p= canoe.theme
+                %small
+                  %i.fa.fa-user
+                  = canoe.user.nickname
+                  %i.fa.fa-clock-o
+                  = date_f canoe.created_at
+    .col-md-5
+      .panel.panel-default
+        .panel-heading
+          %h4.text-muted
+            %i.fa.fa-comments
+            최근 의견
+        %ul.list-group
+          - @opinions.last(5).each do |opinion|
+            %li.list-group-item
+              %p
+                = link_to opinion.discussion.canoe do
+                  %i.fa.fa-ship
+                  = opinion.discussion.canoe.title
+                \/
+                = link_to opinion.discussion do
+                  %i.fa.fa-flag
+                  = opinion.discussion.subject
+              %p.lead= opinion.body
+              %i.fa.fa-user
+              = opinion.user.nickname
+              %i.fa.fa-clock-o
+              = date_f opinion.created_at
+              - if opinion.user == current_user
+                = link_to [:edit, opinion] do
+                  %i.fa.fa-edit
+                = link_to opinion, method: :delete do
+                  %i.fa.fa-trash
