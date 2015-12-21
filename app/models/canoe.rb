@@ -5,7 +5,7 @@ class Canoe < ActiveRecord::Base
   has_many :crews
 
   validates :title, presence: true
-  VALID_SLUG = /\A[a-z0-9]+\z/i
+  VALID_SLUG = /\A[a-z0-9_-]+\z/i
   validates :slug,
     presence: true,
     format: { with: VALID_SLUG },
