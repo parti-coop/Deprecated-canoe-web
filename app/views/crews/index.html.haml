@@ -1,0 +1,19 @@
+.bs-component
+  .panel.panel-default
+    .panel-heading
+      %h4.text-muted
+        %i.fa.fa-ship
+        = link_to @canoe.title, canoe_home_path(@canoe)
+      %h3
+        %i.fa.fa-flag
+        구성원
+        %small
+          = link_to new_canoe_crew_path(@canoe) do
+            %i.fa.fa-user-plus
+    .panel-body
+      %ul
+        %li
+          %span.label.label-default 주인장
+          = @canoe.user.nickname
+        - @canoe.crews.each do |crew|
+          %li= crew.user.nickname

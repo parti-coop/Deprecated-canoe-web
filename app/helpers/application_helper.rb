@@ -14,4 +14,12 @@ module ApplicationHelper
   def canoe_home_url(canoe, options = {})
     short_canoe_url(canoe.slug, options)
   end
+
+  def link_to_if_with_block condition, options, html_options={}, &block
+     if condition
+       link_to options, html_options, &block
+     else
+       capture &block
+     end
+   end
 end

@@ -2,6 +2,7 @@ class Canoe < ActiveRecord::Base
   belongs_to :user
   has_many :discussions
   has_many :opinions, through: :discussions
+  has_many :crews
 
   validates :title, presence: true
   VALID_SLUG = /\A[a-z0-9]+\z/i
@@ -12,4 +13,8 @@ class Canoe < ActiveRecord::Base
     stylesheets assets javascripts images) },
     uniqueness: { case_sensitive: true },
     length: { maximum: 100 }
+
+  def crew?(target)
+    user == target or crews.exists? user: target
+  end
 end

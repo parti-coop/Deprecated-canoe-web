@@ -14,6 +14,19 @@
               %i.fa.fa-edit
             = link_to @canoe, method: :delete do
               %i.fa.fa-trash
+          = link_to_if_with_block @canoe.crew?(current_user), canoe_crews_path(@canoe) do
+            %i.fa.fa-users
+            = @canoe.crews.count
+          - if user_signed_in?
+            (
+            - if @canoe.crew?(current_user)
+              = link_to new_canoe_crew_path(@canoe) do
+                %i.fa.fa-user-plus
+            - else
+              = link_to '#' do
+                %i.fa.fa-sign-in
+            )
+
     .panel-body
       = @canoe.theme
 
