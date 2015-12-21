@@ -14,6 +14,7 @@ class Canoe < ActiveRecord::Base
     uniqueness: { case_sensitive: true },
     length: { maximum: 100 }
 
+  scope :latest, -> { order(id: :desc) }
   def crew?(target)
     user == target or crews.exists? user: target
   end

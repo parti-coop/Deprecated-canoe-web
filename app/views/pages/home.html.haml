@@ -6,3 +6,24 @@
       개의 카누를 타고 산으로 가는 중입니다
     %p
       = link_to '카누만들기', new_canoe_path, class: 'btn btn-primary btn-lg'
+
+%section.bs-component
+  .panel.panel-default
+    .panel-heading
+      %h4
+        최근 만들어진 카누
+    %ul.list-group
+      - @canoes.each do |canoe|
+        %li.list-group-item
+          = link_to canoe_home_path(canoe) do
+            %p.lead
+              %span.label.label-default= canoe.id
+              = canoe.title
+              - if canoe.user == current_user
+                %span.label.label-warning 주인장
+            %p= canoe.theme
+            %small
+              %i.fa.fa-user
+              = canoe.user.nickname
+              %i.fa.fa-clock-o
+              = date_f canoe.created_at
