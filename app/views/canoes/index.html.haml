@@ -3,5 +3,5 @@ canoes list
 = link_to '새로 카누만들기', new_canoe_path
 
 - @canoes.each do |canoe|
-  = link_to canoe do
+  = link_to canoe_home_path(canoe) do
     = canoe.title

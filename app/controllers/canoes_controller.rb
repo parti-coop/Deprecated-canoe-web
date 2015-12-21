@@ -1,6 +1,6 @@
 class CanoesController < ApplicationController
 
-  before_filter :authenticate_user!, except: [:index, :show]
+  before_filter :authenticate_user!, except: [:index, :show, :short]
   before_filter :fetch_canoe, only: [:show, :edit, :update, :destroy]
   before_filter :correct_user, only: [:edit, :update, :destroy]
 
@@ -9,6 +9,14 @@ class CanoesController < ApplicationController
   end
 
   def show
+    redirect_to short_canoe_path(@canoe.slug)
+  end
+
+  def short
+    @canoe = Canoe.find_by slug: params[:slug]
+    render 404 if @canoe.nil?
+
+    render 'show'
   end
 
   def new
@@ -51,6 +59,6 @@ class CanoesController < ApplicationController
   end
 
   def canoe_params
-    params.require(:canoe).permit(:title, :theme)
+    params.require(:canoe).permit(:title, :theme, :slug)
   end
 end

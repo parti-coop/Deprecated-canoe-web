@@ -3,7 +3,7 @@
     .panel-heading
       %h4.text-muted
         %i.fa.fa-ship
-        = link_to @discussion.canoe.title, @discussion.canoe
+        = link_to @discussion.canoe.title, canoe_home_path(@discussion.canoe)
       %h3
         %i.fa.fa-flag
         #{@discussion.subject}

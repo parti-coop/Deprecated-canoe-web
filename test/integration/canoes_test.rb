@@ -48,4 +48,9 @@ class CanoesTest < ActionDispatch::IntegrationTest
 
     assert Canoe.exists?(canoes(:canoe1).id)
   end
+
+  test 'slug' do
+    get short_canoe_path(canoes(:canoe1).slug)
+    assert_response :success
+  end
 end

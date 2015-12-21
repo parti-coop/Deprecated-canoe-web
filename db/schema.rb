@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151220075707) do
+ActiveRecord::Schema.define(version: 20151220233403) do
 
   create_table "canoes", force: :cascade do |t|
     t.string   "title",      null: false
@@ -19,8 +19,10 @@ ActiveRecord::Schema.define(version: 20151220075707) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text     "theme"
+    t.string   "slug",       null: false
   end
 
+  add_index "canoes", ["slug"], name: "index_canoes_on_slug", unique: true
   add_index "canoes", ["user_id"], name: "index_canoes_on_user_id"
 
   create_table "discussions", force: :cascade do |t|

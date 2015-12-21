@@ -3,4 +3,8 @@
   = f.text_field :title
   = f.label :theme
   = f.text_area :theme
+  = f.label :slug
+  = f.text_area :slug
+  %em 영문자와 숫자만 넣어주세요
+  %em 이미 등록된 slug는 거부됩니다.
   = f.submit '저장'
