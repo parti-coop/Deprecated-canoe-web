@@ -33,6 +33,11 @@
               = link_to canoes_path do
                 %i.fa.fa-ship
                 내가 탑승한 카누
+            - if user_signed_in?
+              %li
+                = link_to new_canoe_path do
+                  %i.fa.fa-edit
+                  카누 만들기
           %ul.nav.navbar-nav.pull-right
             - if user_signed_in?
               %li
