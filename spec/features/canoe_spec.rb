@@ -24,6 +24,21 @@ feature 'Canoe' do
     )
   end
 
+  scenario 'Update canoe by owner' do
+    canoe, * = canoes_exist [
+      { title: 'canoe title 1', slug: 'canoe-slug' }
+    ]
+    user_is_in_login_status_as canoe.user
+
+    update_canoe canoe.id,
+      title: 'canoe title 1 updated',
+      slug: 'canoe-slug-updated'
+
+    canoe_should_be_updated canoe.id,
+      title: 'canoe title 1 updated',
+      slug: 'canoe-slug-updated'
+  end
+
   scenario 'List canoe user owns only' do
     canoes_exist [
       { title: 'canoe title 1', user: @valid_user },

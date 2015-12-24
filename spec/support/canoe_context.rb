@@ -28,6 +28,18 @@ shared_context 'canoe' do
     expect(attrs.stringify_keys.to_a - canoe.attributes.to_a).to be_empty
   end
 
+  def update_canoe(canoe_id, attrs)
+    visit edit_canoe_path canoe_id
+    fill_in 'Title', with: attrs[:title] if attrs.has_key? :title
+    fill_in 'Slug', with: attrs[:slug] if attrs.has_key? :slug
+    click_button '저장'
+  end
+
+  def canoe_should_be_updated(canoe_id, attrs)
+    canoe = Canoe.find canoe_id
+    expect(attrs.stringify_keys.to_a - canoe.attributes.to_a).to be_empty
+  end
+
   def go_to_list_canoe_page
     do_not_follow_redirect do
       visit canoes_path
