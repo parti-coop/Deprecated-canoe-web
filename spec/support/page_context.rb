@@ -5,8 +5,14 @@ shared_context 'page' do
   end
 
   def page_should_have_canoe_list(attrs_set)
-    canoe_titles = find_canoe_links(page).map(&:text)
-    expect(canoe_titles).to eq(['The only canoe'])
+    canoe_texts = find_canoe_links(page).map(&:text)
+    expect(canoe_texts.length).to eq attrs_set.length
+    canoe_texts.zip(attrs_set).each do |text, attrs|
+      expecteds = attrs.slice(:title).values
+      expecteds.each do |expected|
+        expect(text).to include(expected)
+      end
+    end
   end
 
   def page_should_have_empty_canoe_list
@@ -17,7 +23,7 @@ shared_context 'page' do
 
   def find_canoe_links(page)
     page.all("a[href]").select { |a|
-      a[:href] =~ /#{Regexp.quote(canoes_path + '/')}\d+/
+      a[:href] =~ %r{^/([^/]+)$} && Canoe.exists?(slug: $1)
     }
   end
 
