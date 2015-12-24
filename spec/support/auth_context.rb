@@ -8,6 +8,7 @@ shared_context 'auth' do
   end
 
   def user_is_not_in_login_status
+    logout(:user)
   end
 
   def user_should_see_login_form
