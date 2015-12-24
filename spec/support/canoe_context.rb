@@ -56,9 +56,9 @@ shared_context 'canoe' do
   private
 
   def find_canoe_links(page)
-    page.all("a[href]").select { |a|
+    page.all("a[href]").select do |a|
       a[:href] =~ %r{^/([^/]+)$} && Canoe.exists?(slug: $1)
-    }
+    end
   end
 
 end

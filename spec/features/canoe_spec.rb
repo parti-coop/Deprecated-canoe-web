@@ -12,7 +12,7 @@ feature 'Canoe' do
   end
 
   scenario 'Create new canoe by valid user' do
-    sign_in_as @valid_user
+    user_is_in_login_status_as @valid_user
     create_canoe(
       title: 'Canoe created by scenario',
       slug: 'canoe-slug'
@@ -29,7 +29,7 @@ feature 'Canoe' do
       { title: 'canoe title 1', user: @valid_user },
       { title: 'canoe title 2' }
     ]
-    sign_in_as @valid_user
+    user_is_in_login_status_as @valid_user
     go_to_list_canoe_page
     page_should_have_canoe_list [
       { title: 'canoe title 1' }
