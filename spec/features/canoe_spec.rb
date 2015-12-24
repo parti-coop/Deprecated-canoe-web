@@ -49,4 +49,10 @@ feature 'Canoe' do
     user_should_see_login_form
   end
 
+  scenario 'User has to login to post to create canoe url' do
+    user_is_not_in_login_status
+    post_to_create_canoe_url
+    user_should_see_login_form
+  end
+
 end

@@ -34,6 +34,10 @@ shared_context 'canoe' do
     end
   end
 
+  def post_to_create_canoe_url
+    page.driver.browser.post canoes_path
+  end
+
   def go_to_new_canoe_page
     visit new_canoe_path
   end
