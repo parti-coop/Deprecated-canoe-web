@@ -7,4 +7,12 @@ shared_context 'auth' do
     visit "#{path}?ticket=#{user.email}"
   end
 
+  def user_is_not_in_login_status
+  end
+
+  def user_should_see_login_form
+    expect(page.status_code).to eq(302)
+    expect(page.response_headers['Location']).to match %r{/app/users/sign_in}
+  end
+
 end

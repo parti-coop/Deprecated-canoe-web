@@ -1,4 +1,5 @@
 shared_context 'canoe' do
+  include_context 'helper'
 
   def canoes_exist(attrs_set)
     attrs_set.map do |attrs|
@@ -28,7 +29,13 @@ shared_context 'canoe' do
   end
 
   def go_to_list_canoe_page
-    visit canoes_path
+    do_not_follow_redirect do
+      visit canoes_path
+    end
+  end
+
+  def go_to_new_canoe_page
+    visit new_canoe_path
   end
 
   def page_should_have_canoe_list(attrs_set)

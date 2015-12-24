@@ -38,9 +38,15 @@ feature 'Canoe' do
 
   scenario 'List empty with no canoe' do
     canoes_not_exist
-    sign_in_as @valid_user
+    user_is_in_login_status_as @valid_user
     go_to_list_canoe_page
     page_should_have_empty_canoe_list
+  end
+
+  scenario 'User has to login to go to new canoe page' do
+    user_is_not_in_login_status
+    go_to_list_canoe_page
+    user_should_see_login_form
   end
 
 end
