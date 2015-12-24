@@ -4,7 +4,6 @@ feature 'Canoe' do
   include_context 'user'
   include_context 'auth'
   include_context 'canoe'
-  include_context 'page'
 
   background do
     @valid_user, * = users_exist [
