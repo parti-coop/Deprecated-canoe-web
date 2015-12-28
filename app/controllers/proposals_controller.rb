@@ -1,4 +1,6 @@
 class ProposalsController < ApplicationController
+  include SlackNotifing
+
   before_filter :authenticate_user!, except: [:show]
   before_filter :fetch_proposal, only: [:show, :edit, :update, :destroy]
   before_filter :correct_user, only: [:edit, :update, :destroy]
@@ -19,6 +21,7 @@ class ProposalsController < ApplicationController
     @proposal = @discussion.proposals.new proposal_param
     @proposal.user = current_user
     if @proposal.save
+      slack(@proposal)
       redirect_to @discussion
     else
       render 'new'
@@ -27,11 +30,13 @@ class ProposalsController < ApplicationController
 
   def update
     @proposal.update(proposal_param)
+    slack(@proposal)
     redirect_to @proposal.discussion
   end
 
   def destroy
     @proposal.destroy
+    slack(@proposal)
     redirect_to @proposal.discussion
   end
 

@@ -1,4 +1,6 @@
 class OpinionsController < ApplicationController
+  include SlackNotifing
+
   before_filter :authenticate_user!, except: [:show]
   before_filter :fetch_opinion, only: [:show, :edit, :update, :destroy]
   before_filter :correct_user, only: [:edit, :update, :destroy]
@@ -19,6 +21,7 @@ class OpinionsController < ApplicationController
     @opinion = @discussion.opinions.new opinion_param
     @opinion.user = current_user
     if @opinion.save
+      slack(@opinion)
       redirect_to @discussion
     else
       render 'new'
@@ -27,11 +30,13 @@ class OpinionsController < ApplicationController
 
   def update
     @opinion.update(opinion_param)
+    slack(@opinion)
     redirect_to @opinion.discussion
   end
 
   def destroy
     @opinion.destroy
+    slack(@opinion)
     redirect_to @opinion.discussion
   end
 

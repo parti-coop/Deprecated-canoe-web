@@ -1,4 +1,5 @@
 class CanoesController < ApplicationController
+  include SlackNotifing
 
   before_filter :authenticate_user!, except: [:show, :short]
   before_filter :fetch_canoe, only: [:show, :edit, :update, :destroy]
@@ -33,6 +34,7 @@ class CanoesController < ApplicationController
     @canoe = Canoe.new canoe_params
     @canoe.user = current_user
     if @canoe.save
+      slack(@canoe)
       redirect_to @canoe
     else
       render 'new'
@@ -41,11 +43,13 @@ class CanoesController < ApplicationController
 
   def update
     @canoe.update(canoe_params)
+    slack(@canoe)
     redirect_to @canoe
   end
 
   def destroy
     @canoe.destroy
+    slack(@canoe)
     redirect_to canoes_path
   end
 

@@ -1,14 +1,20 @@
 class VotesController < ApplicationController
+  include SlackNotifing
+
   before_filter :authenticate_user!
   before_filter :proposal
 
   def in_favor
-    setup_vote(:in_favor).save
+    @vote = setup_vote(:in_favor)
+    @vote.save
+    slack(@vote)
     redirect_to @proposal.discussion
   end
 
   def opposed
-    setup_vote(:opposed).save
+    @vote = setup_vote(:opposed)
+    @vote.save
+    slack(@vote)
     redirect_to @proposal.discussion
   end
 
@@ -16,6 +22,7 @@ class VotesController < ApplicationController
     @vote = @proposal.votes.find_by user: current_user
     if @vote.persisted?
       @vote.destroy
+      slack(@vote)
     end
     redirect_to @proposal.discussion
   end

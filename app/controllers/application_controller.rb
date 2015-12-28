@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
+  cattr_accessor(:skip_slack) { !Rails.env.staging? }
+
   include PartiSsoClient::Authentication
   before_action :verify_authentication
 

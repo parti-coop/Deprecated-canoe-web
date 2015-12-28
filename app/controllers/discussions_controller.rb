@@ -1,4 +1,6 @@
 class DiscussionsController < ApplicationController
+  include SlackNotifing
+
   before_filter :authenticate_user!, except: [:show]
   before_filter :fetch_discussion, only: [:show, :edit, :update, :destroy]
   before_filter :correct_user, only: [:edit, :update, :destroy]
@@ -19,6 +21,7 @@ class DiscussionsController < ApplicationController
     @discussion = @canoe.discussions.new discussion_param
     @discussion.user = current_user
     if @discussion.save
+      slack(@discussion)
       redirect_to @discussion
     else
       render 'new'
@@ -27,11 +30,13 @@ class DiscussionsController < ApplicationController
 
   def update
     @discussion.update(discussion_param)
+    slack(@discussion)
     redirect_to @discussion
   end
 
   def destroy
     @discussion.destroy
+    slack(@discussion)
     redirect_to @discussion.canoe
   end
 
