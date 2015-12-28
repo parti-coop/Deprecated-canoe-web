@@ -60,7 +60,7 @@ feature 'Canoe' do
 
   scenario 'User has to login to go to new canoe page' do
     user_is_not_in_login_status
-    go_to_list_canoe_page
+    go_to_new_canoe_page
     user_should_see_login_form
   end
 

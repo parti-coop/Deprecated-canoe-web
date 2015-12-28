@@ -51,7 +51,9 @@ shared_context 'canoe' do
   end
 
   def go_to_new_canoe_page
-    visit new_canoe_path
+    do_not_follow_redirect do
+      visit new_canoe_path
+    end
   end
 
   def page_should_have_canoe_list(attrs_set)
