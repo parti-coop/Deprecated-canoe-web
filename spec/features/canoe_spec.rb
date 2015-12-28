@@ -98,4 +98,14 @@ feature 'Canoe' do
     user_should_see_canoe_list
   end
 
+  scenario 'User has to login to delete to canoe url' do
+    canoe, * = canoes_exist [
+      { title: 'canoe to delete' }
+    ]
+    user_is_not_in_login_status
+    delete_to_canoe_url canoe.id
+    canoe_should_not_be_deleted canoe.id
+    user_should_see_login_form
+  end
+
 end
