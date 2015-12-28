@@ -39,6 +39,15 @@ feature 'Canoe' do
       slug: 'canoe-slug-updated'
   end
 
+  scenario 'User has to login to go to edit canoe page' do
+    canoe, * = canoes_exist [
+      { title: 'canoe title to edit' }
+    ]
+    user_is_not_in_login_status
+    go_to_edit_canoe_page canoe.id
+    user_should_see_login_form
+  end
+
   scenario 'List canoe user owns only' do
     canoes_exist [
       { title: 'canoe title 1', user: @valid_user },

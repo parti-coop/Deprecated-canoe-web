@@ -56,6 +56,12 @@ shared_context 'canoe' do
     end
   end
 
+  def go_to_edit_canoe_page(canoe_id)
+    do_not_follow_redirect do
+      visit edit_canoe_path(canoe_id)
+    end
+  end
+
   def page_should_have_canoe_list(attrs_set)
     canoe_texts = find_canoe_links(page).map(&:text)
     expect(canoe_texts.length).to eq attrs_set.length
