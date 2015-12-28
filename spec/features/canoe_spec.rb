@@ -48,6 +48,15 @@ feature 'Canoe' do
     user_should_see_login_form
   end
 
+  scenario 'User has to login to put to update canoe url' do
+    canoe, * = canoes_exist [
+      { title: 'canoe title to edit' }
+    ]
+    user_is_not_in_login_status
+    put_to_update_canoe_url canoe.id
+    user_should_see_login_form
+  end
+
   scenario 'List canoe user owns only' do
     canoes_exist [
       { title: 'canoe title 1', user: @valid_user },

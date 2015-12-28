@@ -62,6 +62,10 @@ shared_context 'canoe' do
     end
   end
 
+  def put_to_update_canoe_url(canoe_id, params = {})
+    page.driver.browser.put canoe_path(canoe_id), params
+  end
+
   def page_should_have_canoe_list(attrs_set)
     canoe_texts = find_canoe_links(page).map(&:text)
     expect(canoe_texts.length).to eq attrs_set.length
