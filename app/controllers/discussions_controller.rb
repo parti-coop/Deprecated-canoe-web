@@ -6,6 +6,7 @@ class DiscussionsController < ApplicationController
   before_filter :correct_user, only: [:edit, :update, :destroy]
 
   def show
+    @pinned_opinions = @discussion.opinions.pinned
   end
 
   def new

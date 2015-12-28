@@ -51,6 +51,28 @@
                   = discussion.user.nickname
                   %i.fa.fa-clock-o
                   = date_f discussion.created_at
+              %p
+                - if discussion.opinions.pinned.any?
+                  %ul.list-group
+                    - discussion.opinions.pinned.each do |opinion|
+                      %li.list-group-item.list-group-item-success
+                        %p.lead
+                          %i.fa.fa-thumb-tack
+                          = opinion.body
+                        .pull-right
+                          %i.fa.fa-user
+                          = opinion.user.nickname
+                          %i.fa.fa-clock-o
+                          = date_f opinion.created_at
+                          - if opinion.user == current_user
+                            = link_to [:edit, opinion] do
+                              %i.fa.fa-edit
+                            = link_to opinion, method: :delete do
+                              %i.fa.fa-trash
+                          - if user_signed_in?
+                            = link_to [:unpin, opinion], method: :patch do
+                              %i.fa.fa-thumb-tack.fa-flip-vertical
+                        .clearfix
     .col-md-5
       .panel.panel-default
         .panel-heading

@@ -6,7 +6,12 @@ Rails.application.routes.draw do
     resources :canoes do
       shallow do
         resources :discussions do
-          resources :opinions
+          resources :opinions do
+            member do
+              patch :pin
+              patch :unpin
+            end
+          end
           resources :proposals do
             member do
               post :in_favor, to: 'votes#in_favor'

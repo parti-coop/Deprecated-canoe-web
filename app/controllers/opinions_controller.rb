@@ -2,7 +2,7 @@ class OpinionsController < ApplicationController
   include SlackNotifing
 
   before_filter :authenticate_user!, except: [:show]
-  before_filter :fetch_opinion, only: [:show, :edit, :update, :destroy]
+  before_filter :fetch_opinion, only: [:show, :edit, :update, :pin, :unpin, :destroy]
   before_filter :correct_user, only: [:edit, :update, :destroy]
 
   def show
@@ -37,6 +37,16 @@ class OpinionsController < ApplicationController
   def destroy
     @opinion.destroy
     slack(@opinion)
+    redirect_to @opinion.discussion
+  end
+
+  def pin
+    @opinion.update_attributes(pinned: true, pinned_at: DateTime.now)
+    redirect_to @opinion.discussion
+  end
+
+  def unpin
+    @opinion.update_attributes(pinned: false, pinned_at: nil)
     redirect_to @opinion.discussion
   end
 

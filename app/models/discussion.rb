@@ -1,7 +1,11 @@
 class Discussion < ActiveRecord::Base
   belongs_to :user
   belongs_to :canoe
-  has_many :opinions
+  has_many :opinions do
+    def pinned
+      self.where(pinned: true)
+    end
+  end
   has_many :proposals do
     def tops
       first = self.sort_by(&:point).reverse.first

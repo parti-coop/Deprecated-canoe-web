@@ -28,20 +28,31 @@
             %i.fa.fa-comments
             의견
         %ul.list-group
-          - @discussion.opinions.each do |opinion|
-            %li.list-group-item
-              %p.lead= opinion.body
-              .pull-right
-                %i.fa.fa-user
-                = opinion.user.nickname
-                %i.fa.fa-clock-o
-                = date_f opinion.created_at
-                - if opinion.user == current_user
-                  = link_to [:edit, opinion] do
-                    %i.fa.fa-edit
-                  = link_to opinion, method: :delete do
-                    %i.fa.fa-trash
-              .clearfix
+          - {pinned: @pinned_opinions, all: @discussion.opinions}.each do |key, opinions|
+            - opinions.each do |opinion|
+              %li.list-group-item{class: ('list-group-item-success' if key == :pinned)}
+                %p.lead
+                  - if opinion.pinned
+                    %i.fa.fa-thumb-tack
+                  = opinion.body
+                .pull-right
+                  %i.fa.fa-user
+                  = opinion.user.nickname
+                  %i.fa.fa-clock-o
+                  = date_f opinion.created_at
+                  - if opinion.user == current_user
+                    = link_to [:edit, opinion] do
+                      %i.fa.fa-edit
+                    = link_to opinion, method: :delete do
+                      %i.fa.fa-trash
+                  - if user_signed_in?
+                    - unless opinion.pinned
+                      = link_to [:pin, opinion], method: :patch do
+                        %i.fa.fa-thumb-tack
+                    - else
+                      = link_to [:unpin, opinion], method: :patch do
+                        %i.fa.fa-thumb-tack.fa-flip-vertical
+                .clearfix
           - if user_signed_in?
             %li.list-group-item
               = form_for [@discussion, @discussion.opinions.build] do |f|
