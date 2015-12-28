@@ -27,7 +27,7 @@
             %i.fa.fa-comments
             최근 의견
         %ul.list-group
-          - @opinions.last(5).each do |opinion|
+          - @opinions.first(5).each do |opinion|
             %li.list-group-item
               %p
                 = link_to opinion.discussion.canoe do
