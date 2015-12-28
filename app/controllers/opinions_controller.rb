@@ -6,6 +6,8 @@ class OpinionsController < ApplicationController
   before_filter :correct_user, only: [:edit, :update, :destroy]
 
   def show
+    @discussion = @opinion.discussion
+    @canoe = @discussion.canoe
   end
 
   def new
