@@ -88,4 +88,14 @@ feature 'Canoe' do
     user_should_see_login_form
   end
 
+  scenario 'Delete canoe by owner' do
+    canoe, * = canoes_exist [
+      { title: 'canoe to delete', user: @valid_user }
+    ]
+    user_is_in_login_status_as @valid_user
+    delete_to_canoe_url canoe.id
+    canoe_should_be_deleted canoe.id
+    user_should_see_canoe_list
+  end
+
 end

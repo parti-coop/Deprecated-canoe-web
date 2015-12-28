@@ -66,6 +66,14 @@ shared_context 'canoe' do
     page.driver.browser.put canoe_path(canoe_id), params
   end
 
+  def delete_to_canoe_url(canoe_id)
+    page.driver.browser.delete canoe_path(canoe_id)
+  end
+
+  def canoe_should_be_deleted(canoe_id)
+    expect(Canoe.exists?(canoe_id)).to be false
+  end
+
   def page_should_have_canoe_list(attrs_set)
     canoe_texts = find_canoe_links(page).map(&:text)
     expect(canoe_texts.length).to eq attrs_set.length
@@ -79,6 +87,11 @@ shared_context 'canoe' do
 
   def page_should_have_empty_canoe_list
     expect(find_canoe_links(page)).to be_empty
+  end
+
+  def user_should_see_canoe_list
+    expect(page.status_code).to eq(302)
+    expect(page.response_headers['Location']).to match canoes_path
   end
 
   private
