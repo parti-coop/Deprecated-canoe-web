@@ -18,4 +18,10 @@ FactoryGirl.define do
     user
   end
 
+  factory :proposal do
+    body 'proposal body by factory'
+    discussion
+    user
+  end
+
 end

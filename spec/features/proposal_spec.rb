@@ -33,4 +33,17 @@ feature 'Proposal' do
     user_should_see_login_form
   end
 
+  scenario 'Update proposal by owner' do
+    proposal, * = proposals_exist [
+      { body: 'proposal to update' }
+    ]
+    user_is_in_login_status_as proposal.user
+
+    update_proposal proposal.id,
+      body: 'proposal updated'
+
+    proposal_should_be_updated proposal.id,
+      body: 'proposal updated'
+  end
+
 end
