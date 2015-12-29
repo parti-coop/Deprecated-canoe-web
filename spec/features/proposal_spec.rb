@@ -46,4 +46,13 @@ feature 'Proposal' do
       body: 'proposal updated'
   end
 
+  scenario 'User has to login to go to edit proposal page' do
+    proposal, * = proposals_exist [
+      { body: 'proposal to edit' }
+    ]
+    user_is_not_in_login_status
+    go_to_edit_proposal_page proposal.id
+    user_should_see_login_form
+  end
+
 end

@@ -1,4 +1,5 @@
 shared_context 'proposal' do
+  include_context 'helper'
 
   def proposals_exist(attrs_set)
     attrs_set.map do |attrs|
@@ -36,6 +37,12 @@ shared_context 'proposal' do
   def proposal_should_be_updated(proposal_id, attrs)
     proposal = Proposal.find proposal_id
     expect(attrs.stringify_keys.to_a - proposal.attributes.to_a).to be_empty
+  end
+
+  def go_to_edit_proposal_page(proposal_id)
+    do_not_follow_redirect do
+      visit edit_proposal_path(proposal_id)
+    end
   end
 
 end
