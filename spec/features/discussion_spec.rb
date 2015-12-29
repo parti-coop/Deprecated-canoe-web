@@ -80,4 +80,14 @@ feature 'Discussion' do
     discussion_should_be_deleted discussion.id
   end
 
+  scenario 'User has to login to delete to discussion url' do
+    discussion, * = discussions_exist [
+      { subject: 'discussion to delete' }
+    ]
+    user_is_not_in_login_status
+    delete_to_discussion_url discussion.id
+    user_should_see_login_form
+    discussion_should_not_be_deleted discussion.id
+  end
+
 end

@@ -62,6 +62,10 @@ shared_context 'discussion' do
     expect(Discussion.exists?(discussion_id)).to be false
   end
 
+  def discussion_should_not_be_deleted(discussion_id)
+    expect(Discussion.exists?(discussion_id)).to be true
+  end
+
   def user_should_see_discussion_list(canoe_id)
     user_should_see_show_canoe_page(canoe_id)
   end
