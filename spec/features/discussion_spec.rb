@@ -39,4 +39,17 @@ feature 'Discussion' do
     user_should_see_login_form
   end
 
+  scenario 'Update discussion by owner' do
+    discussion, * = discussions_exist [
+      { canoe: @canoe, subject: 'discussion to update' }
+    ]
+    user_is_in_login_status_as discussion.user
+
+    update_discussion discussion.id,
+      subject: 'discussion updated'
+
+    discussion_should_be_updated discussion.id,
+      subject: 'discussion updated'
+  end
+
 end

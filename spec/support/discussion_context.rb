@@ -1,5 +1,11 @@
 shared_context 'discussion' do
 
+  def discussions_exist(attrs_set)
+    attrs_set.map do |attrs|
+      FactoryGirl.create(:discussion, attrs)
+    end
+  end
+
   def create_discussion(attrs)
     expect(attrs).to have_key(:canoe_id)
     visit new_canoe_discussion_path(canoe_id: attrs[:canoe_id]) 
@@ -25,6 +31,17 @@ shared_context 'discussion' do
 
   def post_to_discussion_url(canoe_id)
     page.driver.browser.post canoe_discussions_path(canoe_id)
+  end
+
+  def update_discussion(discussion_id, attrs)
+    visit edit_discussion_path discussion_id
+    fill_in 'Subject', with: attrs[:subject] if attrs.has_key? :subject
+    click_button '저장'
+  end
+
+  def discussion_should_be_updated(discussion_id, attrs)
+    discussion = Discussion.find discussion_id
+    expect(attrs.stringify_keys.to_a - discussion.attributes.to_a).to be_empty
   end
 
 end
