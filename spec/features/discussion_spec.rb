@@ -27,4 +27,10 @@ feature 'Discussion' do
     )
   end
 
+  scenario 'User has to login to go to new discussion page' do
+    user_is_not_in_login_status
+    go_to_new_discussion_page @canoe.id
+    user_should_see_login_form
+  end
+
 end
