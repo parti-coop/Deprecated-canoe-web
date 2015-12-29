@@ -61,4 +61,13 @@ feature 'Discussion' do
     user_should_see_login_form
   end
 
+  scenario 'User has to login to put to discussion url' do
+    discussion, * = discussions_exist [
+      { subject: 'discussion subject to edit' }
+    ]
+    user_is_not_in_login_status
+    put_to_discussion_url discussion.id
+    user_should_see_login_form
+  end
+
 end

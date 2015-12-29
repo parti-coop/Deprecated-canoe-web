@@ -50,4 +50,8 @@ shared_context 'discussion' do
     end
   end
 
+  def put_to_discussion_url(discussion_id, params = {})
+    page.driver.browser.put discussion_path(discussion_id), params
+  end
+
 end
