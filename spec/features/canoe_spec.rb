@@ -2,7 +2,6 @@ require 'rails_helper'
 
 feature 'Canoe' do
   include_context 'user'
-  include_context 'auth'
   include_context 'canoe'
 
   background do
@@ -22,6 +21,18 @@ feature 'Canoe' do
       slug: 'canoe-slug',
       user: { email: 'valid-user@email.com' }
     )
+  end
+
+  scenario 'User has to login to go to new canoe page' do
+    user_is_not_in_login_status
+    go_to_new_canoe_page
+    user_should_see_login_form
+  end
+
+  scenario 'User has to login to post to canoe url' do
+    user_is_not_in_login_status
+    post_to_canoe_url
+    user_should_see_login_form
   end
 
   scenario 'Update canoe by owner' do
@@ -48,12 +59,32 @@ feature 'Canoe' do
     user_should_see_login_form
   end
 
-  scenario 'User has to login to put to update canoe url' do
+  scenario 'User has to login to put to canoe url' do
     canoe, * = canoes_exist [
       { title: 'canoe title to edit' }
     ]
     user_is_not_in_login_status
-    put_to_update_canoe_url canoe.id
+    put_to_canoe_url canoe.id
+    user_should_see_login_form
+  end
+
+  scenario 'Delete canoe by owner' do
+    canoe, * = canoes_exist [
+      { title: 'canoe to delete' }
+    ]
+    user_is_in_login_status_as canoe.user
+    delete_to_canoe_url canoe.id
+    canoe_should_be_deleted canoe.id
+    user_should_see_canoe_list
+  end
+
+  scenario 'User has to login to delete to canoe url' do
+    canoe, * = canoes_exist [
+      { title: 'canoe to delete' }
+    ]
+    user_is_not_in_login_status
+    delete_to_canoe_url canoe.id
+    canoe_should_not_be_deleted canoe.id
     user_should_see_login_form
   end
 
@@ -74,38 +105,6 @@ feature 'Canoe' do
     user_is_in_login_status_as @valid_user
     go_to_list_canoe_page
     page_should_have_empty_canoe_list
-  end
-
-  scenario 'User has to login to go to new canoe page' do
-    user_is_not_in_login_status
-    go_to_new_canoe_page
-    user_should_see_login_form
-  end
-
-  scenario 'User has to login to post to create canoe url' do
-    user_is_not_in_login_status
-    post_to_create_canoe_url
-    user_should_see_login_form
-  end
-
-  scenario 'Delete canoe by owner' do
-    canoe, * = canoes_exist [
-      { title: 'canoe to delete', user: @valid_user }
-    ]
-    user_is_in_login_status_as @valid_user
-    delete_to_canoe_url canoe.id
-    canoe_should_be_deleted canoe.id
-    user_should_see_canoe_list
-  end
-
-  scenario 'User has to login to delete to canoe url' do
-    canoe, * = canoes_exist [
-      { title: 'canoe to delete' }
-    ]
-    user_is_not_in_login_status
-    delete_to_canoe_url canoe.id
-    canoe_should_not_be_deleted canoe.id
-    user_should_see_login_form
   end
 
 end
