@@ -64,4 +64,14 @@ feature 'Proposal' do
     user_should_see_login_form
   end
 
+  scenario 'Delete proposal by owner' do
+    proposal, * = proposals_exist [
+      { body: 'proposal to delete' }
+    ]
+    user_is_in_login_status_as proposal.user
+    delete_to_proposal_url proposal.id
+    user_should_see_proposal_list proposal.discussion.id
+    proposal_should_be_deleted proposal.id
+  end
+
 end

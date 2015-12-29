@@ -49,4 +49,16 @@ shared_context 'proposal' do
     page.driver.browser.put proposal_path(proposal_id), params
   end
 
+  def delete_to_proposal_url(proposal_id)
+    page.driver.browser.delete proposal_path(proposal_id)
+  end
+
+  def proposal_should_be_deleted(proposal_id)
+    expect(Proposal.exists?(proposal_id)).to be false
+  end
+
+  def user_should_see_proposal_list(discussion_id)
+    user_should_see_show_discussion_page(discussion_id)
+  end
+
 end

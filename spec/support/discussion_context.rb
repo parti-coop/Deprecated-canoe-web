@@ -93,6 +93,12 @@ shared_context 'discussion' do
     expect(find_discussion_links(page)).to be_empty
   end
 
+  def user_should_see_show_discussion_page(discussion_id)
+    expect(page.status_code).to eq(302)
+    discussion = Discussion.find discussion_id
+    expect(page.response_headers['Location']).to match discussion_path(discussion.id)
+  end
+
   private
 
   def find_discussion_links(page)
