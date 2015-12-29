@@ -23,4 +23,8 @@ shared_context 'discussion' do
     end
   end
 
+  def post_to_discussion_url(canoe_id)
+    page.driver.browser.post canoe_discussions_path(canoe_id)
+  end
+
 end

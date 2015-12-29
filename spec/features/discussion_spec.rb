@@ -33,4 +33,10 @@ feature 'Discussion' do
     user_should_see_login_form
   end
 
+  scenario 'User has to login to post to discussion url' do
+    user_is_not_in_login_status
+    post_to_discussion_url(@canoe.id)
+    user_should_see_login_form
+  end
+
 end
