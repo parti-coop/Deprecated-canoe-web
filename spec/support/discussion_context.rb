@@ -44,4 +44,10 @@ shared_context 'discussion' do
     expect(attrs.stringify_keys.to_a - discussion.attributes.to_a).to be_empty
   end
 
+  def go_to_edit_discussion_page(discussion_id)
+    do_not_follow_redirect do
+      visit edit_discussion_path(discussion_id)
+    end
+  end
+
 end

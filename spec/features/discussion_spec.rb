@@ -52,4 +52,13 @@ feature 'Discussion' do
       subject: 'discussion updated'
   end
 
+  scenario 'User has to login to go to edit discussion page' do
+    discussion, * = discussions_exist [
+      { subject: 'discussion to edit' }
+    ]
+    user_is_not_in_login_status
+    go_to_edit_discussion_page discussion.id
+    user_should_see_login_form
+  end
+
 end
