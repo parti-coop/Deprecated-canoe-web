@@ -1,40 +1,37 @@
 .bs-component
   .panel.panel-default
     .panel-heading
-      %h4.text-muted
+      %h6.text-muted
         %i.fa.fa-ship
         = link_to @discussion.canoe.title, canoe_home_path(@discussion.canoe)
-      %h3
+    .panel-body
+      %div.pull-right
+        = user_byline @discussion.user
+        %i.fa.fa-clock-o
+        = date_f @discussion.created_at
+        - if @discussion.user == current_user
+          = link_to [:edit, @discussion] do
+            %i.fa.fa-edit
+          = link_to @discussion, method: :delete do
+            %i.fa.fa-trash
+      %h4
         %i.fa.fa-flag
         #{@discussion.subject}
-        %small
-          = user_byline @discussion.user
-          %i.fa.fa-clock-o
-          = date_f @discussion.created_at
-          - if @discussion.user == current_user
-            = link_to [:edit, @discussion] do
-              %i.fa.fa-edit
-            = link_to @discussion, method: :delete do
-              %i.fa.fa-trash
-    .panel-body
-      = @discussion.body
+      %div
+        = @discussion.body
 
   .row
     .col-md-7
       .panel.panel-default
         .panel-heading
-          %h4.text-muted
+          %h6.text-muted
             %i.fa.fa-comments
             의견
         %ul.list-group
           - {pinned: @pinned_opinions, all: @discussion.opinions}.each do |key, opinions|
             - opinions.each do |opinion|
               %li.list-group-item{class: ('list-group-item-success' if key == :pinned)}
-                %p.lead
-                  - if opinion.pinned
-                    %i.fa.fa-thumb-tack
-                  = opinion.body
-                .pull-right
+                %div{ style: 'margin: 10px 0 20px 0;' }
                   = user_byline opinion.user
                   = link_to opinion do
                     %i.fa.fa-clock-o
@@ -51,6 +48,10 @@
                     - else
                       = link_to [:unpin, opinion], method: :patch do
                         %i.fa.fa-thumb-tack.fa-flip-vertical
+                %div
+                  - if opinion.pinned
+                    %i.fa.fa-thumb-tack
+                  = simple_format opinion.body
                 .clearfix
           - if user_signed_in?
             %li.list-group-item
@@ -61,7 +62,7 @@
     .col-md-5
       .panel.panel-default
         .panel-heading
-          %h4.text-muted
+          %h6.text-muted
             %i.fa.fa-rocket
             제안
         %table.table
@@ -70,7 +71,7 @@
               - proposals.each do |proposal|
                 %tr
                   %td(style='width: 140px;')
-                    .lead.text-nowrap(style='margin-bottom: 5px;')
+                    .text-nowrap(style='margin-bottom: 5px;')
                       - if !user_signed_in?
                         %button.btn.btn-success.disabled
                           %i.fa.fa-thumbs-up
@@ -113,8 +114,8 @@
                         %span.label.label-warning
                           %i.fa.fa-trophy
                           best
-                    %p.lead
-                      = proposal.body
+                    %div
+                      %strong= proposal.body
 
                     .pull-right
                       = user_byline proposal.user
@@ -154,6 +155,5 @@
                 %td(colspan=2)
                   = form_for [@discussion, @discussion.proposals.build] do |f|
                     .form-group
-                      = f.text_area :body, style: "width: 100%; height: 100px;", placeholder: '내 제안은...'
+                      = f.text_area :body, style: "width: 100%; height: 60px;", placeholder: '내 제안은...'
                     = f.submit '제안하기', class: 'btn btn-default'
-
