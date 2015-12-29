@@ -5,8 +5,7 @@
         %i.fa.fa-ship
         #{@canoe.title}
         %small
-          %i.fa.fa-user
-          = @canoe.user.nickname
+          = user_byline @canoe.user
           %i.fa.fa-clock-o
           = date_f @canoe.created_at
           - if @canoe.user == current_user
@@ -47,8 +46,7 @@
                 %p.lead= discussion.subject
                 %p= discussion.body
                 %small
-                  %i.fa.fa-user
-                  = discussion.user.nickname
+                  = user_byline discussion.user
                   %i.fa.fa-clock-o
                   = date_f discussion.created_at
               %p
@@ -60,8 +58,7 @@
                           %i.fa.fa-thumb-tack
                           = opinion.body
                         .pull-right
-                          %i.fa.fa-user
-                          = opinion.user.nickname
+                          = user_byline opinion.user
                           %i.fa.fa-clock-o
                           = date_f opinion.created_at
                           - if opinion.user == current_user
@@ -87,8 +84,7 @@
                   %i.fa.fa-flag
                   = opinion.discussion.subject
               %p.lead= opinion.body
-              %i.fa.fa-user
-              = opinion.user.nickname
+              = user_byline opinion.user
               = link_to opinion do
                 %i.fa.fa-clock-o
                 = date_f opinion.created_at

@@ -13,11 +13,10 @@
                   %span.label.label-default= canoe.id
                   = canoe.title
                   - if canoe.user == current_user
-                    %span.label.label-warning 주인장
+                    %span.label.label-warning 만든이
                 %p= canoe.theme
                 %small
-                  %i.fa.fa-user
-                  = canoe.user.nickname
+                  = user_byline canoe.user
                   %i.fa.fa-clock-o
                   = date_f canoe.created_at
     .col-md-5
@@ -38,8 +37,7 @@
                   %i.fa.fa-flag
                   = opinion.discussion.subject
               %p.lead= opinion.body
-              %i.fa.fa-user
-              = opinion.user.nickname
+              = user_byline opinion.user
               %i.fa.fa-clock-o
               = date_f opinion.created_at
               - if opinion.user == current_user

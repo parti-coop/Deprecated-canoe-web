@@ -10,8 +10,7 @@
         %i.fa.fa-comments
         의견
         %small
-          %i.fa.fa-user
-          = @opinion.user.nickname
+          = user_byline @opinion.user
           %i.fa.fa-clock-o
           = date_f @opinion.created_at
           - if @opinion.user == current_user

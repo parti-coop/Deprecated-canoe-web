@@ -42,8 +42,7 @@
             - if user_signed_in?
               %li
                 = link_to edit_user_path do
-                  %i.fa.fa-user
-                  = current_user.email
+                  = user_byline current_user
               %li= link_to '로그아웃', destroy_user_session_path, method: :delete
             - else
               %li= link_to '회원가입', sign_up_path

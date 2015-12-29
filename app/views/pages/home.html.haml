@@ -20,10 +20,9 @@
               %span.label.label-default= canoe.id
               = canoe.title
               - if canoe.user == current_user
-                %span.label.label-warning 주인장
+                %span.label.label-warning 만든이
             %p= canoe.theme
             %small
-              %i.fa.fa-user
-              = canoe.user.nickname
+              = user_byline canoe.user
               %i.fa.fa-clock-o
               = date_f canoe.created_at

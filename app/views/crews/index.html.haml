@@ -13,7 +13,7 @@
     .panel-body
       %ul
         %li
-          %span.label.label-default 주인장
           = @canoe.user.nickname
+          %span.label.label-warning 만든이
         - @canoe.crews.each do |crew|
           %li= crew.user.nickname

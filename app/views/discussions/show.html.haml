@@ -8,8 +8,7 @@
         %i.fa.fa-flag
         #{@discussion.subject}
         %small
-          %i.fa.fa-user
-          = @discussion.user.nickname
+          = user_byline @discussion.user
           %i.fa.fa-clock-o
           = date_f @discussion.created_at
           - if @discussion.user == current_user
@@ -36,8 +35,7 @@
                     %i.fa.fa-thumb-tack
                   = opinion.body
                 .pull-right
-                  %i.fa.fa-user
-                  = opinion.user.nickname
+                  = user_byline opinion.user
                   = link_to opinion do
                     %i.fa.fa-clock-o
                     = date_f opinion.created_at
@@ -119,8 +117,7 @@
                       = proposal.body
 
                     .pull-right
-                      %i.fa.fa-user
-                      = proposal.user.nickname
+                      = user_byline proposal.user
                       %i.fa.fa-clock-o
                       = date_f proposal.created_at
                       - if proposal.user == current_user
