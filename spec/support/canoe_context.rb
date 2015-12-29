@@ -98,6 +98,12 @@ shared_context 'canoe' do
     expect(page.response_headers['Location']).to match canoes_path
   end
 
+  def user_should_see_show_canoe_page(canoe_id)
+    expect(page.status_code).to eq(302)
+    canoe = Canoe.find canoe_id
+    expect(page.response_headers['Location']).to match short_canoe_path(canoe.slug)
+  end
+
   private
 
   def find_canoe_links(page)

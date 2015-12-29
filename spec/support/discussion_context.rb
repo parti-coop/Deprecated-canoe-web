@@ -54,4 +54,16 @@ shared_context 'discussion' do
     page.driver.browser.put discussion_path(discussion_id), params
   end
 
+  def delete_to_discussion_url(discussion_id)
+    page.driver.browser.delete discussion_path(discussion_id)
+  end
+
+  def discussion_should_be_deleted(discussion_id)
+    expect(Discussion.exists?(discussion_id)).to be false
+  end
+
+  def user_should_see_discussion_list(canoe_id)
+    user_should_see_show_canoe_page(canoe_id)
+  end
+
 end

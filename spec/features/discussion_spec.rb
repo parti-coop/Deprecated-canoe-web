@@ -70,4 +70,14 @@ feature 'Discussion' do
     user_should_see_login_form
   end
 
+  scenario 'Delete discussion by owner' do
+    discussion, * = discussions_exist [
+      { subject: 'discussion to delete' }
+    ]
+    user_is_in_login_status_as discussion.user
+    delete_to_discussion_url discussion.id
+    user_should_see_discussion_list discussion.canoe.id
+    discussion_should_be_deleted discussion.id
+  end
+
 end
