@@ -1,4 +1,4 @@
-Canoe.class_eval do
+ActiveRecord::Base.class_eval do
 
   @last_created = nil
 
