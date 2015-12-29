@@ -70,4 +70,26 @@ shared_context 'discussion' do
     user_should_see_show_canoe_page(canoe_id)
   end
 
+  def go_to_list_discussion_page(canoe_id)
+    visit canoe_path(canoe_id)
+  end
+
+  def page_should_have_discussion_list(attrs_set)
+    discussion_texts = find_discussion_links(page).map(&:text)
+    expect(discussion_texts.length).to eq attrs_set.length
+    discussion_texts.zip(attrs_set).each do |text, attrs|
+      expecteds = attrs.slice(:subject).values
+      expecteds.each do |expected|
+        expect(text).to include(expected)
+      end
+    end
+  end
+
+  private
+
+  def find_discussion_links(page)
+    page.all("a[href]").select do |a|
+      a[:href] =~ %r{^/app/discussions/\d+$}
+    end
+  end
 end

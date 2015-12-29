@@ -90,4 +90,15 @@ feature 'Discussion' do
     discussion_should_not_be_deleted discussion.id
   end
 
+  scenario 'List discussions' do
+    discussion, * = discussions_exist [
+      { subject: 'discussion 1' },
+    ]
+    user_is_in_login_status_as @valid_user
+    go_to_list_discussion_page discussion.canoe.id
+    page_should_have_discussion_list [
+      { subject: 'discussion 1' },
+    ]
+  end
+
 end

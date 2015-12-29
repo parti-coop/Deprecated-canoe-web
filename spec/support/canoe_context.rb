@@ -73,9 +73,7 @@ shared_context 'canoe' do
   end
 
   def go_to_list_canoe_page
-    do_not_follow_redirect do
-      visit canoes_path
-    end
+    visit canoes_path
   end
 
   def page_should_have_canoe_list(attrs_set)
