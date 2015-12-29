@@ -45,4 +45,8 @@ shared_context 'proposal' do
     end
   end
 
+  def put_to_proposal_url(proposal_id, params = {})
+    page.driver.browser.put proposal_path(proposal_id), params
+  end
+
 end
