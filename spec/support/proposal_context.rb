@@ -17,4 +17,8 @@ shared_context 'proposal' do
     expect(attrs.stringify_keys.to_a - proposal.attributes.to_a).to be_empty
   end
 
+  def post_to_proposal_url(discussion_id)
+    page.driver.browser.post discussion_proposals_path(discussion_id)
+  end
+
 end

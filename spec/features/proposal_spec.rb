@@ -27,4 +27,10 @@ feature 'Proposal' do
     )
   end
 
+  scenario 'User has to login to post to proposal url' do
+    user_is_not_in_login_status
+    post_to_proposal_url(@discussion.id)
+    user_should_see_login_form
+  end
+
 end
