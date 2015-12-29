@@ -74,4 +74,14 @@ feature 'Proposal' do
     proposal_should_be_deleted proposal.id
   end
 
+  scenario 'User has to login to delete to proposal url' do
+    proposal, * = proposals_exist [
+      { body: 'proposal to delete' }
+    ]
+    user_is_not_in_login_status
+    delete_to_proposal_url proposal.id
+    user_should_see_login_form
+    proposal_should_not_be_deleted proposal.id
+  end
+
 end

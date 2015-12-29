@@ -57,6 +57,10 @@ shared_context 'proposal' do
     expect(Proposal.exists?(proposal_id)).to be false
   end
 
+  def proposal_should_not_be_deleted(proposal_id)
+    expect(Proposal.exists?(proposal_id)).to be true
+  end
+
   def user_should_see_proposal_list(discussion_id)
     user_should_see_show_discussion_page(discussion_id)
   end
