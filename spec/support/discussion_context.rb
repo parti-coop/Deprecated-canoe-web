@@ -6,6 +6,10 @@ shared_context 'discussion' do
     end
   end
 
+  def discussions_not_exist(canoe)
+    canoe.discussions.destroy_all
+  end
+
   def create_discussion(attrs)
     expect(attrs).to have_key(:canoe_id)
     visit new_canoe_discussion_path(canoe_id: attrs[:canoe_id]) 
@@ -83,6 +87,10 @@ shared_context 'discussion' do
         expect(text).to include(expected)
       end
     end
+  end
+
+  def page_should_have_empty_discussion_list
+    expect(find_discussion_links(page)).to be_empty
   end
 
   private

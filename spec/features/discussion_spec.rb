@@ -101,4 +101,11 @@ feature 'Discussion' do
     ]
   end
 
+  scenario 'List empty with no discussion' do
+    discussions_not_exist @canoe
+    user_is_in_login_status_as @valid_user
+    go_to_list_discussion_page @canoe.id
+    page_should_have_empty_discussion_list
+  end
+
 end
