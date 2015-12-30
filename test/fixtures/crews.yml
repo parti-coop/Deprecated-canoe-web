@@ -1,3 +1,7 @@
+crew_captain:
+  user: one
+  inviter: one
+  canoe: canoe1
 crew1:
   user: crew
   inviter: one

@@ -20,6 +20,11 @@ class DiscussionsController < ApplicationController
 
   def create
     @canoe = Canoe.find params[:canoe_id]
+
+    unless @canoe.crew?(current_user)
+      redirect_to(@canoe) and return
+    end
+
     @discussion = @canoe.discussions.new create_param
     @discussion.user = current_user
     if @discussion.save

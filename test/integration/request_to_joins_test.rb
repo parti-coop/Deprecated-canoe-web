@@ -14,15 +14,15 @@ class RequestToJoinsTest < ActionDispatch::IntegrationTest
   end
 
   test 'accept' do
-    refute canoes(:canoe1).crew?(users(:guest))
-    assert canoes(:canoe1).request_to_join?(users(:guest))
+    refute canoes(:canoe1).crew?(users(:visitor))
+    assert canoes(:canoe1).request_to_join?(users(:visitor))
 
     sign_in users(:one)
 
     post accept_canoe_request_to_join_path(canoe_id: canoes(:canoe1), id: request_to_joins(:req1))
 
     canoes(:canoe1).reload
-    assert canoes(:canoe1).crew?(users(:guest))
-    refute canoes(:canoe1).request_to_join?(users(:guest))
+    assert canoes(:canoe1).crew?(users(:visitor))
+    refute canoes(:canoe1).request_to_join?(users(:visitor))
   end
 end

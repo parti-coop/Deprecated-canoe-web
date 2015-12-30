@@ -20,6 +20,11 @@ class OpinionsController < ApplicationController
 
   def create
     @discussion = Discussion.find params[:discussion_id]
+
+    unless @discussion.canoe.crew?(current_user)
+      redirect_to(@discussion.canoe) and return
+    end
+
     @opinion = @discussion.opinions.new opinion_param
     @opinion.user = current_user
     if @opinion.save

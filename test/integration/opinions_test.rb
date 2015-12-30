@@ -9,6 +9,13 @@ class OpinionsTest < ActionDispatch::IntegrationTest
     assert_equal 'test', assigns(:opinion).body
   end
 
+  test 'shoud not create by visitor' do
+    sign_in users(:visitor)
+    post discussion_opinions_path(discussion_id: discussions(:discussion1).id, opinion: { body: 'test' } )
+
+    assert_nil assigns(:opinion)
+  end
+
   test 'edit by owner' do
     sign_in users(:one)
 

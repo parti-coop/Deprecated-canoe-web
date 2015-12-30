@@ -9,6 +9,13 @@ class DiscussionsTest < ActionDispatch::IntegrationTest
     assert_equal 'test', assigns(:discussion).subject
   end
 
+  test 'shoud not create by visitor' do
+    sign_in users(:visitor)
+    post canoe_discussions_path(canoe_id: canoes(:canoe1).id, discussion: { subject: 'test', body: 'test body'} )
+
+    assert_nil assigns(:discussion)
+  end
+
   test 'edit by owner' do
     sign_in users(:one)
 

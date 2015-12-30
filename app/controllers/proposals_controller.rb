@@ -18,6 +18,11 @@ class ProposalsController < ApplicationController
 
   def create
     @discussion = Discussion.find params[:discussion_id]
+
+    unless @discussion.canoe.crew?(current_user)
+      redirect_to(@discussion.canoe) and return
+    end
+
     @proposal = @discussion.proposals.new proposal_param
     @proposal.user = current_user
     if @proposal.save

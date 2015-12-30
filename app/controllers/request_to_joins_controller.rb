@@ -3,7 +3,7 @@ class RequestToJoinsController < ApplicationController
   before_filter :fetch_canoe
 
   def ask
-    redirect_to @canoe and return unless correct_guest
+    redirect_to @canoe and return unless correct_visitor
 
     @request_to_join = @canoe.request_to_joins.build
     @request_to_join.user = current_user
@@ -32,7 +32,7 @@ class RequestToJoinsController < ApplicationController
     fetch_canoe.crew? current_user
   end
 
-  def correct_guest
+  def correct_visitor
     !fetch_canoe.crew?(current_user) and !fetch_canoe.request_to_join?(current_user)
   end
 end

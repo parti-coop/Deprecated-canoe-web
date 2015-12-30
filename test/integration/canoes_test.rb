@@ -20,7 +20,7 @@ class CanoesTest < ActionDispatch::IntegrationTest
     assert_equal 'theme', assigns(:canoe).theme
   end
 
-  test 'should not edit a canoe by guest' do
+  test 'should not edit a canoe by visitor' do
     sign_in users(:two)
 
     origin_title = canoes(:canoe1).title

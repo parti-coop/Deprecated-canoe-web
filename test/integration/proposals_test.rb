@@ -9,6 +9,13 @@ class ProposalTest < ActionDispatch::IntegrationTest
     assert_equal 'test', assigns(:proposal).body
   end
 
+  test 'shoud not create by visitor' do
+    sign_in users(:visitor)
+    post discussion_proposals_path(discussion_id: discussions(:discussion1).id, proposal: { body: 'test' } )
+
+    assert_nil assigns(:proposal)
+  end
+
   test 'edit by owner' do
     sign_in users(:one)
 
