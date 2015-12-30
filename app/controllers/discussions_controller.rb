@@ -19,7 +19,7 @@ class DiscussionsController < ApplicationController
 
   def create
     @canoe = Canoe.find params[:canoe_id]
-    @discussion = @canoe.discussions.new discussion_param
+    @discussion = @canoe.discussions.new create_param
     @discussion.user = current_user
     if @discussion.save
       slack(@discussion)
@@ -30,7 +30,7 @@ class DiscussionsController < ApplicationController
   end
 
   def update
-    @discussion.update(discussion_param)
+    @discussion.update(update_param)
     slack(@discussion)
     redirect_to @discussion
   end
@@ -43,8 +43,12 @@ class DiscussionsController < ApplicationController
 
   private
 
-  def discussion_param
+  def create_param
     params.require(:discussion).permit(:subject, :body)
+  end
+
+  def update_param
+    params.require(:discussion).permit(:subject, :body, :decision)
   end
 
   def fetch_discussion

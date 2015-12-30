@@ -19,7 +19,11 @@
         #{@discussion.subject}
       %div
         = @discussion.body
-
+  = form_for @discussion do |f|
+    .form-group
+      = f.label :decision
+      = f.text_area :decision, class: 'form-control'
+    = f.submit class: 'btn btn-default'
   .row
     .col-md-7
       .panel.panel-default
