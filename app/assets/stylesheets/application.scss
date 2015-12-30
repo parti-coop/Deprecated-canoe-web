@@ -1,10 +1,10 @@
 @import "bootstrap-sprockets";
-@import "bootswatch/paper/variables";
+@import "bootswatch/lumen/variables";
 @import "bootstrap";
 
 body { padding-top: 80px; }
 
-@import "bootswatch/paper/bootswatch";
+@import "bootswatch/lumen/bootswatch";
 .change-icon > .fa:nth-child(2) {
   display: none;
 }
