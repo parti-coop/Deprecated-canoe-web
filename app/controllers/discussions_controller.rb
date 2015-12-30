@@ -3,7 +3,8 @@ class DiscussionsController < ApplicationController
 
   before_filter :authenticate_user!, except: [:show]
   before_filter :fetch_discussion, only: [:show, :edit, :update, :destroy]
-  before_filter :correct_user, only: [:edit, :update, :destroy]
+  before_filter :correct_crew, only: [:edit, :update]
+  before_filter :correct_owner, only: [:destroy]
 
   def show
     @pinned_opinions = @discussion.opinions.pinned
@@ -55,7 +56,13 @@ class DiscussionsController < ApplicationController
     @discussion ||= Discussion.find params[:id]
   end
 
-  def correct_user
+  def correct_crew
+    unless fetch_discussion.canoe.crew?(current_user)
+      redirect_to(@discussion)
+    end
+  end
+
+  def correct_owner
     unless fetch_discussion.user == current_user
       redirect_to(@discussion)
     end

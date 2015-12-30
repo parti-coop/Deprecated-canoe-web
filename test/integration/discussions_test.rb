@@ -18,6 +18,16 @@ class DiscussionsTest < ActionDispatch::IntegrationTest
     assert_equal subject, assigns(:discussion).subject
   end
 
+  test 'can edit by crew' do
+    assert canoes(:canoe1).crew?(users(:crew))
+    sign_in users(:crew)
+
+    subject = discussions(:discussion1).subject + 'xx'
+    put discussion_path(id: discussions(:discussion1).id, discussion: { subject: subject, body: 'new body'})
+
+    assert_equal subject, assigns(:discussion).subject
+  end
+
   test 'should not edit by the other' do
     sign_in users(:two)
 
