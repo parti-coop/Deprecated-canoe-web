@@ -34,7 +34,6 @@ class OpinionsTest < ActionDispatch::IntegrationTest
     refute Canoe.exists?(opinions(:opinion1).id)
   end
 
-  focus
   test 'pin' do
     refute opinions(:opinion1).pinned
 

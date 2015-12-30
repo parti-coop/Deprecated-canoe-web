@@ -4,3 +4,6 @@ one:
 two:
   email: 'two@gmail.com'
   nickname: 'nick2'
+crew:
+  email: 'crew@gmail.com'
+  nickname: 'crew_nick'

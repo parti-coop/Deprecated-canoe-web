@@ -20,13 +20,23 @@ class CanoesTest < ActionDispatch::IntegrationTest
     assert_equal 'theme', assigns(:canoe).theme
   end
 
-  test 'should not edit a canoe by the other' do
+  test 'should not edit a canoe by guest' do
     sign_in users(:two)
 
     origin_title = canoes(:canoe1).title
     put canoe_path(id: canoes(:canoe1).id, canoe: { title: origin_title + 'xx'})
 
     assert_equal origin_title, assigns(:canoe).title
+  end
+
+  test 'can edit a canoe by crew' do
+    assert canoes(:canoe1).crew?(users(:crew))
+    sign_in users(:crew)
+
+    title = canoes(:canoe1).title + 'xxx'
+    put canoe_path(id: canoes(:canoe1).id, canoe: { title: title })
+
+    assert_equal title, assigns(:canoe).title
   end
 
   test 'delete' do
