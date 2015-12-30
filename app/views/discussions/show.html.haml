@@ -1,163 +1,164 @@
 .bs-component
-  .panel.panel-default
-    .panel-heading
-      %h6.text-muted
-        %i.fa.fa-ship
-        = link_to @discussion.canoe.title, canoe_home_path(@discussion.canoe)
-    .panel-body
-      %div.pull-right
-        = user_byline @discussion.user
-        %i.fa.fa-clock-o
-        = date_f @discussion.created_at
-        - if @discussion.user == current_user
-          = link_to [:edit, @discussion] do
-            %i.fa.fa-edit
-          = link_to @discussion, method: :delete do
-            %i.fa.fa-trash
-      %h4
-        %i.fa.fa-flag
-        #{@discussion.subject}
-      %div
-        = @discussion.body
-  = form_for @discussion do |f|
-    .form-group
-      = f.label :decision
-      = f.text_area :decision, class: 'form-control'
-    = f.submit class: 'btn btn-default'
-  .row
-    .col-md-7
-      .panel.panel-default
-        .panel-heading
-          %h6.text-muted
-            %i.fa.fa-comments
-            의견
-        %ul.list-group
-          - {pinned: @pinned_opinions, all: @discussion.opinions}.each do |key, opinions|
-            - opinions.each do |opinion|
-              %li.list-group-item{class: ('list-group-item-success' if key == :pinned)}
-                %div{ style: 'margin: 10px 0 20px 0;' }
-                  = user_byline opinion.user
-                  = link_to opinion do
-                    %i.fa.fa-clock-o
-                    = date_f opinion.created_at
-                  - if opinion.user == current_user
-                    = link_to [:edit, opinion] do
-                      %i.fa.fa-edit
-                    = link_to opinion, method: :delete do
-                      %i.fa.fa-trash
-                  - if user_signed_in?
-                    - unless opinion.pinned
-                      = link_to [:pin, opinion], method: :patch do
-                        %i.fa.fa-thumb-tack
-                    - else
-                      = link_to [:unpin, opinion], method: :patch do
-                        %i.fa.fa-thumb-tack.fa-flip-vertical
-                %div
-                  - if opinion.pinned
-                    %i.fa.fa-thumb-tack
-                  = simple_format opinion.body
-                .clearfix
-          - if user_signed_in?
-            %li.list-group-item
-              = form_for [@discussion, @discussion.opinions.build] do |f|
-                .form-group
-                  = f.text_area :body, style: "width: 100%; height: 100px;", placeholder: '내 의견은...'
-                = f.submit '의견올리기', class: 'btn btn-default'
-    .col-md-5
-      .panel.panel-default
-        .panel-heading
-          %h6.text-muted
-            %i.fa.fa-rocket
-            제안
-        %table.table
-          %tbody
-            - {tops: @discussion.proposals.tops, bottoms: @discussion.proposals.bottoms.latest}.each do |key, proposals|
-              - proposals.each do |proposal|
-                %tr
-                  %td(style='width: 140px;')
-                    .text-nowrap(style='margin-bottom: 5px;')
-                      - if !user_signed_in?
-                        %button.btn.btn-success.disabled
-                          %i.fa.fa-thumbs-up
-                          = proposal.votes.in_favor.count
-                      - elsif proposal.voted?(current_user, :in_favor)
-                        = link_to unvote_proposal_path(proposal), method: :delete, class: 'btn btn-success' do
-                          %span.change-icon
-                            %i.fa.fa-thumbs-up
-                            %i.fa.fa-ban
-                            = proposal.votes.in_favor.count
-                      - else
-                        = link_to in_favor_proposal_path(proposal), method: :post, class: 'btn btn-default' do
-                          %span.text-success
-                            %i.fa.fa-thumbs-up
-                            = proposal.votes.in_favor.count
-                      - if !user_signed_in?
-                        %button.btn.btn-danger.disabled
-                          %i.fa.fa-thumbs-down
-                          = proposal.votes.opposed.count
-                      - elsif proposal.voted?(current_user, :opposed)
-                        = link_to unvote_proposal_path(proposal), method: :delete, class: 'btn btn-danger' do
-                          %span.change-icon
-                            %i.fa.fa-thumbs-down
-                            %i.fa.fa-ban
-                            = proposal.votes.opposed.count
-                      - else
-                        = link_to opposed_proposal_path(proposal), method: :post, class: 'btn btn-default' do
-                          %span.text-danger
-                            %i.fa.fa-thumbs-down
-                            = proposal.votes.opposed.count
-                    - if proposal.votes.any? and proposal.voted?(current_user)
-                      .text-center
-                        %a{"data-toggle" => "collapse", :href => "##{dom_id(proposal)}-result"}
-                          결과보기 >
-
-
-                  %td
-                    - if key == :tops and @discussion.proposals.bottoms.any?
-                      %p
-                        %span.label.label-warning
-                          %i.fa.fa-trophy
-                          best
-                    %div
-                      %strong= proposal.body
-
-                    .pull-right
-                      = user_byline proposal.user
+  .container
+    .panel.panel-default
+      .panel-heading
+        %h6.text-muted
+          %i.fa.fa-ship
+          = link_to @discussion.canoe.title, canoe_home_path(@discussion.canoe)
+      .panel-body
+        %div.pull-right
+          = user_byline @discussion.user
+          %i.fa.fa-clock-o
+          = date_f @discussion.created_at
+          - if @discussion.user == current_user
+            = link_to [:edit, @discussion] do
+              %i.fa.fa-edit
+            = link_to @discussion, method: :delete do
+              %i.fa.fa-trash
+        %h4
+          %i.fa.fa-flag
+          #{@discussion.subject}
+        %div
+          = @discussion.body
+    = form_for @discussion do |f|
+      .form-group
+        = f.label :decision
+        = f.text_area :decision, class: 'form-control'
+      = f.submit class: 'btn btn-default'
+    .row
+      .col-md-7
+        .panel.panel-default
+          .panel-heading
+            %h6.text-muted
+              %i.fa.fa-comments
+              의견
+          %ul.list-group
+            - {pinned: @pinned_opinions, all: @discussion.opinions}.each do |key, opinions|
+              - opinions.each do |opinion|
+                %li.list-group-item{class: ('list-group-item-success' if key == :pinned)}
+                  %div{ style: 'margin: 10px 0 20px 0;' }
+                    = user_byline opinion.user
+                    = link_to opinion do
                       %i.fa.fa-clock-o
-                      = date_f proposal.created_at
-                      - if proposal.user == current_user
-                        = link_to [:edit, proposal] do
-                          %i.fa.fa-edit
-                        = link_to proposal, method: :delete do
-                          %i.fa.fa-trash
-                    .clearfix
-                - if proposal.votes.any? and proposal.voted?(current_user)
-                  %tr(class="collapse" id="#{dom_id(proposal)}-result")
-                    %td(colspan=2 style='border-top: 0px; padding: 0px 30px 20px 30px;')
-                      %hr
-                      %p
-                        %i.fa.fa-bar-chart
-                        결과
-                      .row
-                        .col-md-3.text-success
-                          %i.fa.fa-thumbs-up
-                          = number_to_percentage proposal.votes.percentage(:in_favor), precision: 0
-                        .col-md-9
-                          - proposal.votes.in_favor.map do |v|
-                            @
-                            = v.user.nickname
-                      .row
-                        .col-md-3.text-danger
-                          %i.fa.fa-thumbs-down
-                          = number_to_percentage proposal.votes.percentage(:opposed), precision: 0
-                        .col-md-9
-                          - proposal.votes.opposed.map do |v|
-                            @
-                            = v.user.nickname
+                      = date_f opinion.created_at
+                    - if opinion.user == current_user
+                      = link_to [:edit, opinion] do
+                        %i.fa.fa-edit
+                      = link_to opinion, method: :delete do
+                        %i.fa.fa-trash
+                    - if user_signed_in?
+                      - unless opinion.pinned
+                        = link_to [:pin, opinion], method: :patch do
+                          %i.fa.fa-thumb-tack
+                      - else
+                        = link_to [:unpin, opinion], method: :patch do
+                          %i.fa.fa-thumb-tack.fa-flip-vertical
+                  %div
+                    - if opinion.pinned
+                      %i.fa.fa-thumb-tack
+                    = simple_format opinion.body
+                  .clearfix
             - if user_signed_in?
-              %tr
-                %td(colspan=2)
-                  = form_for [@discussion, @discussion.proposals.build] do |f|
-                    .form-group
-                      = f.text_area :body, style: "width: 100%; height: 60px;", placeholder: '내 제안은...'
-                    = f.submit '제안하기', class: 'btn btn-default'
+              %li.list-group-item
+                = form_for [@discussion, @discussion.opinions.build] do |f|
+                  .form-group
+                    = f.text_area :body, style: "width: 100%; height: 100px;", placeholder: '내 의견은...'
+                  = f.submit '의견올리기', class: 'btn btn-default'
+      .col-md-5
+        .panel.panel-default
+          .panel-heading
+            %h6.text-muted
+              %i.fa.fa-rocket
+              제안
+          %table.table
+            %tbody
+              - {tops: @discussion.proposals.tops, bottoms: @discussion.proposals.bottoms.latest}.each do |key, proposals|
+                - proposals.each do |proposal|
+                  %tr
+                    %td(style='width: 140px;')
+                      .text-nowrap(style='margin-bottom: 5px;')
+                        - if !user_signed_in?
+                          %button.btn.btn-success.disabled
+                            %i.fa.fa-thumbs-up
+                            = proposal.votes.in_favor.count
+                        - elsif proposal.voted?(current_user, :in_favor)
+                          = link_to unvote_proposal_path(proposal), method: :delete, class: 'btn btn-success' do
+                            %span.change-icon
+                              %i.fa.fa-thumbs-up
+                              %i.fa.fa-ban
+                              = proposal.votes.in_favor.count
+                        - else
+                          = link_to in_favor_proposal_path(proposal), method: :post, class: 'btn btn-default' do
+                            %span.text-success
+                              %i.fa.fa-thumbs-up
+                              = proposal.votes.in_favor.count
+                        - if !user_signed_in?
+                          %button.btn.btn-danger.disabled
+                            %i.fa.fa-thumbs-down
+                            = proposal.votes.opposed.count
+                        - elsif proposal.voted?(current_user, :opposed)
+                          = link_to unvote_proposal_path(proposal), method: :delete, class: 'btn btn-danger' do
+                            %span.change-icon
+                              %i.fa.fa-thumbs-down
+                              %i.fa.fa-ban
+                              = proposal.votes.opposed.count
+                        - else
+                          = link_to opposed_proposal_path(proposal), method: :post, class: 'btn btn-default' do
+                            %span.text-danger
+                              %i.fa.fa-thumbs-down
+                              = proposal.votes.opposed.count
+                      - if proposal.votes.any? and proposal.voted?(current_user)
+                        .text-center
+                          %a{"data-toggle" => "collapse", :href => "##{dom_id(proposal)}-result"}
+                            결과보기 >
+
+
+                    %td
+                      - if key == :tops and @discussion.proposals.bottoms.any?
+                        %p
+                          %span.label.label-warning
+                            %i.fa.fa-trophy
+                            best
+                      %div
+                        %strong= proposal.body
+
+                      .pull-right
+                        = user_byline proposal.user
+                        %i.fa.fa-clock-o
+                        = date_f proposal.created_at
+                        - if proposal.user == current_user
+                          = link_to [:edit, proposal] do
+                            %i.fa.fa-edit
+                          = link_to proposal, method: :delete do
+                            %i.fa.fa-trash
+                      .clearfix
+                  - if proposal.votes.any? and proposal.voted?(current_user)
+                    %tr(class="collapse" id="#{dom_id(proposal)}-result")
+                      %td(colspan=2 style='border-top: 0px; padding: 0px 30px 20px 30px;')
+                        %hr
+                        %p
+                          %i.fa.fa-bar-chart
+                          결과
+                        .row
+                          .col-md-3.text-success
+                            %i.fa.fa-thumbs-up
+                            = number_to_percentage proposal.votes.percentage(:in_favor), precision: 0
+                          .col-md-9
+                            - proposal.votes.in_favor.map do |v|
+                              @
+                              = v.user.nickname
+                        .row
+                          .col-md-3.text-danger
+                            %i.fa.fa-thumbs-down
+                            = number_to_percentage proposal.votes.percentage(:opposed), precision: 0
+                          .col-md-9
+                            - proposal.votes.opposed.map do |v|
+                              @
+                              = v.user.nickname
+              - if user_signed_in?
+                %tr
+                  %td(colspan=2)
+                    = form_for [@discussion, @discussion.proposals.build] do |f|
+                      .form-group
+                        = f.text_area :body, style: "width: 100%; height: 60px;", placeholder: '내 제안은...'
+                      = f.submit '제안하기', class: 'btn btn-default'

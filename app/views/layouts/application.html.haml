@@ -16,38 +16,7 @@
     = csrf_meta_tags
 
   %body
-
-    %nav.navbar.navbar-default.navbar-fixed-top
-      .container
-        .navbar-header
-          %button.navbar-toggle.collapsed{"aria-controls" => "navbar", "aria-expanded" => "false", "data-target" => "#navbar", "data-toggle" => "collapse", :type => "button"}
-            %span.sr-only Toggle navigation
-            %span.icon-bar
-            %span.icon-bar
-            %span.icon-bar
-          %a.navbar-brand{ href: root_path }
-            canoe
-        #navbar.collapse.navbar-collapse
-          %ul.nav.navbar-nav
-            %li
-              = link_to canoes_path do
-                %i.fa.fa-ship
-                내가 탑승한 카누
-            - if user_signed_in?
-              %li
-                = link_to new_canoe_path do
-                  %i.fa.fa-edit
-                  카누 만들기
-          %ul.nav.navbar-nav.pull-right
-            - if user_signed_in?
-              %li
-                = link_to edit_user_path do
-                  = user_byline current_user
-              %li= link_to '로그아웃', destroy_user_session_path, method: :delete
-            - else
-              %li= link_to '회원가입', sign_up_path
-              %li= link_to '로그인', new_user_session_path
-
+    = render 'header'
     = yield
-
+    = render 'footer'
     = javascript_include_tag 'application'
