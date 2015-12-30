@@ -3,7 +3,7 @@
     = image_tag canoe.logo_url, class: 'img-responsive'
   .caption
     %h3= link_to canoe.title, canoe_home_path(canoe)
-    %p= canoe.theme
+    %p{ style: 'height:70px' }= canoe.theme
     %p
       = link_to canoe_home_path(canoe), class: 'btn btn-primary' do
         논의

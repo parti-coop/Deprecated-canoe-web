@@ -1,34 +1,6 @@
 .bs-component
+  %h3 탑승한 카누
   .row
-    .col-md-7
-      %h3 탑승한 카누
-      .row
-        - [@owning_canoes, @crewing_canoes].flatten.each do |canoe|
-          .col-md-5.col-sm-12
-            = render canoe
-    .col-md-5
-      .panel.panel-default
-        .panel-heading
-          %h4.text-muted
-            %i.fa.fa-comments
-            최근 의견
-        %ul.list-group
-          - @opinions.first(5).each do |opinion|
-            %li.list-group-item
-              %p
-                = link_to opinion.discussion.canoe do
-                  %i.fa.fa-ship
-                  = opinion.discussion.canoe.title
-                \/
-                = link_to opinion.discussion do
-                  %i.fa.fa-flag
-                  = opinion.discussion.subject
-              %p.lead= opinion.body
-              = user_byline opinion.user
-              %i.fa.fa-clock-o
-              = date_f opinion.created_at
-              - if opinion.user == current_user
-                = link_to [:edit, opinion] do
-                  %i.fa.fa-edit
-                = link_to opinion, method: :delete do
-                  %i.fa.fa-trash
+    - [@owning_canoes, @crewing_canoes].flatten.each do |canoe|
+      .col-md-3.col-sm-6
+        = render canoe
