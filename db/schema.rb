@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151230015659) do
+ActiveRecord::Schema.define(version: 20151230020610) do
 
   create_table "canoes", force: :cascade do |t|
     t.string   "title",      null: false
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20151230015659) do
     t.string   "slug",       null: false
     t.string   "logo"
     t.string   "cover"
+    t.text     "board"
   end
 
   add_index "canoes", ["slug"], name: "index_canoes_on_slug", unique: true

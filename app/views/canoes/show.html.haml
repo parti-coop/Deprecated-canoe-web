@@ -28,7 +28,11 @@
 
     .panel-body
       = @canoe.theme
-
+  = form_for @canoe do |f|
+    .form-group
+      = f.label :board
+      = f.text_area :board, class: 'form-control'
+    = f.submit class: 'btn btn-default'
   .row
     .col-md-7
       .panel.panel-default

@@ -31,7 +31,7 @@ class CanoesController < ApplicationController
   end
 
   def create
-    @canoe = Canoe.new canoe_params
+    @canoe = Canoe.new create_params
     @canoe.user = current_user
     if @canoe.save
       slack(@canoe)
@@ -42,7 +42,7 @@ class CanoesController < ApplicationController
   end
 
   def update
-    @canoe.update(canoe_params)
+    @canoe.update(update_params)
     slack(@canoe)
     redirect_to @canoe
   end
@@ -65,7 +65,11 @@ class CanoesController < ApplicationController
     end
   end
 
-  def canoe_params
+  def create_params
     params.require(:canoe).permit(:title, :theme, :slug, :cover, :logo)
+  end
+
+  def update_params
+    params.require(:canoe).permit(:title, :theme, :slug, :cover, :logo, :board)
   end
 end
