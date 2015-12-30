@@ -5,7 +5,7 @@
         %i.fa.fa-ship
         = link_to @canoe.title, canoe_home_path(@canoe)
       %h3
-        %i.fa.fa-flag
+        %i.fa.fa-users
         구성원
         %small
           = link_to new_canoe_crew_path(@canoe) do
@@ -13,7 +13,19 @@
     .panel-body
       %ul
         %li
-          = @canoe.user.nickname
+          = user_byline @canoe.user
           %span.label.label-warning 만든이
         - @canoe.crews.each do |crew|
-          %li= crew.user.nickname
+          %li
+            = user_byline crew.user
+  .panel.panel-default
+    .panel-heading
+      %h3
+        %i.fa.fa-sign-in
+        가입요청
+    .panel-body
+      %ul
+        - @canoe.request_to_joins.each do |req|
+          %li
+            = user_byline req.user
+            = link_to '승락', accept_canoe_request_to_join_path(canoe_id: @canoe, id: req), method: :post, class: 'btn btn-xs btn-primary'

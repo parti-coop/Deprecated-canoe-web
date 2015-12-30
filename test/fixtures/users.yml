@@ -7,3 +7,6 @@ two:
 crew:
   email: 'crew@gmail.com'
   nickname: 'crew_nick'
+guest:
+  email: 'guest@gmail.com'
+  nickname: 'guest_nick'

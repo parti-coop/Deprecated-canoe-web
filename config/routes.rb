@@ -21,7 +21,17 @@ Rails.application.routes.draw do
           end
         end
 
-        resources :crews
+        resources :crews do
+        end
+      end
+
+      resources :request_to_joins do
+        collection do
+          post :ask, to: 'request_to_joins#ask'
+        end
+        member do
+          post :accept, to: 'request_to_joins#accept'
+        end
       end
     end
   end

@@ -17,14 +17,18 @@
             %i.fa.fa-users
             = @canoe.crews.count
           - if user_signed_in?
-            (
             - if @canoe.crew?(current_user)
               = link_to new_canoe_crew_path(@canoe) do
                 %i.fa.fa-user-plus
+                승선시키기
             - else
-              = link_to '#' do
+              - if @canoe.request_to_join?(current_user)
                 %i.fa.fa-sign-in
-            )
+                승선요청 중
+              - else
+                = link_to ask_canoe_request_to_joins_path(canoe_id: @canoe), method: :post do
+                  %i.fa.fa-sign-in
+                  승선요청하기
 
     .panel-body
       = @canoe.theme

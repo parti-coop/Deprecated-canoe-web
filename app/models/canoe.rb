@@ -3,6 +3,7 @@ class Canoe < ActiveRecord::Base
   has_many :discussions
   has_many :opinions, through: :discussions
   has_many :crews
+  has_many :request_to_joins
 
   mount_uploader :logo, ImageUploader
   mount_uploader :cover, ImageUploader
@@ -21,5 +22,9 @@ class Canoe < ActiveRecord::Base
   scope :latest, -> { order(id: :desc) }
   def crew?(target)
     user == target or crews.exists? user: target
+  end
+
+  def request_to_join?(target)
+    request_to_joins.exists? user: target
   end
 end
