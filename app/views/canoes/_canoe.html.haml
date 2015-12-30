@@ -4,23 +4,20 @@
   .caption
     %h3= link_to canoe.title, canoe_home_path(canoe)
     %p{ style: 'height:70px' }= canoe.theme
-    %ul.list-inline
-      %li
-        = link_to canoe_home_path(canoe), class: 'btn btn-sm btn-primary' do
-          논의
-          = canoe.discussions.count
-          개
-      %li
-        = link_to canoe_home_path(canoe), class: 'btn btn-sm btn-default' do
-          의견
-          = canoe.opinions.count
-          개
-      %li
-        = link_to canoe_home_path(canoe), class: 'btn btn-sm btn-default' do
-          선원
-          = canoe.crews.count
-          명
     %hr
-    %p
-      = user_byline canoe.user
-      = link_to '탑승신청', '', class: 'btn btn-sm btn-primary' unless canoe.crew?(current_user)
+    %ul.list-inline.text-muted{ style: 'font-size: 0.8em' }
+      %li
+        %i.fa.fa-flag
+        논의
+        %strong= canoe.discussions.count
+        개
+      %li
+        %i.fa.fa-comments
+        의견
+        %strong= canoe.opinions.count
+        개
+      %li
+        %i.fa.fa-users
+        선원
+        %strong= canoe.crews.count
+        명

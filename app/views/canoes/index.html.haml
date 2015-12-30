@@ -1,6 +1,7 @@
 .bs-component
-  %h3 탑승한 카누
-  .row
-    - [@owning_canoes, @crewing_canoes].flatten.each do |canoe|
-      .col-md-3.col-sm-6
-        = render canoe
+  .container
+    %h3 탑승한 카누
+    .row
+      - [@owning_canoes, @crewing_canoes].flatten.each do |canoe|
+        .col-md-3.col-sm-6
+          = render canoe
