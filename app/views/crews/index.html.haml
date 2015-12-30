@@ -15,7 +15,7 @@
         %li
           = user_byline @canoe.user
           %span.label.label-warning 만든이
-        - @canoe.crews.each do |crew|
+        - @canoe.crews.exclude_captain.each do |crew|
           %li
             = user_byline crew.user
   .panel.panel-default
