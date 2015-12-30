@@ -1,24 +1,11 @@
 .bs-component
   .row
     .col-md-7
-      .panel.panel-default
-        .panel-heading
-          %h4
-            탑승한 카누
-        %ul.list-group
-          - [@owning_canoes, @crewing_canoes].flatten.each do |canoe|
-            %li.list-group-item
-              = link_to canoe_home_path(canoe) do
-                %p.lead
-                  %span.label.label-default= canoe.id
-                  = canoe.title
-                  - if canoe.user == current_user
-                    %span.label.label-warning 만든이
-                %p= canoe.theme
-                %small
-                  = user_byline canoe.user
-                  %i.fa.fa-clock-o
-                  = date_f canoe.created_at
+      %h3 탑승한 카누
+      .row
+        - [@owning_canoes, @crewing_canoes].flatten.each do |canoe|
+          .col-md-5.col-sm-12
+            = render canoe
     .col-md-5
       .panel.panel-default
         .panel-heading

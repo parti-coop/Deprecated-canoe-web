@@ -3,26 +3,13 @@
     %h2 카누
     %p
       = Canoe.count
-      개의 카누를 타고 산으로 가는 중입니다
+      개의 카누를 타고 산으로 가는 중입니다.
     %p
-      = link_to '카누만들기', new_canoe_path, class: 'btn btn-primary btn-lg'
+      = link_to '카누는 왜 만들었을까요?', '', class: 'btn btn-danger btn-lg'
 
 %section.bs-component
-  .panel.panel-default
-    .panel-heading
-      %h4
-        최근 만들어진 카누
-    %ul.list-group
-      - @canoes.each do |canoe|
-        %li.list-group-item
-          = link_to canoe_home_path(canoe) do
-            %p.lead
-              %span.label.label-default= canoe.id
-              = canoe.title
-              - if canoe.user == current_user
-                %span.label.label-warning 만든이
-            %p= canoe.theme
-            %small
-              = user_byline canoe.user
-              %i.fa.fa-clock-o
-              = date_f canoe.created_at
+  %h3 최신 카누
+  .row
+    - @canoes.each do |canoe|
+      .col-md-3.col-sm-6
+        = render canoe
