@@ -20,6 +20,11 @@ gem 'bootstrap-sass', '~> 3.3', '>= 3.3.5.1'
 gem 'bootswatch-rails'
 gem 'envyable', '~> 0.2.0'
 
+# assets
+source 'https://rails-assets.org' do
+  gem 'rails-assets-trianglify'
+end
+
 # tools
 gem 'haml-rails', '~> 0.9.0'
 gem 'jbuilder', '~> 2.0'

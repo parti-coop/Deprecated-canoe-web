@@ -1,15 +1,18 @@
-%section.bs-component
-  .jumbotron
-    %h2 카누
-    %p
-      = Canoe.count
-      개의 카누를 타고 산으로 가는 중입니다.
-    %p
-      = link_to '카누는 왜 만들었을까요?', 'https://github.com/parti-xyz/canoe-web/wiki', target: '_blank', class: 'btn btn-danger btn-lg'
+%section.bs-component.pattern-trianglify{ style: 'background-size: cover; margin-top:-25px;'}
+  .container
+    .jumbotron{ style: 'background: none; border: none;'}
+      %h2
+        %strong 카누
+      %p
+        = Canoe.count
+        개의 카누가 산으로 갑니다.
+      %p
+        = link_to '카누는 왜 만들었을까요?', 'https://github.com/parti-xyz/canoe-web/wiki', target: '_blank', class: 'btn btn-danger btn-lg'
 
 %section.bs-component
-  %h3 전체 카누
-  .row
-    - @canoes.each do |canoe|
-      .col-md-3.col-sm-6
-        = render canoe
+  .container
+    %h3 전체 카누
+    .row
+      - @canoes.each do |canoe|
+        .col-md-3.col-sm-6
+          = render canoe
