@@ -26,6 +26,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'slack-notifier', '~> 1.4'
 gem 'sequenced', '~> 2.0'
+gem 'carrierwave', '~> 0.10.0'
 
 group :development, :test do
   gem 'byebug'

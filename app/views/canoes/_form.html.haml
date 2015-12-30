@@ -13,4 +13,10 @@
       = f.text_field :slug, class: 'form-control'
     %em 영문자와 숫자만 넣어주세요
     %em 이미 등록된 slug는 거부됩니다.
+  .form-group
+    = f.label :logo
+    = f.file_field :logo, class: 'form-control'
+  .form-group
+    = f.label :cover
+    = f.file_field :cover, class: 'form-control'
   = f.submit '저장', class: 'btn btn-default'

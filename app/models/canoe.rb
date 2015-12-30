@@ -4,6 +4,10 @@ class Canoe < ActiveRecord::Base
   has_many :opinions, through: :discussions
   has_many :crews
 
+  mount_uploader :logo, ImageUploader
+  mount_uploader :cover, ImageUploader
+
+
   validates :title, presence: true
   VALID_SLUG = /\A[a-z0-9_-]+\z/i
   validates :slug,

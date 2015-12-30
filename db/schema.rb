@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151228095028) do
+ActiveRecord::Schema.define(version: 20151230013906) do
 
   create_table "canoes", force: :cascade do |t|
     t.string   "title",      null: false
@@ -20,6 +20,8 @@ ActiveRecord::Schema.define(version: 20151228095028) do
     t.datetime "updated_at", null: false
     t.text     "theme"
     t.string   "slug",       null: false
+    t.string   "logo"
+    t.string   "cover"
   end
 
   add_index "canoes", ["slug"], name: "index_canoes_on_slug", unique: true
