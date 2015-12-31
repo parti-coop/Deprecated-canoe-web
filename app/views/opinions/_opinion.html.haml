@@ -1,12 +1,12 @@
 %li.media
   .media-left
     %a{:href => "#"}
-      = image_tag opinion.user.image_url, class: 'media-object', style: 'width:64px;height:64px;'
+      = image_tag opinion.user.image_url, class: 'media-object img-circle', style: 'width:64px;height:64px;'
   .media-body
     %h5.media-heading
-      = opinion.user.nickname
+      %strong= opinion.user.nickname
       .pull-right
-        = link_to opinion do
+        %span.text-muted
           %i.fa.fa-clock-o
           = date_f opinion.created_at
         - if opinion.user == current_user

@@ -29,7 +29,7 @@
 
         .row
           .col-md-7
-            %h5
+            %h4
               %i.fa.fa-comments
               의견
             %ul.media-list
@@ -38,7 +38,7 @@
                 %li.media
                   .media-left
                     %a{:href => "#"}
-                      = image_tag current_user.image_url, class: 'media-object', style: 'width:64px;height:64px;'
+                      = image_tag current_user.image_url, class: 'media-object img-circle', style: 'width:64px;height:64px;'
                   .media-body
                     = form_for [@discussion, @discussion.opinions.build] do |f|
                       .form-group
