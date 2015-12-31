@@ -1,0 +1,12 @@
+%tr[discussion]
+  %td
+    %h4
+      = link_to discussion.subject, discussion
+    %p= discussion.body
+    - if discussion.decision.present?
+      %p.alert.alert-success= discussion.decision
+  %td.text-right
+    = user_byline discussion.user
+  %td.text-right
+    %i.fa.fa-clock-o
+    = date_f discussion.created_at

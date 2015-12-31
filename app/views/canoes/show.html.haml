@@ -1,43 +1,4 @@
-.bs-component
-  .container
-    .panel.panel-default
-      .panel-heading
-        %h3
-          %i.fa.fa-ship
-          #{@canoe.title}
-          %small
-            = user_byline @canoe.user
-            %i.fa.fa-clock-o
-            = date_f @canoe.created_at
-            - if @canoe.user == current_user
-              = link_to [:edit, @canoe] do
-                %i.fa.fa-edit
-              = link_to @canoe, method: :delete do
-                %i.fa.fa-trash
-            = link_to_if_with_block @canoe.crew?(current_user), canoe_crews_path(@canoe) do
-              %i.fa.fa-users
-              = @canoe.crews.count
-            - if user_signed_in?
-              - if @canoe.crew?(current_user)
-                = link_to new_canoe_crew_path(@canoe) do
-                  %i.fa.fa-user-plus
-                  승선시키기
-              - else
-                - if @canoe.request_to_join?(current_user)
-                  %i.fa.fa-sign-in
-                  승선요청 중
-                - else
-                  = link_to ask_canoe_request_to_joins_path(canoe_id: @canoe), method: :post do
-                    %i.fa.fa-sign-in
-                    승선요청하기
-
-      .panel-body
-        = @canoe.theme
-    = form_for @canoe do |f|
-      .form-group
-        = f.label :board
-        = f.text_area :board, class: 'form-control'
-      = f.submit class: 'btn btn-default'
+= render 'canoe_header'
 
 .bs-component
   .container
@@ -48,60 +9,17 @@
             %h4.text-muted
               %i.fa.fa-flag
               논의
-              %small
-                = link_to new_canoe_discussion_path(@canoe) do
+              %small.pull-right
+                = link_to new_canoe_discussion_path(@canoe), class: 'btn btn-xs btn-primary' do
                   %i.fa.fa-plus
-          %ul.list-group
-            - @canoe.discussions.each do |discussion|
-              %li.list-group-item
-                = link_to discussion do
-                  %p.lead= discussion.subject
-                  %p= discussion.body
-                  %small
-                    = user_byline discussion.user
-                    %i.fa.fa-clock-o
-                    = date_f discussion.created_at
-                %p
-                  - if discussion.opinions.pinned.any?
-                    %ul.list-group
-                      - discussion.opinions.pinned.each do |opinion|
-                        %li.list-group-item.list-group-item-success
-                          %p.lead
-                            %i.fa.fa-thumb-tack
-                            = opinion.body
-                          .pull-right
-                            = user_byline opinion.user
-                            %i.fa.fa-clock-o
-                            = date_f opinion.created_at
-                            - if opinion.user == current_user
-                              = link_to [:edit, opinion] do
-                                %i.fa.fa-edit
-                              = link_to opinion, method: :delete do
-                                %i.fa.fa-trash
-                            - if user_signed_in?
-                              = link_to [:unpin, opinion], method: :patch do
-                                %i.fa.fa-thumb-tack.fa-flip-vertical
-                          .clearfix
+                  논의 시작하기
+          %table.table.table-bordered
+            %tbody
+              = render @canoe.discussions
+
       .col-md-5
         .panel.panel-default
           .panel-heading
             %h4.text-muted
               %i.fa.fa-comments
-              최근 의견
-          %ul.list-group
-            - @canoe.opinions.last(5).reverse.each do |opinion|
-              %li.list-group-item
-                %p
-                  = link_to opinion.discussion do
-                    %i.fa.fa-flag
-                    = opinion.discussion.subject
-                %p.lead= opinion.body
-                = user_byline opinion.user
-                = link_to opinion do
-                  %i.fa.fa-clock-o
-                  = date_f opinion.created_at
-                - if opinion.user == current_user
-                  = link_to [:edit, opinion] do
-                    %i.fa.fa-edit
-                  = link_to opinion, method: :delete do
-                    %i.fa.fa-trash
+              내가 참가하지 않은 의견 보기

@@ -8,6 +8,7 @@ class DiscussionsController < ApplicationController
 
   def show
     @pinned_opinions = @discussion.opinions.pinned
+    @canoe = @discussion.canoe
   end
 
   def new
@@ -73,4 +74,3 @@ class DiscussionsController < ApplicationController
     end
   end
 end
-

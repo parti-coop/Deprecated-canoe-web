@@ -1,0 +1,18 @@
+%li.media
+  .media-left
+    %a{:href => "#"}
+      = image_tag opinion.user.image_url, class: 'media-object', style: 'width:64px;height:64px;'
+  .media-body
+    %h5.media-heading
+      = opinion.user.nickname
+      .pull-right
+        = link_to opinion do
+          %i.fa.fa-clock-o
+          = date_f opinion.created_at
+        - if opinion.user == current_user
+          = link_to [:edit, opinion] do
+            %i.fa.fa-edit
+          = link_to opinion, method: :delete do
+            %i.fa.fa-trash
+    %div
+      = simple_format opinion.body

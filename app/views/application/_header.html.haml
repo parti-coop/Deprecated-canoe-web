@@ -10,24 +10,30 @@
         %strong canoe
     #navbar.collapse.navbar-collapse
       %ul.nav.navbar-nav
-        %li.dropdown
-          = link_to canoes_path, style: "display:inline-block;padding-right:0px" do
-            %i.fa.fa-ship
-            내가 탑승한 카누
-          - if user_signed_in?
-            %a.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button", :style => "display:inline-block;padding-left:0px;"}
+        %li
+          = link_to new_canoe_path do
+            %i.fa.fa-edit
+            전체 논의 보기
+        - if user_signed_in?
+          %li.dropdown
+            %a.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button" }
+              %i.fa.fa-ship
+              내가 탑승한 카누
               %span.caret
             %ul.dropdown-menu
               - current_user.crewing_canoes.each do |canoe|
                 %li= link_to canoe.title, canoe_home_path(canoe)
-              %li(role="separator" class="divider")
+              - unless current_user.crewing_canoes.empty?
+                %li(role="separator" class="divider")
               %li
                 = link_to '내가 탑승한 모든 카누 보기', canoes_path
-        - if user_signed_in?
+              %li
+                = link_to new_canoe_path do
+                  카누 만들기
           %li
             = link_to new_canoe_path do
               %i.fa.fa-edit
-              카누 만들기
+              논의 시작하기
       %ul.nav.navbar-nav.navbar-right
         - if user_signed_in?
           %li.dropdown
