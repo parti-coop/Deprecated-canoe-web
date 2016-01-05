@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151230050547) do
+ActiveRecord::Schema.define(version: 20160104043755) do
 
   create_table "canoes", force: :cascade do |t|
     t.string   "title",      null: false
@@ -65,6 +65,21 @@ ActiveRecord::Schema.define(version: 20151230050547) do
 
   add_index "opinions", ["discussion_id"], name: "index_opinions_on_discussion_id"
   add_index "opinions", ["user_id"], name: "index_opinions_on_user_id"
+
+  create_table "parti_sso_client_api_keys", force: :cascade do |t|
+    t.integer  "user_id",                           null: false
+    t.string   "digest",                            null: false
+    t.string   "client",                            null: false
+    t.integer  "authentication_id",                 null: false
+    t.datetime "expires_at",                        null: false
+    t.datetime "last_access_at",                    null: false
+    t.boolean  "is_locked",         default: false, null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+  end
+
+  add_index "parti_sso_client_api_keys", ["client"], name: "index_parti_sso_client_api_keys_on_client"
+  add_index "parti_sso_client_api_keys", ["user_id", "client"], name: "index_parti_sso_client_api_keys_on_user_id_and_client", unique: true
 
   create_table "proposals", force: :cascade do |t|
     t.text     "body"
