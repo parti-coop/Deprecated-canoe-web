@@ -7,6 +7,8 @@ class OpinionsController < ApplicationController
   load_and_authorize_resource :opinion, through: :discussion, shallow: true
 
   def show
+    @canoe = @opinion.discussion.canoe
+    @discussion = @opinion.discussion
   end
 
   def new
