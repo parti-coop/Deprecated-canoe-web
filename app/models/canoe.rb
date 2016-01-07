@@ -2,6 +2,7 @@ class Canoe < ActiveRecord::Base
   belongs_to :user
   has_many :discussions
   has_many :opinions, through: :discussions
+  has_many :proposals, through: :discussions
   has_many :crews do
     def exclude_captain
       self.where.not(user: proxy_association.owner.user)

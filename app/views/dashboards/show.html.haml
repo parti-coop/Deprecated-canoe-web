@@ -9,12 +9,12 @@
               @#{current_user.nickname}
             %ul.media-list
               = render @mentioned_opinions
-          / .col-md-5
-          /   .panel.panel-default
-          /     .panel-heading
-          /       %h6.text-muted
-          /         %i.fa.fa-rocket
-          /         제안
-          /     %table.table
-          /       %tbody
-          /         = render @proposals
+          .col-md-5
+            .panel.panel-default
+              .panel-heading
+                %h6.text-muted
+                  %i.fa.fa-rocket
+                  투표하지 않은 제안
+              %table.table
+                %tbody
+                  = render @unvoted_proposals
