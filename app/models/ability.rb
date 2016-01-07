@@ -13,7 +13,7 @@ class Ability
       end
 
       can [:create, :update], Discussion do |discussion|
-        discussion.canoe.crew? user
+        discussion.canoe.nil? or discussion.canoe.crew?(user)
       end
       can :manage, Discussion do |discussion|
         discussion.user == user

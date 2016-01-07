@@ -4,17 +4,18 @@ Rails.application.routes.draw do
   scope :app do
     sso_devise
     resources :discussions
-    get :dashboard, to: 'dashboards#show'
+    get :proposals, to: 'proposals#index'
+    get :opinions, to: 'opinions#index'
     resources :canoes do
       shallow do
-        resources :discussions do
+        resources :discussions, except: :index do
           resources :opinions do
             member do
               patch :pin
               patch :unpin
             end
           end
-          resources :proposals do
+          resources :proposals, except: :index do
             member do
               post :in_favor, to: 'votes#in_favor'
               post :opposed, to: 'votes#opposed'

@@ -6,6 +6,10 @@ class OpinionsController < ApplicationController
   load_and_authorize_resource :discussion, through: :canoe, shallow: true
   load_and_authorize_resource :opinion, through: :discussion, shallow: true
 
+  def index
+    @mentioned_opinions = Opinion.joins(:mentions).where(mentions: { user: current_user}).order(created_at: :desc)
+  end
+
   def show
     @canoe = @opinion.discussion.canoe
     @discussion = @opinion.discussion

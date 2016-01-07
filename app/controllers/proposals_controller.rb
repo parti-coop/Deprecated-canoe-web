@@ -6,6 +6,12 @@ class ProposalsController < ApplicationController
   load_and_authorize_resource :discussion, through: :canoe, shallow: true
   load_and_authorize_resource :proposal, through: :discussion, shallow: true
 
+  def index
+    @unvoted_proposals = current_user.crewing_proposals.order(created_at: :desc).select do |proposal|
+      !proposal.voted?(current_user)
+    end
+  end
+
   def show
   end
 

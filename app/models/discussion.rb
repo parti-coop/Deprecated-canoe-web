@@ -17,6 +17,8 @@ class Discussion < ActiveRecord::Base
     end
   end
 
+  validates :canoe, presence: true
+
   before_save :set_discussed_at
 
   def set_discussed_at

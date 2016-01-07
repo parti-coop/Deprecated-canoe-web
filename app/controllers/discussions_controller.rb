@@ -1,12 +1,12 @@
 class DiscussionsController < ApplicationController
   include SlackNotifing
 
-  before_filter :authenticate_user!, except: [:index, :show]
+  before_filter :authenticate_user!, except: [:show]
   load_and_authorize_resource :canoe
   load_and_authorize_resource :discussion, through: :canoe, shallow: true
 
   def index
-    @discussions = Discussion.joins(:canoe).order(discussed_at: :desc)
+    @discussions = current_user.crewing_discussions.order(discussed_at: :desc)
   end
 
   def show
@@ -47,7 +47,7 @@ class DiscussionsController < ApplicationController
   private
 
   def create_params
-    params.require(:discussion).permit(:subject, :body)
+    params.require(:discussion).permit(:subject, :body, :canoe_id)
   end
 
   def update_params

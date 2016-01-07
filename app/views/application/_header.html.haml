@@ -9,20 +9,12 @@
       %a.navbar-brand{ href: root_path }
         %strong canoe
     #navbar.collapse.navbar-collapse
-      %ul.nav.navbar-nav
-        %li
-          = link_to discussions_path do
-            %i.fa.fa-flag
-            최근 논의
-        - if user_signed_in?
-          %li
-            = link_to dashboard_path do
-              %i.fa.fa-dashboard
-              대시보드
+      - if user_signed_in?
+        %ul.nav.navbar-nav
           %li.dropdown
             %a.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button" }
               %i.fa.fa-ship
-              내가 탑승한 카누
+              탑승한 카누
               %span.caret
             %ul.dropdown-menu
               - current_user.crewing_canoes.each do |canoe|
@@ -30,14 +22,32 @@
               - unless current_user.crewing_canoes.empty?
                 %li(role="separator" class="divider")
               %li
-                = link_to '내가 탑승한 모든 카누 보기', canoes_path
+                = link_to canoes_path do
+                  %i.fa.fa-list
+                  내가 탑승한 모든 카누 보기
               %li
                 = link_to new_canoe_path do
+                  %i.fa.fa-edit
                   카누 만들기
           %li
-            = link_to new_canoe_path do
-              %i.fa.fa-edit
-              논의 시작하기
+            = link_to discussions_path do
+              %i.fa.fa-flag
+              최근 논의
+              %span.badge.badge-default 30
+          %li
+            = link_to proposals_path do
+              %i.fa.fa-rocket
+              투표하지 않은 제안
+              %span.badge.badge-default 3
+          %li
+            = link_to opinions_path do
+              %i.fa.fa-comments
+              @#{current_user.nickname}
+              %span.badge.badge-default 5
+
+        = link_to new_discussion_path, class: 'btn btn-success navbar-btn navbar-left' do
+          %i.fa.fa-edit
+          논의 시작하기
       %ul.nav.navbar-nav.navbar-right
         - if user_signed_in?
           %li.dropdown
@@ -56,3 +66,7 @@
         - else
           %li= link_to '회원가입', sign_up_path
           %li= link_to '로그인', new_user_session_path
+      %form.navbar-form.navbar-right{:role => "search"}
+        .form-group
+          %input.form-control{:placeholder => "검색", :type => "text"}/
+        %button.btn.btn-default{:type => "submit"} 찾기
