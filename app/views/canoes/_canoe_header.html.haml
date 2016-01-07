@@ -8,9 +8,10 @@
         %h2{ style: 'margin-top: 0;' }
           = link_to @canoe.title, canoe_home_path(@canoe), { style: 'font-weight: bold; color:white; text-shadow: 0px 2px 0px black; text-decoration: none;'}
           %small
-            - if @canoe.user == current_user
+            - if can?(:update, @canoe)
               = link_to [:edit, @canoe] do
                 %i.fa.fa-edit
+            - if can?(:destory, @canoe)
               = link_to @canoe, method: :delete do
                 %i.fa.fa-trash
 
@@ -23,7 +24,7 @@
             %i.fa.fa-users
             = @canoe.crews.count
           - if user_signed_in?
-            - if @canoe.crew?(current_user)
+            - if can?(:accept_crew, @canoe)
               = link_to new_canoe_crew_path(@canoe), class: 'btn btn-danger' do
                 %i.fa.fa-user-plus
                 승선시키기
@@ -32,11 +33,11 @@
                 %button.btn.btn-danger.disabled
                   %i.fa.fa-sign-in
                   승선요청 중
-              - else
+              - elsif can?(:ask_crew, @canoe)
                 = link_to ask_canoe_request_to_joins_path(canoe_id: @canoe), method: :post, class: 'btn btn-danger' do
                   %i.fa.fa-sign-in
                   승선요청하기
-        - if user_signed_in? and @canoe.crew?(current_user)
+        - if can?(:update, @canoe)
           %div{ style: 'margin-top: 20px;' }
             = form_for @canoe do |f|
               .form-group

@@ -13,7 +13,7 @@ class ProposalTest < ActionDispatch::IntegrationTest
     sign_in users(:visitor)
     post discussion_proposals_path(discussion_id: discussions(:discussion1).id, proposal: { body: 'test' } )
 
-    assert_nil assigns(:proposal)
+    assert_redirected_to root_path
   end
 
   test 'edit by owner' do

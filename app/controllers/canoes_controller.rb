@@ -1,10 +1,7 @@
 class CanoesController < ApplicationController
   include SlackNotifing
-
   before_filter :authenticate_user!, except: [:show, :short]
-  before_filter :fetch_canoe, only: [:show, :edit, :update, :destroy]
-  before_filter :correct_crew, only: [:edit, :update]
-  before_filter :correct_captain, only: [:destroy]
+  load_and_authorize_resource except: [:index, :short]
 
   def index
     @owning_canoes = current_user.canoes
@@ -25,14 +22,12 @@ class CanoesController < ApplicationController
   end
 
   def new
-    @canoe = Canoe.new
   end
 
   def edit
   end
 
   def create
-    @canoe = Canoe.new create_params
     @canoe.user = current_user
     if @canoe.save
       slack(@canoe)
@@ -43,9 +38,12 @@ class CanoesController < ApplicationController
   end
 
   def update
-    @canoe.update(update_params)
-    slack(@canoe)
-    redirect_to @canoe
+    if @canoe.update_attributes(update_params)
+      slack(@canoe)
+      redirect_to @canoe
+    else
+      render 'edit'
+    end
   end
 
   def destroy
@@ -55,22 +53,6 @@ class CanoesController < ApplicationController
   end
 
   private
-
-  def fetch_canoe
-    @canoe ||= Canoe.find params[:id]
-  end
-
-  def correct_crew
-    unless fetch_canoe.crew?(current_user)
-      redirect_to(@canoe)
-    end
-  end
-
-  def correct_captain
-    unless fetch_canoe.user == current_user
-      redirect_to(@canoe)
-    end
-  end
 
   def create_params
     params.require(:canoe).permit(:title, :theme, :slug, :cover, :logo)

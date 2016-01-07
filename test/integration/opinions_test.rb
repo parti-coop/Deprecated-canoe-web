@@ -15,7 +15,7 @@ class OpinionsTest < ActionDispatch::IntegrationTest
     sign_in users(:visitor)
     post discussion_opinions_path(discussion_id: discussions(:discussion1).id, opinion: { body: 'test' } )
 
-    assert_nil assigns(:opinion)
+    assert_redirected_to root_path
   end
 
   test 'edit by owner' do

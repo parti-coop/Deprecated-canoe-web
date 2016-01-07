@@ -9,10 +9,11 @@
             %h4.text-muted
               %i.fa.fa-flag
               논의
-              %small.pull-right
-                = link_to new_canoe_discussion_path(@canoe), class: 'btn btn-xs btn-primary' do
-                  %i.fa.fa-plus
-                  논의 시작하기
+              - if can?(:update, @canoe)
+                %small.pull-right
+                  = link_to new_canoe_discussion_path(@canoe), class: 'btn btn-xs btn-primary' do
+                    %i.fa.fa-plus
+                    논의 시작하기
           %table.table.table-bordered
             %tbody
               = render @canoe.discussions

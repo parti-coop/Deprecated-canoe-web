@@ -10,9 +10,10 @@
           .pull-right
             %i.fa.fa-clock-o
             = date_f @discussion.created_at
-            - if @discussion.user == current_user
+            - if can? :edit, @discussion
               = link_to [:edit, @discussion] do
                 %i.fa.fa-edit
+            - if can? :destroy, @discussion
               = link_to @discussion, method: :delete do
                 %i.fa.fa-trash
       .panel-body
@@ -20,7 +21,7 @@
           #{@discussion.subject}
         %p.lead
           = @discussion.body
-        - if user_signed_in? and @discussion.canoe.crew?(current_user)
+        - if can? :edit, @discussion
           %h5
             현재 결정 사항은
           %p.lead
@@ -41,7 +42,7 @@
               의견
             %ul.media-list
               = render @discussion.opinions
-              - if user_signed_in? and @discussion.canoe.crew?(current_user)
+              - if can? :edit, @discussion
                 %li.media
                   .media-left
                     %a{:href => "#"}
@@ -94,7 +95,7 @@
                                 %span.text-danger
                                   %i.fa.fa-thumbs-down
                                   = proposal.votes.opposed.count
-                          - if proposal.votes.any? and proposal.voted?(current_user)
+                          - if can? :show_result, proposal
                             .text-center
                               %a{"data-toggle" => "collapse", :href => "##{dom_id(proposal)}-result"}
                                 결과보기 >
@@ -119,7 +120,7 @@
                               = link_to proposal, method: :delete do
                                 %i.fa.fa-trash
                           .clearfix
-                      - if proposal.votes.any? and proposal.voted?(current_user)
+                      - if can? :show_result, proposal
                         %tr(class="collapse" id="#{dom_id(proposal)}-result")
                           %td(colspan=2 style='border-top: 0px; padding: 0px 30px 20px 30px;')
                             %hr
@@ -142,7 +143,7 @@
                                 - proposal.votes.opposed.map do |v|
                                   @
                                   = v.user.nickname
-                  - if user_signed_in? and @discussion.canoe.crew?(current_user)
+                  - if can? :edit, @discussion
                     %tr
                       %td(colspan=2)
                         = form_for [@discussion, @discussion.proposals.build] do |f|

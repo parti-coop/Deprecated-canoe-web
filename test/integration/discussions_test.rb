@@ -13,7 +13,7 @@ class DiscussionsTest < ActionDispatch::IntegrationTest
     sign_in users(:visitor)
     post canoe_discussions_path(canoe_id: canoes(:canoe1).id, discussion: { subject: 'test', body: 'test body'} )
 
-    assert_nil assigns(:discussion)
+    assert_redirected_to root_path
   end
 
   test 'edit by owner' do

@@ -2,9 +2,8 @@ class DiscussionsController < ApplicationController
   include SlackNotifing
 
   before_filter :authenticate_user!, except: [:index, :show]
-  before_filter :fetch_discussion, only: [:show, :edit, :update, :destroy]
-  before_filter :correct_crew, only: [:edit, :update]
-  before_filter :correct_owner, only: [:destroy]
+  load_and_authorize_resource :canoe
+  load_and_authorize_resource :discussion, through: :canoe, shallow: true
 
   def index
     @discussions = Discussion.joins(:canoe).order(discussed_at: :desc)
@@ -16,21 +15,12 @@ class DiscussionsController < ApplicationController
   end
 
   def new
-    @canoe = Canoe.find params[:canoe_id]
-    @discussion = @canoe.discussions.build
   end
 
   def edit
   end
 
   def create
-    @canoe = Canoe.find params[:canoe_id]
-
-    unless @canoe.crew?(current_user)
-      redirect_to(@canoe) and return
-    end
-
-    @discussion = @canoe.discussions.new create_param
     @discussion.user = current_user
     if @discussion.save
       slack(@discussion)
@@ -41,9 +31,12 @@ class DiscussionsController < ApplicationController
   end
 
   def update
-    @discussion.update(update_param)
-    slack(@discussion)
-    redirect_to @discussion
+    if @discussion.update_attributes(update_params)
+      slack(@discussion)
+      redirect_to @discussion
+    else
+      render 'edit'
+    end
   end
 
   def destroy
@@ -54,27 +47,11 @@ class DiscussionsController < ApplicationController
 
   private
 
-  def create_param
+  def create_params
     params.require(:discussion).permit(:subject, :body)
   end
 
-  def update_param
+  def update_params
     params.require(:discussion).permit(:subject, :body, :decision)
-  end
-
-  def fetch_discussion
-    @discussion ||= Discussion.find params[:id]
-  end
-
-  def correct_crew
-    unless fetch_discussion.canoe.crew?(current_user)
-      redirect_to(@discussion)
-    end
-  end
-
-  def correct_owner
-    unless fetch_discussion.user == current_user
-      redirect_to(@discussion)
-    end
   end
 end
