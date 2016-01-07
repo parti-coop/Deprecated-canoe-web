@@ -1,10 +1,14 @@
 class DiscussionsController < ApplicationController
   include SlackNotifing
 
-  before_filter :authenticate_user!, except: [:show]
+  before_filter :authenticate_user!, except: [:index, :show]
   before_filter :fetch_discussion, only: [:show, :edit, :update, :destroy]
   before_filter :correct_crew, only: [:edit, :update]
   before_filter :correct_owner, only: [:destroy]
+
+  def index
+    @discussions = Discussion.joins(:canoe).order(discussed_at: :desc)
+  end
 
   def show
     @pinned_opinions = @discussion.opinions.pinned

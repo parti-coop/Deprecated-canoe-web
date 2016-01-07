@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   scope :app do
     sso_devise
+    resources :discussions
     resources :canoes do
       shallow do
         resources :discussions do

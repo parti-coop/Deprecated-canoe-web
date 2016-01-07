@@ -1,21 +1,29 @@
-%tr[discussion]
-  %td
-    %h4
-      = link_to discussion.subject, discussion
-      %small
-        (
-        %span
-          %i.fa.fa-comments
-          = discussion.opinions.count
-        %span
-          %i.fa.fa-rocket
-          = discussion.proposals.count
-        )
-    %p= discussion.body
-    - if discussion.decision.present?
-      %p.alert.alert-success= discussion.decision
-  %td.text-right
-    %div= user_byline discussion.user
-    %div.text-muted
-      %i.fa.fa-clock-o
-      = date_f discussion.created_at
+%tbody[discussion]
+  - if params[:controller] == 'discussions'
+    %tr
+      %td(colspan=2)
+        %small
+          = link_to canoe_home_path(discussion.canoe) do
+            %i.fa.fa-ship
+            = discussion.canoe.title
+  %tr
+    %td
+      %h4
+        = link_to discussion.subject, discussion
+        %small
+          (
+          %span
+            %i.fa.fa-comments
+            = discussion.opinions.count
+          %span
+            %i.fa.fa-rocket
+            = discussion.proposals.count
+          )
+      %p= discussion.body
+      - if discussion.decision.present?
+        %p.alert.alert-success= discussion.decision
+    %td.text-right
+      %div= user_byline discussion.user
+      %div.text-muted
+        %i.fa.fa-clock-o
+        = date_f discussion.discussed_at

@@ -11,9 +11,9 @@
     #navbar.collapse.navbar-collapse
       %ul.nav.navbar-nav
         %li
-          = link_to new_canoe_path do
-            %i.fa.fa-edit
-            전체 논의 보기
+          = link_to discussions_path do
+            %i.fa.fa-flag
+            최근 논의
         - if user_signed_in?
           %li.dropdown
             %a.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button" }

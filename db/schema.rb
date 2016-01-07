@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160104043755) do
+ActiveRecord::Schema.define(version: 20160107015033) do
 
   create_table "canoes", force: :cascade do |t|
     t.string   "title",      null: false
@@ -41,13 +41,14 @@ ActiveRecord::Schema.define(version: 20160104043755) do
   add_index "crews", ["user_id", "canoe_id"], name: "index_crews_on_user_id_and_canoe_id", unique: true
 
   create_table "discussions", force: :cascade do |t|
-    t.string   "subject",    null: false
+    t.string   "subject",      null: false
     t.text     "body"
-    t.integer  "user_id",    null: false
-    t.integer  "canoe_id",   null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "user_id",      null: false
+    t.integer  "canoe_id",     null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
     t.text     "decision"
+    t.datetime "discussed_at", null: false
   end
 
   add_index "discussions", ["canoe_id"], name: "index_discussions_on_canoe_id"

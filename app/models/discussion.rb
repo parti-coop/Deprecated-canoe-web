@@ -20,4 +20,10 @@ class Discussion < ActiveRecord::Base
       self.where.not(id: self.tops)
     end
   end
+
+  before_save :set_discussed_at
+
+  def set_discussed_at
+    self.discussed_at = DateTime.now
+  end
 end

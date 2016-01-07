@@ -20,11 +20,18 @@
           #{@discussion.subject}
         %p.lead
           = @discussion.body
-        = form_for @discussion do |f|
-          .form-group
-            = f.text_area :decision, placeholder: '모두 볼 수 있도록 논의의 현재 결정 사항을 적어주세요', class: 'form-control'
-          = f.submit '저장하기', class: 'btn btn-default'
-
+        - if user_signed_in? and @discussion.canoe.crew?(current_user)
+          %h5
+            현재 결정 사항은
+          %p.lead
+            = form_for @discussion do |f|
+              .form-group
+                = f.text_area :decision, placeholder: '모두 볼 수 있도록 논의의 현재 결정 사항을 적어주세요', class: 'form-control'
+              = f.submit '저장하기', class: 'btn btn-default'
+        - elsif @discussion.decision.present?
+          %h5
+            현재 결정 사항은
+          %p.lead= simple_format @discussion.decision
         %hr
 
         .row
@@ -34,7 +41,7 @@
               의견
             %ul.media-list
               = render @discussion.opinions
-              - if user_signed_in?
+              - if user_signed_in? and @discussion.canoe.crew?(current_user)
                 %li.media
                   .media-left
                     %a{:href => "#"}
@@ -135,7 +142,7 @@
                                 - proposal.votes.opposed.map do |v|
                                   @
                                   = v.user.nickname
-                  - if user_signed_in?
+                  - if user_signed_in? and @discussion.canoe.crew?(current_user)
                     %tr
                       %td(colspan=2)
                         = form_for [@discussion, @discussion.proposals.build] do |f|

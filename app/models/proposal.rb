@@ -1,6 +1,7 @@
 class Proposal < ActiveRecord::Base
   belongs_to :user
-  belongs_to :discussion
+  include DiscussionComponent
+
   has_many :votes do
     def percentage(choice)
       self.send(choice).count.to_f / self.count * 100

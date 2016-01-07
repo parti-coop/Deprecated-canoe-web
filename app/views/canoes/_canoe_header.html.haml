@@ -35,9 +35,12 @@
                 = link_to ask_canoe_request_to_joins_path(canoe_id: @canoe), method: :post, class: 'btn btn-danger' do
                   %i.fa.fa-sign-in
                   승선요청하기
-
-      %div{ style: 'margin-top: 20px;' }
-        = form_for @canoe do |f|
-          .form-group
-            = f.text_area :board, class: 'form-control'
-          = f.submit '저장하기', class: 'btn btn-default'
+        - if user_signed_in? and @canoe.crew?(current_user)
+          %div{ style: 'margin-top: 20px;' }
+            = form_for @canoe do |f|
+              .form-group
+                = f.text_area :board, class: 'form-control'
+              = f.submit '저장하기', class: 'btn btn-default'
+        - elsif @canoe.board.present?
+          %div{ style: 'margin-top: 20px;' }
+            = simple_format @canoe.board
