@@ -24,13 +24,14 @@
             = @canoe.crews.count
           - if user_signed_in?
             - if @canoe.crew?(current_user)
-              = link_to new_canoe_crew_path(@canoe) do
+              = link_to new_canoe_crew_path(@canoe), class: 'btn btn-danger' do
                 %i.fa.fa-user-plus
                 승선시키기
             - else
               - if @canoe.request_to_join?(current_user)
-                %i.fa.fa-sign-in
-                승선요청 중
+                %button.btn.btn-danger.disabled
+                  %i.fa.fa-sign-in
+                  승선요청 중
               - else
                 = link_to ask_canoe_request_to_joins_path(canoe_id: @canoe), method: :post, class: 'btn btn-danger' do
                   %i.fa.fa-sign-in

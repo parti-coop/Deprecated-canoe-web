@@ -1,7 +1,7 @@
 class CrewsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :fetch_canoe, except: [:request_to_join, :accepte_request_to_join]
-  before_filter :correct_user, except: [:request_to_join]
+  before_filter :correct_user, except: [:index, :request_to_join]
 
   def new
     @crew = @canoe.crews.new

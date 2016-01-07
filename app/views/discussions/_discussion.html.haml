@@ -6,6 +6,9 @@
           = link_to canoe_home_path(discussion.canoe) do
             %i.fa.fa-ship
             = discussion.canoe.title
+          - if user_signed_in? and discussion.canoe.crew?(current_user)
+            &nbsp;
+            .label.label-danger 승선 중
   %tr
     %td
       %h4

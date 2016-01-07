@@ -8,9 +8,10 @@
         %h3
           %i.fa.fa-users
           구성원
-          %small
-            = link_to new_canoe_crew_path(@canoe) do
+          - if @canoe.crew?(current_user)
+            = link_to new_canoe_crew_path(@canoe), class: 'btn btn-danger btn-xs' do
               %i.fa.fa-user-plus
+              승선시키기
       .panel-body
         %ul
           %li
@@ -29,4 +30,5 @@
           - @canoe.request_to_joins.each do |req|
             %li
               = user_byline req.user
-              = link_to '승락', accept_canoe_request_to_join_path(canoe_id: @canoe, id: req), method: :post, class: 'btn btn-xs btn-primary'
+              - if user_signed_in? and @canoe.crew?(current_user)
+                = link_to '승락', accept_canoe_request_to_join_path(canoe_id: @canoe, id: req), method: :post, class: 'btn btn-xs btn-primary'
