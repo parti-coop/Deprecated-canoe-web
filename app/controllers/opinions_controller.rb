@@ -36,16 +36,6 @@ class OpinionsController < ApplicationController
     redirect_to @opinion.discussion
   end
 
-  def pin
-    @opinion.update_attributes(pinned: true, pinned_at: DateTime.now)
-    redirect_to @opinion.discussion
-  end
-
-  def unpin
-    @opinion.update_attributes(pinned: false, pinned_at: nil)
-    redirect_to @opinion.discussion
-  end
-
   private
 
   def opinion_params

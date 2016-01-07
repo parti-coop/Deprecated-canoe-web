@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160107015033) do
+ActiveRecord::Schema.define(version: 20160107074004) do
 
   create_table "canoes", force: :cascade do |t|
     t.string   "title",      null: false
@@ -60,8 +60,6 @@ ActiveRecord::Schema.define(version: 20160107015033) do
     t.integer  "user_id",       null: false
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
-    t.boolean  "pinned"
-    t.datetime "pinned_at"
   end
 
   add_index "opinions", ["discussion_id"], name: "index_opinions_on_discussion_id"

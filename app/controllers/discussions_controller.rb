@@ -10,7 +10,6 @@ class DiscussionsController < ApplicationController
   end
 
   def show
-    @pinned_opinions = @discussion.opinions.pinned
     @canoe = @discussion.canoe
   end
 

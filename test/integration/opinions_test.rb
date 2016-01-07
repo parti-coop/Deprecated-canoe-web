@@ -42,16 +42,4 @@ class OpinionsTest < ActionDispatch::IntegrationTest
 
     refute Canoe.exists?(opinions(:opinion1).id)
   end
-
-  test 'pin' do
-    refute opinions(:opinion1).pinned
-
-    sign_in users(:one)
-
-    patch pin_opinion_path(opinions(:opinion1))
-    assert assigns(:opinion).pinned
-
-    patch unpin_opinion_path(opinions(:opinion1))
-    refute assigns(:opinion).pinned
-  end
 end
