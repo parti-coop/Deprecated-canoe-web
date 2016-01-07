@@ -19,13 +19,15 @@ module SlackNotifing
   private
 
   def make_message(object)
+    return unless user_signed_in?
+
     case "#{controller_name}##{action_name}"
     when "canoes#create"
       canoe = object
 
       return <<EOF
 카누 "#{canoe.title}"
-@#{canoe.user.nickname}님이 카누를 만들었습니다.
+@#{current_user.nickname}님이 카누를 만들었습니다.
 #{canoe.theme} >>> [보기](#{canoe_url canoe})
 EOF
     when "canoes#update"
@@ -33,7 +35,7 @@ EOF
 
       return <<EOF
 카누 "#{canoe.title}"
-@#{canoe.user.nickname}님이 카누를 고쳤습니다.
+@#{current_user.nickname}님이 카누를 고쳤습니다.
 #{canoe.theme} >>> [보기](#{canoe_url canoe})
 EOF
     when "canoes#destroy"
@@ -41,7 +43,7 @@ EOF
 
       return <<EOF
 카누 "#{canoe.title}"
-#{canoe.user.nickname}님이 카누를 지웠습니다.
+#{current_user.nickname}님이 카누를 지웠습니다.
 #{canoe.theme} >>> [보기](#{root_url})
 EOF
     when "discussions#create"
@@ -49,7 +51,7 @@ EOF
 
       return <<EOF
 논의 "#{discussion.subject}"
-@#{discussion.user.nickname}님이 논의를 만들었습니다.
+@#{current_user.nickname}님이 논의를 만들었습니다.
 #{discussion.body} >>> [보기](#{discussion_url discussion})
 EOF
     when "discussions#update"
@@ -57,7 +59,7 @@ EOF
 
       return <<EOF
 논의 "#{discussion.subject}"
-@#{discussion.user.nickname}님이 논의를 고쳤습니다.
+@#{current_user.nickname}님이 논의를 고쳤습니다.
 #{discussion.body} >>> [보기](#{discussion_url discussion})
 EOF
     when "discussions#destroy"
@@ -65,7 +67,7 @@ EOF
 
       return <<EOF
 논의 "#{discussion.subject}"
-@#{discussion.user.nickname}님이 논의를 지웠습니다.
+@#{current_user.nickname}님이 논의를 지웠습니다.
 #{discussion.body} >>> [보기](#{canoe_url discussion.canoe})
 EOF
     when "proposals#create"
@@ -74,7 +76,7 @@ EOF
 
       return <<EOF
 논의 "#{discussion.subject}"
-@#{proposal.user.nickname}님이 "#{proposal.body}"이란 제안을 만들었습니다.
+@#{current_user.nickname}님이 "#{proposal.body}"이란 제안을 만들었습니다.
 #{proposal.body} >>> [보기](#{discussion_url discussion})
 EOF
     when "proposals#update"
@@ -83,7 +85,7 @@ EOF
 
       return <<EOF
 논의 "#{discussion.subject}"
-@#{proposal.user.nickname}님이 "#{proposal.body}"이란 제안을 고쳤습니다.
+@#{current_user.nickname}님이 "#{proposal.body}"이란 제안을 고쳤습니다.
 #{proposal.body} >>> [보기](#{discussion_url discussion})
 EOF
     when "proposals#destroy"
@@ -92,7 +94,7 @@ EOF
 
       return <<EOF
 논의 "#{discussion.subject}"
-@#{proposal.user.nickname}님이 "#{proposal.body}"이란 제안을 지웠습니다.
+@#{current_user.nickname}님이 "#{proposal.body}"이란 제안을 지웠습니다.
 >>> [보기](#{discussion_url discussion})
 EOF
     when "opinions#create"
@@ -101,7 +103,7 @@ EOF
 
       return <<EOF
 논의 "#{discussion.subject}"
-@#{opinion.user.nickname}님이 의견을 올렸습니다.
+@#{current_user.nickname}님이 의견을 올렸습니다.
 #{opinion.body} >>> [보기](#{opinion_url opinion})
 EOF
     when "opinions#update"
@@ -110,7 +112,7 @@ EOF
 
       return <<EOF
 논의 "#{discussion.subject}"
-@#{opinion.user.nickname}님이 의견을 고쳤습니다.
+@#{current_user.nickname}님이 의견을 고쳤습니다.
 #{opinion.body} >>> [보기](#{opinion_url opinion})
 EOF
     when "opinions#destroy"
@@ -119,7 +121,7 @@ EOF
 
       return <<EOF
 논의 "#{discussion.subject}"
-@#{opinion.user.nickname}님이 의견을 지웠습니다.
+@#{current_user.nickname}님이 의견을 지웠습니다.
 #{opinion.body} >>> [보기](#{discussion_url discussion})
 EOF
     when "votes#in_favor", "votes#opposed"
@@ -129,7 +131,7 @@ EOF
 
       return <<EOF
 논의 "#{discussion.subject}"
-@#{vote.user.nickname}님이 "#{proposal.body}" 제안에 투표합니다.
+@#{current_user.nickname}님이 "#{proposal.body}" 제안에 투표합니다.
 >>> [보기](#{discussion_url discussion})
 EOF
     when "votes#unvote"
@@ -139,7 +141,7 @@ EOF
 
       return <<EOF
 논의 "#{discussion.subject}"
-#{vote.user.nickname}님이 "#{proposal.body}" 제안에 투표철회합니다.
+#{current_user.nickname}님이 "#{proposal.body}" 제안에 투표철회합니다.
 >>> [보기](#{discussion_url discussion})
 EOF
     else
