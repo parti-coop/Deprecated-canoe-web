@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160107074004) do
+ActiveRecord::Schema.define(version: 20160107091625) do
 
   create_table "canoes", force: :cascade do |t|
     t.string   "title",      null: false
@@ -53,6 +53,16 @@ ActiveRecord::Schema.define(version: 20160107074004) do
 
   add_index "discussions", ["canoe_id"], name: "index_discussions_on_canoe_id"
   add_index "discussions", ["user_id"], name: "index_discussions_on_user_id"
+
+  create_table "mentions", force: :cascade do |t|
+    t.integer  "user_id",    null: false
+    t.integer  "opinion_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "mentions", ["opinion_id"], name: "index_mentions_on_opinion_id"
+  add_index "mentions", ["user_id"], name: "index_mentions_on_user_id"
 
   create_table "opinions", force: :cascade do |t|
     t.text     "body"

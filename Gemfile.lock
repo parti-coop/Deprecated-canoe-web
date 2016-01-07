@@ -1,8 +1,8 @@
 GIT
   remote: git://github.com/parti-xyz/parti_sso_client.git
-  revision: c9d9261cd2c20bf6627bd398217183156f4f06dd
+  revision: 5ec9ee698416fbca2200e198ddc97845b3516a5a
   specs:
-    parti_sso_client (0.0.10)
+    parti_sso_client (0.0.11)
       bcrypt (~> 3.1.7)
       devise (~> 3.5.2)
       devise_cas_authenticatable (~> 1.6.0)
@@ -34,7 +34,7 @@ GEM
       erubis (~> 2.7.0)
       rails-dom-testing (~> 1.0, >= 1.0.5)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
-    active_model_serializers (0.9.3)
+    active_model_serializers (0.9.4)
       activemodel (>= 3.2)
     activejob (4.2.5)
       activesupport (= 4.2.5)
@@ -308,7 +308,7 @@ DEPENDENCIES
   jquery-rails
   minitest-focus (~> 1.1, >= 1.1.2)
   mysql2 (~> 0.3.13)
-  parti_sso_client (~> 0.0.10)!
+  parti_sso_client (~> 0.0.11)!
   rails (= 4.2.5)
   rails-assets-trianglify!
   sass-rails (~> 5.0)

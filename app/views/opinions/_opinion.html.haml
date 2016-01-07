@@ -1,4 +1,13 @@
 %li.media
+  - if params[:controller] != 'discussions'
+    .media-head
+      = link_to canoe_home_path(opinion.discussion.canoe) do
+        %i.fa.fa-ship
+        = opinion.discussion.canoe.title
+      &nbsp;
+      = link_to opinion.discussion do
+        %i.fa.fa-flag
+        = opinion.discussion.subject
   .media-left
     %a{:href => "#"}
       = image_tag opinion.user.image_url, class: 'media-object img-circle', style: 'width:64px;height:64px;'

@@ -18,8 +18,8 @@ class Proposal < ActiveRecord::Base
     (choice.nil? ? votes : votes.send(choice)).exists? user: user
   end
 
-  def top?
-    discussion.proposals.top == self
+  def best?
+    discussion.proposals.best.include? self
   end
 
   def point

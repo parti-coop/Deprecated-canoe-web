@@ -28,6 +28,6 @@ class CrewsController < ApplicationController
 
   def fetch_user
     user_key = params[:crew][:user_key]
-    @fetch_user ||= User.find_by(nickname: user_key) || User.find_by(email: user_key) || User.sync(user_key)
+    @fetch_user ||= User.find_or_sync(user_key)
   end
 end

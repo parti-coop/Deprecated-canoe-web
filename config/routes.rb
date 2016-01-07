@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   scope :app do
     sso_devise
     resources :discussions
+    get :dashboard, to: 'dashboards#show'
     resources :canoes do
       shallow do
         resources :discussions do

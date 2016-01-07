@@ -8,7 +8,7 @@ gem 'sqlite3'
 
 # auth
 gem 'devise'
-gem 'parti_sso_client', '~> 0.0.10', github: 'parti-xyz/parti_sso_client'
+gem 'parti_sso_client', '~> 0.0.11', github: 'parti-xyz/parti_sso_client'
 gem 'cancancan', '~> 1.10'
 
 # ui
