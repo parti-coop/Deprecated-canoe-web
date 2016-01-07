@@ -2,6 +2,10 @@ class RequestToJoinsController < ApplicationController
   before_filter :authenticate_user!
   load_and_authorize_resource :canoe
 
+  def index
+    @request_to_joins = @canoe.request_to_joins
+  end
+
   def ask
     @request_to_join = @canoe.request_to_joins.build
     @request_to_join.user = current_user

@@ -11,7 +11,7 @@
           - if can?(:accept_crew, @canoe)
             = link_to new_canoe_crew_path(@canoe), class: 'btn btn-danger btn-xs' do
               %i.fa.fa-user-plus
-              승선시키기
+              탑승시키기
       .panel-body
         %ul
           %li
@@ -20,15 +20,3 @@
           - @canoe.crews.exclude_captain.each do |crew|
             %li
               = user_byline crew.user
-    .panel.panel-default
-      .panel-heading
-        %h3
-          %i.fa.fa-sign-in
-          가입요청
-      .panel-body
-        %ul
-          - @canoe.request_to_joins.each do |req|
-            %li
-              = user_byline req.user
-              - if can?(:accept_crew, @canoe)
-                = link_to '승락', accept_canoe_request_to_join_path(canoe_id: @canoe, id: req), method: :post, class: 'btn btn-xs btn-primary'

@@ -22,21 +22,22 @@
         %div
           = link_to canoe_crews_path(@canoe), class: 'btn btn-primary' do
             %i.fa.fa-users
-            = @canoe.crews.count
+            선원 #{@canoe.crews.count}명
           - if user_signed_in?
             - if can?(:accept_crew, @canoe)
-              = link_to new_canoe_crew_path(@canoe), class: 'btn btn-danger' do
-                %i.fa.fa-user-plus
-                승선시키기
+              - if @canoe.request_to_joins.any?
+                = link_to canoe_request_to_joins_path(@canoe), class: 'btn btn-success' do
+                  %i.fa.fa-sign-in
+                  탑승요청 #{@canoe.request_to_joins.count}명
             - else
               - if @canoe.request_to_join?(current_user)
                 %button.btn.btn-danger.disabled
                   %i.fa.fa-sign-in
-                  승선요청 중
+                  탑승요청 중
               - elsif can?(:ask_crew, @canoe)
                 = link_to ask_canoe_request_to_joins_path(canoe_id: @canoe), method: :post, class: 'btn btn-danger' do
                   %i.fa.fa-sign-in
-                  승선요청하기
+                  탑승요청하기
         - if can?(:update, @canoe)
           %div{ style: 'margin-top: 20px;' }
             = form_for @canoe do |f|
