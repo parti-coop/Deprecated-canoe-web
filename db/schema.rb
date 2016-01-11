@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160107091625) do
+ActiveRecord::Schema.define(version: 20160111231930) do
 
   create_table "canoes", force: :cascade do |t|
     t.string   "title",      null: false
@@ -100,6 +100,16 @@ ActiveRecord::Schema.define(version: 20160107091625) do
 
   add_index "proposals", ["discussion_id"], name: "index_proposals_on_discussion_id"
   add_index "proposals", ["user_id"], name: "index_proposals_on_user_id"
+
+  create_table "read_marks", force: :cascade do |t|
+    t.integer  "readable_id"
+    t.string   "readable_type", null: false
+    t.integer  "reader_id"
+    t.string   "reader_type",   null: false
+    t.datetime "timestamp"
+  end
+
+  add_index "read_marks", ["reader_id", "reader_type", "readable_type", "readable_id"], name: "read_marks_reader_readable_index"
 
   create_table "request_to_joins", force: :cascade do |t|
     t.integer  "user_id",    null: false

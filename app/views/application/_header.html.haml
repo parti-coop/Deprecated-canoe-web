@@ -33,7 +33,7 @@
             = link_to discussions_path do
               %i.fa.fa-flag
               최근 논의
-              %span.badge.badge-default 30
+              %span.badge.badge-default= current_user.crewing_discussions.unread.count
           %li
             = link_to proposals_path do
               %i.fa.fa-rocket

@@ -1,4 +1,6 @@
 class Discussion < ActiveRecord::Base
+  acts_as_readable :on => :discussed_at
+
   belongs_to :user
   belongs_to :canoe
   has_many :opinions

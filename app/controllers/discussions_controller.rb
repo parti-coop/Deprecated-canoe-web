@@ -6,10 +6,14 @@ class DiscussionsController < ApplicationController
   load_and_authorize_resource :discussion, through: :canoe, shallow: true
 
   def index
-    @discussions = current_user.crewing_discussions.order(discussed_at: :desc)
+    @unread_discussions = current_user.crewing_discussions.unread.order(discussed_at: :desc)
+    @read_discussions = current_user.crewing_discussions.read.order(discussed_at: :desc)
   end
 
   def show
+    if user_signed_in?
+      @discussion.mark_as_read! :for => current_user
+    end
     @canoe = @discussion.canoe
   end
 
