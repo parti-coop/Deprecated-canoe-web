@@ -4,10 +4,11 @@ module SlackNotifing
   extend ActiveSupport::Concern
 
   def slack(object)
+    return if ApplicationController::skip_slack
+
     @webhook_url = fetch_webhook_url(object)
     return if @webhook_url.blank?
 
-    return if ApplicationController::skip_slack
     notifier = Slack::Notifier.new(@webhook_url, username: 'parti-canoe')
 
     message = make_message(object)
@@ -20,9 +21,10 @@ module SlackNotifing
 
   def fetch_webhook_url(object)
     canoe = object if object.class == Canoe
+    canoe ||= object.discussion.canoe if object.respond_to?(:discussion)
     canoe ||= object.canoe if object.respond_to?(:canoe)
 
-    canoe.slack_webhook_url
+    canoe.try(:slack_webhook_url)
   end
 
   def make_message(object)
