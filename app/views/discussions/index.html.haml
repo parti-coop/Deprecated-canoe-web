@@ -6,13 +6,13 @@
           .panel.panel-default
             .panel-heading
               %h4.text-muted
-                %i.fa.fa-flag
+                %i.fa.fa-comments
                 업데이트된 논의
                 %span.badge= @unread_discussions.count
                 - if user_signed_in?
                   %small.pull-right
                     = link_to new_discussion_path, class: 'btn btn-xs btn-success' do
-                      %i.fa.fa-edit
+                      %i.fa.fa-flag
                       논의 시작하기
             %table.table.table-bordered
               %tbody
@@ -21,7 +21,7 @@
         .panel.panel-default
           .panel-heading
             %h4.text-muted
-              %i.fa.fa-flag
+              %i.fa.fa-comments
               최근 논의
           %table.table.table-bordered
             %tbody
