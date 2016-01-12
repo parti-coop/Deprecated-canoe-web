@@ -1,28 +1,26 @@
 .bs-component
   .container
     .row
-      - if current_user.crewing_discussions.unread.any?
-        .col-md-6
-          .panel.panel-default
-            .panel-heading
-              %h4.text-muted
-                %i.fa.fa-comments
-                업데이트된 논의
-                %span.badge= @unread_discussions.count
-                - if user_signed_in?
-                  %small.pull-right
-                    = link_to new_discussion_path, class: 'btn btn-xs btn-success' do
-                      %i.fa.fa-flag
-                      논의 시작하기
-            %table.table.table-bordered
-              %tbody
-                = render @unread_discussions
       .col-md-6
         .panel.panel-default
           .panel-heading
             %h4.text-muted
               %i.fa.fa-comments
-              최근 논의
+              %strong= @unread_discussions.count
+              개의 논의가 진행되었습니다.
+          - if current_user.crewing_discussions.unread.any?
+            %table.table.table-bordered
+              %tbody
+                = render @unread_discussions
+          - else
+            .panel-body
+              %p.lead.text-muted.text-center 와아! 모두 읽으셨습니다!
+      .col-md-6
+        .panel.panel-default
+          .panel-heading
+            %h4.text-muted
+              %i.fa.fa-comments
+              승선 중인 카누들의 최근 논의
           %table.table.table-bordered
             %tbody
               = render @read_discussions
