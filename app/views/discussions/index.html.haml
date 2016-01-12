@@ -1,21 +1,22 @@
 .bs-component
   .container
-    .row
-      .col-md-6.col-md-offset-3
-        .panel.panel-default
-          .panel-heading
-            %h4.text-muted
-              %i.fa.fa-flag
-              업데이트된 논의
-              %span.badge= @unread_discussions.count
-              - if user_signed_in?
-                %small.pull-right
-                  = link_to new_discussion_path, class: 'btn btn-xs btn-success' do
-                    %i.fa.fa-edit
-                    논의 시작하기
-          %table.table.table-bordered
-            %tbody
-              = render @unread_discussions
+    - if current_user.crewing_discussions.unread.any?
+      .row
+        .col-md-6.col-md-offset-3
+          .panel.panel-default
+            .panel-heading
+              %h4.text-muted
+                %i.fa.fa-flag
+                업데이트된 논의
+                %span.badge= @unread_discussions.count
+                - if user_signed_in?
+                  %small.pull-right
+                    = link_to new_discussion_path, class: 'btn btn-xs btn-success' do
+                      %i.fa.fa-edit
+                      논의 시작하기
+            %table.table.table-bordered
+              %tbody
+                = render @unread_discussions
     .row
       .col-md-6.col-md-offset-3
         .panel.panel-default
