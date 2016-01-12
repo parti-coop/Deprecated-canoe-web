@@ -6,9 +6,6 @@ class CrewsController < ApplicationController
   def new
   end
 
-  def index
-  end
-
   def create
     redirect_to @canoe and return if @canoe.crew? fetch_user
 

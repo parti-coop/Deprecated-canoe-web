@@ -22,5 +22,42 @@
         .panel.panel-default
           .panel-heading
             %h4.text-muted
-              %i.fa.fa-comments
-              내가 참가하지 않은 의견 보기
+              %i.fa.fa-users
+              탑승자
+              %span.badge= @canoe.crews.count
+              - if can?(:accept_crew, @canoe)
+                %small.pull-right
+                  - if @canoe.request_to_joins.any?
+                    = link_to canoe_request_to_joins_path(@canoe), class: 'btn btn-xs btn-danger' do
+                      %i.fa.fa-sign-in
+                      탑승요청 #{@canoe.request_to_joins.count}명
+                  = link_to new_canoe_crew_path(@canoe), class: 'btn btn-success btn-xs' do
+                    %i.fa.fa-user-plus
+                    탑승시키기
+              - elsif user_signed_in?
+                %small.pull-right
+                  - if @canoe.request_to_join?(current_user)
+                    %button.btn.btn-xs.btn-danger.disabled
+                      %i.fa.fa-sign-in
+                      탑승요청 중
+                  - elsif can?(:ask_crew, @canoe)
+                    = link_to ask_canoe_request_to_joins_path(canoe_id: @canoe), method: :post, class: 'btn btn-xs btn-danger' do
+                      %i.fa.fa-sign-in
+                      탑승요청하기
+          .panel-body
+            .row
+              .col-md-4
+                .thumbnail.crew
+                  .crew__image(style="background-image: url(#{@canoe.user.image_url});")
+                    = @canoe.user.nickname
+                  .caption
+                    = @canoe.user.nickname
+                    %span.label.label-warning 만든이
+              - @canoe.crews.exclude_captain.each do |crew|
+                .col-md-4
+                  .thumbnail.crew
+                    .crew__image(style="background-image: url(#{crew.user.image_url});")
+                      = crew.user.nickname
+                    .caption
+                      = crew.user.nickname
+
