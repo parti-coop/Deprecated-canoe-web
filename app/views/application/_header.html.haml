@@ -13,7 +13,7 @@
         %ul.nav.navbar-nav
           %li.dropdown
             %a.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button" }
-              %i.fa.fa-ship
+              %i.fa.fa-rocket
               탑승한 카누
               %span.caret
             %ul.dropdown-menu
@@ -31,23 +31,17 @@
                   카누 만들기
           %li
             = link_to discussions_path do
-              %i.fa.fa-flag
+              %i.fa.fa-comments
               최근 논의
               - if current_user.crewing_discussions.unread.any?
                 %span.badge.badge-default= current_user.crewing_discussions.unread.count
           %li
-            = link_to proposals_path do
-              %i.fa.fa-rocket
-              투표하지 않은 제안
-              %span.badge.badge-default 3
-          %li
             = link_to opinions_path do
-              %i.fa.fa-comments
               @#{current_user.nickname}
               %span.badge.badge-default 5
 
-        = link_to new_discussion_path, class: 'btn btn-success navbar-btn navbar-left' do
-          %i.fa.fa-edit
+        = link_to new_discussion_path, class: 'btn btn-success btn-xs navbar-btn navbar-left' do
+          %i.fa.fa-flag
           논의 시작하기
       %ul.nav.navbar-nav.navbar-right
         - if user_signed_in?
