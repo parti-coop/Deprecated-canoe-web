@@ -11,18 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160111231930) do
+ActiveRecord::Schema.define(version: 20160112041516) do
 
   create_table "canoes", force: :cascade do |t|
-    t.string   "title",      null: false
-    t.integer  "user_id",    null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "title",             null: false
+    t.integer  "user_id",           null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
     t.text     "theme"
-    t.string   "slug",       null: false
+    t.string   "slug",              null: false
     t.string   "logo"
     t.string   "cover"
     t.text     "board"
+    t.string   "slack_webhook_url"
   end
 
   add_index "canoes", ["slug"], name: "index_canoes_on_slug", unique: true

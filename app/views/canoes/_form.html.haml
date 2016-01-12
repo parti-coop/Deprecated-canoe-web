@@ -19,4 +19,7 @@
   .form-group
     = f.label :cover
     = f.file_field :cover, class: 'form-control'
+  .form-group
+    = f.label :slack_webhook_url
+    = f.text_field :slack_webhook_url, class: 'form-control'
   = f.submit '저장', class: 'btn btn-default'

@@ -1,14 +1,14 @@
+# TEST web hook url : "https://hooks.slack.com/services/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"
+
 module SlackNotifing
   extend ActiveSupport::Concern
 
   def slack(object)
-    return if ApplicationController::skip_slack
+    @webhook_url = fetch_webhook_url(object)
+    return if @webhook_url.blank?
 
-    webhookURL = "https://hooks.slack.com/services/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"
-    if !Rails.env.staging?
-      webhookURL = "https://hooks.slack.com/services/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"
-    end
-    notifier = Slack::Notifier.new(webhookURL, username: 'parti-canoe')
+    return if ApplicationController::skip_slack
+    notifier = Slack::Notifier.new(@webhook_url, username: 'parti-canoe')
 
     message = make_message(object)
     if message.present?
@@ -17,6 +17,13 @@ module SlackNotifing
   end
 
   private
+
+  def fetch_webhook_url(object)
+    canoe = object if object.class == Canoe
+    canoe ||= object.canoe if object.respond_to?(:canoe)
+
+    canoe.slack_webhook_url
+  end
 
   def make_message(object)
     return unless user_signed_in?
