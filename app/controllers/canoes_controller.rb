@@ -17,7 +17,6 @@ class CanoesController < ApplicationController
   def short
     @canoe = Canoe.find_by slug: params[:slug]
     render stauts: 404 if @canoe.nil?
-
     render 'show'
   end
 
