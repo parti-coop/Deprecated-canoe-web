@@ -6,7 +6,7 @@
           = link_to canoe_home_path(@canoe) do
             = image_tag @canoe.logo_url, class: 'img-thumbnail', style: 'width: 125px; height: 125px; margin-right: 20px;'
         %h2{ style: 'margin-top: 0;' }
-          = link_to @canoe.title, canoe_home_path(@canoe), { style: 'font-weight: bold; color:white; text-shadow: 0px 2px 0px black; text-decoration: none;'}
+          = link_to @canoe.title, canoe_home_path(@canoe), { style: 'font-weight: bold; color:white; text-shadow: 1px 2px 0px black; text-decoration: none;'}
           %small
             - if can?(:update, @canoe)
               = link_to [:edit, @canoe] do
@@ -14,12 +14,9 @@
             - if can?(:destory, @canoe)
               = link_to @canoe, method: :delete do
                 %i.fa.fa-trash
+        = simple_format @canoe.theme, style: 'font-size: 15px; color: white; text-shadow: 1px 1px 0px black; margin-left: 145px;'
 
-
-        %p.lead
-          = @canoe.theme
-
-        %div
+        %div{ style: 'margin-left: 145px;' }
           = link_to canoe_crews_path(@canoe), class: 'btn btn-primary' do
             %i.fa.fa-users
             선원 #{@canoe.crews.count}명
