@@ -1,30 +1,31 @@
-- unread = !(params[:controller] = 'discussions' and params[:action] == 'index') and user_signed_in? and discussion.unread?(current_user)
-- tr_class = unread ? 'alert-unread' : ''
-%tr[discussion]{ class: tr_class }
-  %td
-    %h4
-      = link_to discussion.subject, discussion
-      - if unread
-        %span.badge 업데이트
-      %small
-        (
-        %span
-          %i.fa.fa-comments
-          = discussion.opinions.count
-        %span
-          %i.fa.fa-rocket
-          = discussion.proposals.count
-        )
-    %p= discussion.body
-    - if discussion.decision.present?
-      %p.alert.alert-success= discussion.decision
-  %td.text-right
-    %div= user_byline discussion.user
-    %div.text-muted
-      %i.fa.fa-clock-o
-      = date_f discussion.discussed_at
-    - if params[:controller] == 'discussions'
-      %div
-        = link_to canoe_home_path(discussion.canoe) do
-          %i.fa.fa-rocket
-          = discussion.canoe.title
+%tbody
+  - unread = !(params[:controller] = 'discussions' and params[:action] == 'index') and user_signed_in? and discussion.unread?(current_user)
+  - tr_class = unread ? 'alert-unread' : ''
+  %tr[discussion]{ class: tr_class }
+    %td
+      %h4
+        = link_to discussion.subject, discussion
+        - if unread
+          %span.badge 업데이트
+        %small
+          (
+          %span
+            %i.fa.fa-comments
+            = discussion.opinions.count
+          %span
+            %i.fa.fa-rocket
+            = discussion.proposals.count
+          )
+      %p= discussion.body
+      - if discussion.decision.present?
+        %p.alert.alert-success= discussion.decision
+    %td.text-right{ style: 'min-width: 150px' }
+      %div= user_byline discussion.user
+      %div.text-muted
+        %i.fa.fa-clock-o
+        = date_f discussion.discussed_at
+      - if params[:controller] == 'discussions'
+        %div
+          = link_to canoe_home_path(discussion.canoe) do
+            %i.fa.fa-rocket
+            = discussion.canoe.title
