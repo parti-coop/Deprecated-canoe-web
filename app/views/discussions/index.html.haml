@@ -6,15 +6,22 @@
           .panel-heading
             %h4.text-muted
               %i.fa.fa-comments
-              %strong= @unread_discussions.count
-              개의 논의가 진행되었습니다.
+              - if @unread_discussions_all.any?
+                %strong= @unread_discussions_all.count
+                개의 논의가 진행되었습니다.
+              - else
+                더 진행된 논의가 없습니다.
           - if current_user.crewing_discussions.unread.any?
             %table.table.table-bordered
               %tbody
-                = render @unread_discussions
+                = render @unread_discussions_limited
           - else
             .panel-body
               %p.lead.text-muted.text-center 와아! 모두 읽으셨습니다!
+          - if @unread_discussions_limited.count != @unread_discussions_all.count
+            .panel-footer
+              %small.text-muted
+                표시하지 않은 #{@unread_discussions_all.count - @unread_discussions_limited.count}개의 진행된 논의가 더 있습니다.
       .col-md-6
         .panel.panel-default
           .panel-heading
@@ -23,4 +30,4 @@
               승선 중인 카누들의 최근 논의
           %table.table.table-bordered
             %tbody
-              = render @read_discussions
+              = render @read_discussions_limited
