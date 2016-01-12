@@ -1,5 +1,5 @@
 %tbody
-  - unread = !(params[:controller] = 'discussions' and params[:action] == 'index') and user_signed_in? and discussion.unread?(current_user)
+  - unread = user_signed_in? && discussion.unread?(current_user)
   - tr_class = unread ? 'alert-unread' : ''
   %tr[discussion]{ class: tr_class }
     %td
