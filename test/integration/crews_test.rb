@@ -2,7 +2,7 @@ require 'test_helper'
 
 class CrewsTest < ActionDispatch::IntegrationTest
   test 'new' do
-    assert users(:one), canoes(:canoe1).user
+    assert_equal users(:one), canoes(:canoe1).user
 
     sign_in users(:one)
     refute canoes(:canoe1).crews.exists? user: users(:two)
@@ -14,7 +14,7 @@ class CrewsTest < ActionDispatch::IntegrationTest
   end
 
   test 'should not add owner' do
-    assert users(:one), canoes(:canoe1).user
+    assert_equal users(:one), canoes(:canoe1).user
 
     sign_in users(:one)
 
@@ -25,7 +25,7 @@ class CrewsTest < ActionDispatch::IntegrationTest
   end
 
   test 'should not duplicated crew' do
-    assert users(:one), canoes(:canoe1).user
+    assert_equal users(:one), canoes(:canoe1).user
 
     sign_in users(:one)
     refute canoes(:canoe1).crews.exists? user: users(:two)
