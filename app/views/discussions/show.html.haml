@@ -87,7 +87,7 @@
                     논의 시작하기
           %table.table
             %tbody
-              = render @canoe.discussions
+              = render @canoe.discussions.order("updated_at DESC")
 
       .col-md-5
         .panel.panel-default
