@@ -16,7 +16,7 @@
                     논의 시작하기
           %table.table
             %tbody
-              = render @canoe.discussions.order("updated_at DESC")
+              = render @canoe.discussions.order(discussed_at: :desc)
 
       .col-md-5
         .panel.panel-default
