@@ -16,6 +16,17 @@
                 %i.fa.fa-trash
         = simple_format @canoe.theme, style: 'font-size: 15px; color: white; text-shadow: 1px 1px 0px black; margin-left: 145px;'
 
+        - if user_signed_in? and !@canoe.crew?(current_user)
+          %p.text-muted{style: 'font-size: 15px; color: white; text-shadow: 1px 1px 0px black; margin-left: 145px;'}
+            승선하지 않은 카누입니다. 제안에 투표하실 수 있습니다. 이 카누에 제안이나 의견을 내시려면 탑승해 주세요.
+            - if @canoe.request_to_join?(current_user)
+              %button.btn.btn-xs.btn-danger.disabled
+                %i.fa.fa-sign-in
+                탑승요청 중
+            - elsif can?(:ask_crew, @canoe)
+              = link_to ask_canoe_request_to_joins_path(canoe_id: @canoe), method: :post, class: 'btn btn-xs btn-danger' do
+                %i.fa.fa-sign-in
+                탑승요청하기
       %div
         - if can?(:update, @canoe)
           %div{ style: 'margin-top: 20px;' }
@@ -25,4 +36,4 @@
               = f.submit '저장하기', class: 'btn btn-default'
         - elsif @canoe.board.present?
           %div{ style: 'margin-top: 20px;' }
-            = simple_format @canoe.board
+            = simple_format @canoe.board, style: 'font-size: 15px; color: white; text-shadow: 1px 1px 0px black;'
