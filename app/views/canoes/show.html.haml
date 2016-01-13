@@ -46,12 +46,11 @@
                       탑승요청하기
           .panel-body
             .row
-              .col-md-4.col-sm-4.col-xs-4
+              .col-sm-3.col-xs-4
                 .thumbnail.crew
                   .crew__image(style="background-image: url(#{@canoe.user.image_url});")
                     = @canoe.user.nickname
                   .caption
-                    %i.fa.fa-asterisk
                     = @canoe.user.nickname
 
               - @canoe.crews.exclude_captain.each do |crew|
