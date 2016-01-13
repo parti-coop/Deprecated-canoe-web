@@ -4,13 +4,15 @@
       %h2
         %strong 카누
       %p
-        %strong #{Canoe.count}
-        개의 카누를
-        %strong #{User.count}
+        %strong{ style: 'border-bottom: 2px solid #666'} #{Canoe.count}
+        개의 카누를,
+        %strong{ style: 'border-bottom: 2px solid #666'} #{User.count}
         명이 나눠 타고 산으로 갑니다.
       %p
         = link_to '카누는 왜 만들었을까요?', 'https://github.com/parti-xyz/canoe-web/wiki', target: '_blank', class: 'btn btn-danger btn-lg'
-        = link_to '카누 바로 만들기', new_canoe_path, class: 'btn btn-primary btn-lg'
+        = link_to new_canoe_path, class: 'btn btn-primary' do
+          %i.fa.fa-rocket
+          카누 바로 만들기
 
 %section.bs-component
   .container
