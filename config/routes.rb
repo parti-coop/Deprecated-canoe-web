@@ -6,6 +6,11 @@ Rails.application.routes.draw do
     resources :discussions
     get :proposals, to: 'proposals#index'
     get :opinions, to: 'opinions#index'
+    resources :messages, only: :index do
+      member do
+        get :mark_as_read
+      end
+    end
     resources :canoes do
       shallow do
         resources :discussions, except: :index do

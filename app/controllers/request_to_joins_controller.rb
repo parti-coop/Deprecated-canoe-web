@@ -1,4 +1,6 @@
 class RequestToJoinsController < ApplicationController
+  include Messaging
+
   before_filter :authenticate_user!
   load_and_authorize_resource :canoe
 
@@ -11,6 +13,8 @@ class RequestToJoinsController < ApplicationController
     @request_to_join = @canoe.request_to_joins.build
     @request_to_join.user = current_user
     @request_to_join.save
+
+    notify_to_crews(@request_to_join)
     redirect_to @canoe
   end
 
@@ -19,6 +23,8 @@ class RequestToJoinsController < ApplicationController
     @crew = @canoe.crews.find_or_initialize_by(user: @request_to_join.user)
     @crew.inviter = current_user
     @crew.save and @request_to_join.delete
+
+    notify_to_crews(@request_to_join)
     redirect_to @canoe
   end
 end

@@ -13,7 +13,7 @@
         %ul.nav.navbar-nav
           %li.dropdown
             %a.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button" }
-              %i.fa.fa-rocket
+              %i.fa.fa-cubes
               탑승한 카누
               %span.caret
             %ul.dropdown-menu
@@ -45,6 +45,13 @@
           논의 시작하기
       %ul.nav.navbar-nav.navbar-right
         - if user_signed_in?
+          %li
+            = link_to messages_path do
+              - if current_user.mailbox.notifications.unread.any?
+                %i.fa.fa-bell.text-danger
+                %span.badge= current_user.mailbox.notifications.unread.count
+              - else
+                %i.fa.fa-bell-o.text-mute
           %li.dropdown
             %a.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
               = user_byline current_user

@@ -7,7 +7,7 @@ class OpinionsController < ApplicationController
   load_and_authorize_resource :opinion, through: :discussion, shallow: true
 
   def index
-    @mentioned_opinions = Opinion.joins(:mentions).where(mentions: { user: current_user}).order(created_at: :desc)
+    @mentioned_opinions = Opinion.joins(:canoe).joins(:mentions).where(mentions: { user: current_user}).order(created_at: :desc)
   end
 
   def show

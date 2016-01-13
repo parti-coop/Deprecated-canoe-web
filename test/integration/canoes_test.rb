@@ -58,4 +58,15 @@ class CanoesTest < ActionDispatch::IntegrationTest
     get short_canoe_path(canoes(:canoe1).slug)
     assert_response :success
   end
+
+  test 'to notify when a canoe is destoryed' do
+    assert canoes(:canoe1).crew?(users(:crew))
+
+    sign_in users(:one)
+    delete canoe_path(id: canoes(:canoe1).id)
+
+    assert_equal users(:crew).mailbox.notifications.first.notified_object_id, assigns(:canoe).id
+    assert users(:one).mailbox.notifications.empty?
+  end
+
 end

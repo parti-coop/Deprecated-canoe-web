@@ -50,4 +50,23 @@ class DiscussionsTest < ActionDispatch::IntegrationTest
 
     refute Canoe.exists?(discussions(:discussion1).id)
   end
+
+  test 'to notify when a disscussion is created' do
+    assert canoes(:canoe1).crew?(users(:crew))
+
+    sign_in users(:one)
+    post canoe_discussions_path(canoe_id: canoes(:canoe1).id, discussion: { subject: 'test', body: 'test body'} )
+    assert_equal users(:crew).mailbox.notifications.first.notified_object, assigns(:discussion)
+    assert users(:one).mailbox.notifications.empty?
+  end
+
+  test 'to notify when a disscussion is destroyed' do
+    assert canoes(:canoe1).crew?(users(:crew))
+
+    sign_in users(:one)
+
+    delete discussion_path(id: discussions(:discussion1).id)
+    assert_equal users(:crew).mailbox.notifications.first.notified_object_id, assigns(:discussion).id
+    assert users(:one).mailbox.notifications.empty?
+  end
 end

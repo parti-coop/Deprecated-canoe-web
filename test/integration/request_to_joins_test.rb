@@ -46,4 +46,36 @@ class RequestToJoinsTest < ActionDispatch::IntegrationTest
     assert canoes(:canoe1).crew?(users(:visitor))
     refute canoes(:canoe1).request_to_join?(users(:visitor))
   end
+
+  test 'notification for asking' do
+    assert canoes(:canoe1).crew?(users(:one))
+    assert canoes(:canoe1).crew?(users(:crew))
+    refute canoes(:canoe1).crew?(users(:two))
+    refute canoes(:canoe1).request_to_join?(users(:two))
+
+    sign_in users(:two)
+
+    post ask_canoe_request_to_joins_path(canoe_id: canoes(:canoe1))
+
+    assert_equal users(:crew).mailbox.notifications.first.notified_object, assigns(:request_to_join)
+    assert_equal users(:one).mailbox.notifications.first.notified_object, assigns(:request_to_join)
+    assert users(:two).mailbox.notifications.empty?
+  end
+
+  test 'notification for accept' do
+    assert canoes(:canoe1).crew?(users(:one))
+    assert canoes(:canoe1).crew?(users(:crew))
+    refute canoes(:canoe1).crew?(users(:visitor))
+    assert canoes(:canoe1).request_to_join?(users(:visitor))
+
+    sign_in users(:one)
+
+    post accept_canoe_request_to_join_path(canoe_id: canoes(:canoe1), id: request_to_joins(:req1))
+
+    assert_equal users(:crew).mailbox.notifications.first.notified_object_id, assigns(:request_to_join).id
+    assert users(:one).mailbox.notifications.empty?
+    assert_equal users(:visitor).mailbox.notifications.first.notified_object_id, assigns(:request_to_join).id
+
+    refute_equal users(:crew).mailbox.notifications.first, users(:visitor).mailbox.notifications.first
+  end
 end

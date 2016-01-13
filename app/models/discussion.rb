@@ -26,4 +26,5 @@ class Discussion < ActiveRecord::Base
   def set_discussed_at
     self.discussed_at = DateTime.now
   end
+
 end

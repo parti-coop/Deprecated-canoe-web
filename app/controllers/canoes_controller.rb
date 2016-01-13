@@ -1,5 +1,7 @@
 class CanoesController < ApplicationController
   include SlackNotifing
+  include Messaging
+
   before_filter :authenticate_user!, except: [:show, :short]
   load_and_authorize_resource except: [:index, :short]
 
@@ -47,6 +49,7 @@ class CanoesController < ApplicationController
 
   def destroy
     @canoe.destroy
+    notify_to_crews(@canoe)
     slack(@canoe)
     redirect_to canoes_path
   end

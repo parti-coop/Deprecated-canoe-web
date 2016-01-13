@@ -1,5 +1,6 @@
 class DiscussionsController < ApplicationController
   include SlackNotifing
+  include Messaging
 
   before_filter :authenticate_user!, except: [:show]
   load_and_authorize_resource :canoe
@@ -27,6 +28,7 @@ class DiscussionsController < ApplicationController
   def create
     @discussion.user = current_user
     if @discussion.save
+      notify_to_crews(@discussion)
       slack(@discussion)
       redirect_to @discussion
     else
@@ -45,6 +47,7 @@ class DiscussionsController < ApplicationController
 
   def destroy
     @discussion.destroy
+    notify_to_crews(@discussion)
     slack(@discussion)
     redirect_to @discussion.canoe
   end

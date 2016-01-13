@@ -1,6 +1,7 @@
 Rails.application.config.to_prepare do
   User.class_eval do
     acts_as_reader
+    acts_as_messageable
 
     has_many :crews
     has_many :canoes
