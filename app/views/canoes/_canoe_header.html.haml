@@ -29,13 +29,4 @@
               = link_to ask_canoe_request_to_joins_path(canoe_id: @canoe), method: :post, class: 'btn btn-xs btn-danger' do
                 %i.fa.fa-sign-in
                 탑승요청하기
-      %div
-        - if can?(:update, @canoe)
-          %div{ style: 'margin-top: 20px;' }
-            = form_for @canoe do |f|
-              .form-group
-                = f.text_area :board, class: 'form-control'
-              = f.submit '저장하기', class: 'btn btn-default'
-        - elsif @canoe.board.present?
-          %div{ style: 'margin-top: 20px;' }
-            = simple_format @canoe.board, style: 'font-size: 15px; color: white; text-shadow: 1px 1px 0px black;'
+

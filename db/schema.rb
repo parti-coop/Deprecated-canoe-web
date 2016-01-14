@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160114054102) do
+ActiveRecord::Schema.define(version: 20160114060014) do
 
   create_table "canoes", force: :cascade do |t|
     t.string   "title",             null: false
@@ -22,7 +22,6 @@ ActiveRecord::Schema.define(version: 20160114054102) do
     t.string   "slug",              null: false
     t.string   "logo"
     t.string   "cover"
-    t.text     "board"
     t.string   "slack_webhook_url"
     t.datetime "deleted_at"
   end
