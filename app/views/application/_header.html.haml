@@ -40,6 +40,10 @@
           %i.fa.fa-flag
           논의 시작하기
       %ul.nav.navbar-nav.navbar-right
+        %li
+          %a(href='http://parti-xyz.uservoice.com/')
+            %i.fa.fa-support
+            고객센터
         - if user_signed_in?
           %li
             = link_to messages_path do
@@ -64,7 +68,4 @@
         - else
           %li= link_to '회원가입', sign_up_path
           %li= link_to '로그인', new_user_session_path
-      %form.navbar-form.navbar-right{:role => "search"}
-        .form-group
-          %input.form-control{:placeholder => "검색", :type => "text"}/
-        %button.btn.btn-default{:type => "submit"} 찾기
+

@@ -2,6 +2,7 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require trianglify
+//= require uservoice
 
 $(document).on('ready', function(e) {
   var pattern = Trianglify({
