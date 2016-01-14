@@ -105,6 +105,9 @@ GEM
     envyable (0.2.0)
     equalizer (0.0.11)
     erubis (2.7.0)
+    exception_notification (4.1.4)
+      actionmailer (~> 4.0)
+      activesupport (~> 4.0)
     execjs (2.6.0)
     ffi (1.9.10)
     foreigner (1.7.4)
@@ -310,6 +313,7 @@ DEPENDENCIES
   coffee-rails (~> 4.1.0)
   devise
   envyable (~> 0.2.0)
+  exception_notification (~> 4.1, >= 4.1.4)
   guard (~> 2.13.0)
   guard-minitest (~> 2.4.4)
   haml-rails (~> 0.9.0)
