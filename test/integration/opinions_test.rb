@@ -48,13 +48,22 @@ class OpinionsTest < ActionDispatch::IntegrationTest
     post discussion_opinions_path(discussion_id: discussions(:discussion1).id, opinion: { body: "test @#{users('two').nickname}" } )
     assert_equal users(:two), assigns(:opinion).mentions.first.user
 
+    assert_equal users(:two).mailbox.notifications.first.notified_object_id, assigns(:opinion).mentions.first.id
+    assert users(:one).mailbox.notifications.empty?
+
     put opinion_path(id: opinions(:opinion1).id, opinion: { body: "test @#{users('crew').nickname}"})
     assert_equal users(:crew), assigns(:opinion).mentions.first.user
     assert_equal 1, assigns(:opinion).mentions.count
 
+    assert_equal users(:crew).mailbox.notifications.first.notified_object_id, assigns(:opinion).mentions.first.id
+    assert users(:one).mailbox.notifications.empty?
+
     put opinion_path(id: opinions(:opinion1).id, opinion: { body: "test @#{users('visitor').nickname}"})
     assert_equal users(:visitor), assigns(:opinion).mentions.first.user
     assert_equal 1, assigns(:opinion).mentions.count
+
+    assert_equal users(:visitor).mailbox.notifications.first.notified_object_id, assigns(:opinion).mentions.first.id
+    assert users(:one).mailbox.notifications.empty?
 
     put opinion_path(id: opinions(:opinion1).id, opinion: { body: body})
     assert assigns(:opinion).mentions.empty?

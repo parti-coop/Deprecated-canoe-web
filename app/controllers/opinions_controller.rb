@@ -1,14 +1,12 @@
 class OpinionsController < ApplicationController
   include SlackNotifing
+  include Messaging
 
   before_filter :authenticate_user!, except: [:show]
+  after_action :message_for_mentions, only: [:create, :update]
   load_and_authorize_resource :canoe
   load_and_authorize_resource :discussion, through: :canoe, shallow: true
   load_and_authorize_resource :opinion, through: :discussion, shallow: true
-
-  def index
-    @mentioned_opinions = Opinion.joins(:canoe).joins(:mentions).where(mentions: { user: current_user}).order(created_at: :desc)
-  end
 
   def show
     @canoe = @opinion.discussion.canoe
@@ -46,5 +44,9 @@ class OpinionsController < ApplicationController
 
   def opinion_params
     params.require(:opinion).permit(:body)
+  end
+
+  def message_for_mentions
+    notify_for_mentions(@opinion.mentions)
   end
 end

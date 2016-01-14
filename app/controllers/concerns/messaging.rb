@@ -3,6 +3,15 @@ require 'erb'
 module Messaging
   extend ActiveSupport::Concern
 
+  def notify_for_mentions(mentions)
+    return unless user_signed_in?
+
+    mentions.each do |mention|
+      not_used, body = render_bodies(mention)
+      Mailboxer::Notification.notify_all(mention.user, "#{controller_name}##{action_name}", body, mention)
+    end
+  end
+
   def notify_to_crews(object)
     return unless user_signed_in?
 
@@ -35,6 +44,10 @@ module Messaging
   BODY_TEMPLATE_FOR_THE_CONCERNED = {
     request_to_joins: {
       accept: "'<%= link_to_canoe_title(object.canoe) %>' 카누 승선요청을 @<%= current_user.nickname %>이 수락해 주었습니다."
+    },
+    opinions: {
+      create: "'<%= link_to_canoe_title(object.opinion.canoe) %>' 카누 '<%= link_to_discussion_subject object.opinion.discussion %>'논의에서 @<%= current_user.nickname %>님이 아래 의견을 올렸습니다.",
+      update: "'<%= link_to_canoe_title(object.opinion.canoe) %>' 카누 '<%= link_to_discussion_subject object.opinion.discussion %>'논의에서 @<%= current_user.nickname %>님이 아래 의견을 올렸습니다."
     }
   }
 
