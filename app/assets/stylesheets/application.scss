@@ -5,6 +5,11 @@
 body { padding-top: 80px; padding-bottom: 80px; }
 
 @import "bootswatch/lumen/bootswatch";
+@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
+
+body {
+  font-family: "Noto Sans KR", "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
 
 .change-icon > .fa:nth-child(2) {
   display: none;
