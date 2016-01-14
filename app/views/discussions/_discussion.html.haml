@@ -14,7 +14,7 @@
             %i.fa.fa-rocket
             = discussion.proposals.count
           )
-      %p= discussion.body
+      %p{ style: 'word-break: break-word' }= discussion.body
       - if discussion.decision.present?
         %p.text-success
           %i.fa.fa-thumb-tack
