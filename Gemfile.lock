@@ -240,6 +240,7 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
+    ruby_dig (0.0.2)
     ruby_parser (3.7.2)
       sexp_processor (~> 4.1)
     rubycas-client (2.3.9)
@@ -320,6 +321,7 @@ DEPENDENCIES
   parti_sso_client (~> 0.0.11)!
   rails (= 4.2.5)
   rails-assets-trianglify!
+  ruby_dig (~> 0.0.2)
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   sequenced (~> 2.0)
