@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160113094713) do
+ActiveRecord::Schema.define(version: 20160114054102) do
 
   create_table "canoes", force: :cascade do |t|
     t.string   "title",             null: false
@@ -24,8 +24,10 @@ ActiveRecord::Schema.define(version: 20160113094713) do
     t.string   "cover"
     t.text     "board"
     t.string   "slack_webhook_url"
+    t.datetime "deleted_at"
   end
 
+  add_index "canoes", ["deleted_at"], name: "index_canoes_on_deleted_at"
   add_index "canoes", ["slug"], name: "index_canoes_on_slug", unique: true
   add_index "canoes", ["user_id"], name: "index_canoes_on_user_id"
 

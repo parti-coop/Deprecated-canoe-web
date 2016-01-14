@@ -44,6 +44,7 @@ class CanoesTest < ActionDispatch::IntegrationTest
     delete canoe_path(id: canoes(:canoe1).id)
 
     refute Canoe.exists?(canoes(:canoe1).id)
+    assert Canoe.with_deleted.exists?(canoes(:canoe1).id)
     assert_redirected_to canoes_path
   end
 

@@ -62,7 +62,7 @@
         - if proposal.user == current_user
           = link_to [:edit, proposal] do
             %i.fa.fa-edit
-          = link_to proposal, method: :delete do
+          = link_to proposal, method: :delete, data: { confirm: '정말 삭제하시겠습니까?'}  do
             %i.fa.fa-trash
       .clearfix
   - if can? :show_result, proposal

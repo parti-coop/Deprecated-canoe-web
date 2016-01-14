@@ -1,4 +1,6 @@
 class Canoe < ActiveRecord::Base
+  acts_as_paranoid
+
   belongs_to :user
   has_many :discussions
   has_many :opinions, through: :discussions
@@ -26,6 +28,7 @@ class Canoe < ActiveRecord::Base
     length: { maximum: 100 }
 
   scope :latest, -> { order(id: :desc) }
+
   def crew?(target)
     crews.exists? user: target
   end

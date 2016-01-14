@@ -37,6 +37,7 @@ gem 'unread', '~> 0.7.1'
 gem 'mailboxer', '~> 0.13.0'
 gem 'ruby_dig', '~> 0.0.2'
 gem 'exception_notification', '~> 4.1', '>= 4.1.4'
+gem 'paranoia', '~> 2.1', '>= 2.1.4'
 
 group :development, :test do
   gem 'byebug'

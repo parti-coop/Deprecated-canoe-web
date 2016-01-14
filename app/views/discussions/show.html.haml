@@ -14,7 +14,7 @@
               = link_to [:edit, @discussion] do
                 %i.fa.fa-edit
             - if can? :destroy, @discussion
-              = link_to @discussion, method: :delete do
+              = link_to @discussion, method: :delete, data: { confirm: '정말 삭제하시겠습니까?'} do
                 %i.fa.fa-trash
       .panel-body
         %h3
