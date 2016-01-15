@@ -20,7 +20,7 @@
         %h3
           #{@discussion.subject}
         %p.lead
-          = @discussion.body
+          = simple_format auto_link(@discussion.body)
         - if can? :edit, @discussion
           %h5
             현재 결정 사항은
@@ -30,9 +30,9 @@
                 = f.text_area :decision, placeholder: '모두 볼 수 있도록 논의의 현재 결정 사항을 적어주세요', class: 'form-control'
               = f.submit '저장하기', class: 'btn btn-default'
         - elsif @discussion.decision.present?
-          %h5
-            현재 결정 사항은
-          %p.lead= simple_format @discussion.decision
+          %h5.text-success
+            %i.fa.fa-thumb-tack
+            = simple_format auto_link(@discussion.decision), {}, wrapper_tag: "span"
         %hr
 
         .row

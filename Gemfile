@@ -20,6 +20,7 @@ gem 'turbolinks'
 gem 'bootstrap-sass', '~> 3.3', '>= 3.3.5.1'
 gem 'bootswatch-rails'
 gem 'envyable', '~> 0.2.0'
+gem 'rails_autolink', '~> 1.1', '>= 1.1.6'
 
 # assets
 source 'https://rails-assets.org' do

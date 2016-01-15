@@ -14,11 +14,11 @@
             %i.fa.fa-rocket
             = discussion.proposals.count
           )
-      %p{ style: 'word-break: break-word' }= discussion.body
+      %p{ style: 'word-break: break-word' }= simple_format auto_link(discussion.body)
       - if discussion.decision.present?
         %p.text-success
           %i.fa.fa-thumb-tack
-          = discussion.decision
+          = simple_format auto_link(discussion.decision), {}, wrapper_tag: "span"
     %td.text-right{ style: 'min-width: 120px' }
       %div= user_byline discussion.user
       %div.text-muted

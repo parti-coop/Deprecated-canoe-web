@@ -4,9 +4,11 @@
 <!-- A tab to launch the Classic Widget -->
 UserVoice = window.UserVoice || [];
 UserVoice.push(['showTab', 'classic_widget', {
-  mode: 'support',
+  mode: 'contact',
   primary_color: '#cc6d00',
   link_color: '#007dbf',
+  support_tab_name: '버그 신고',
+  feedback_tab_name: '기능 제안',
   tab_label: '버그 신고 및 기능 제안',
   tab_color: '#ff4136',
   tab_position: 'middle-right',
