@@ -55,6 +55,11 @@ class Ability
       can :unvote, Proposal do |proposal|
         proposal.voted?(user)
       end
+
+      can :create, Reaction
+      can :destroy, Reaction do |reaction|
+        reaction.user == user
+      end
     end
   end
 end

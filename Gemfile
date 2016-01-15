@@ -8,7 +8,7 @@ gem 'sqlite3'
 
 # auth
 gem 'devise'
-gem 'parti_sso_client', '~> 0.0.11', github: 'parti-xyz/parti_sso_client'
+gem 'parti_sso_client', '~> 0.0.12', github: 'parti-xyz/parti_sso_client'
 gem 'cancancan', '~> 1.10'
 
 # ui
@@ -24,6 +24,7 @@ gem 'envyable', '~> 0.2.0'
 # assets
 source 'https://rails-assets.org' do
   gem 'rails-assets-trianglify'
+  gem 'rails-assets-webui-popover'
 end
 
 # tools
@@ -38,6 +39,8 @@ gem 'mailboxer', '~> 0.13.0'
 gem 'ruby_dig', '~> 0.0.2'
 gem 'exception_notification', '~> 4.1', '>= 4.1.4'
 gem 'paranoia', '~> 2.1', '>= 2.1.4'
+gem 'gemoji', '~> 2.1'
+gem 'enumerize', '~> 1.1'
 
 group :development, :test do
   gem 'byebug'

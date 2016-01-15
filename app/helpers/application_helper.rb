@@ -27,4 +27,8 @@ module ApplicationHelper
     return if user.nil?
     raw render(partial: 'users/byline', locals: { user: user })
   end
+
+  def reaction_label(opinion, token, count)
+    raw render(partial: 'application/reaction_label', locals: { opinion: opinion, token: token, count: count })
+  end
 end

@@ -1,4 +1,4 @@
-%li.media[opinion]
+%li.media[opinion](onmouseover="$('.reaction_button').addClass('hidden'); $('##{dom_id(opinion)} .reaction_button').removeClass('hidden');")
   - if params[:controller] != 'discussions'
     .media-head
       = link_to canoe_home_path(opinion.discussion.canoe) do
@@ -18,10 +18,20 @@
         %span.text-muted
           %i.fa.fa-clock-o
           = date_f opinion.created_at
-        - if opinion.user == current_user
+        - if can? :edit, opinion
           = link_to [:edit, opinion] do
             %i.fa.fa-edit
+        - if can? :destroy, opinion
           = link_to opinion, method: :delete, data: { confirm: '정말 삭제하시겠습니까?'} do
             %i.fa.fa-trash
     %div
       = simple_format opinion.body
+      - opinion.reactions.group(:token).count.each do |token, count|
+        = reaction_label opinion, token, count
+      &nbsp;
+      - if can? :create, Reaction
+        %span.reaction_button
+          %a.text-muted{"data-content" => "#{render partial: 'reaction_popover', locals: {opinion: opinion}}", "data-placement" => "right", "data-html" => "true", "data-toggle" => "webui-popover", :title => "", :type => "button", :style => "color: #cccccc; text-decoration: none;"}
+            %i.fa.fa-plus-square
+            호응하기
+

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160114060014) do
+ActiveRecord::Schema.define(version: 20160114110407) do
 
   create_table "canoes", force: :cascade do |t|
     t.string   "title",             null: false
@@ -155,6 +155,16 @@ ActiveRecord::Schema.define(version: 20160114060014) do
 
   add_index "proposals", ["discussion_id"], name: "index_proposals_on_discussion_id"
   add_index "proposals", ["user_id"], name: "index_proposals_on_user_id"
+
+  create_table "reactions", force: :cascade do |t|
+    t.integer "user_id",    null: false
+    t.integer "opinion_id", null: false
+    t.string  "token",      null: false
+  end
+
+  add_index "reactions", ["opinion_id", "token", "user_id"], name: "index_reactions_on_opinion_id_and_token_and_user_id", unique: true
+  add_index "reactions", ["opinion_id"], name: "index_reactions_on_opinion_id"
+  add_index "reactions", ["user_id"], name: "index_reactions_on_user_id"
 
   create_table "read_marks", force: :cascade do |t|
     t.integer  "readable_id"

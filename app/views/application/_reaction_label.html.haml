@@ -1,0 +1,18 @@
+- if Emoji.find_by_alias(token).present?
+  %span.label
+    - reaction_options = {data: {toggle: "tooltip", placement: "bottom"}, title: "#{Reaction.pluck_users(opinion: opinion, token: token).map{ |u| u.nickname.prepend('@') }.join(', ')}"}
+    - reaction = Reaction.find_by(opinion: opinion, token: token, user: current_user)
+    - emoji = image_tag "emoji/#{Emoji.find_by_alias(token).image_filename}", class: "reaction__image"
+
+    - if !user_signed_in?
+      = emoji
+    - elsif reaction.present?
+      = link_to reaction, reaction_options.update(method: :delete) do
+        = emoji
+    - else
+      = link_to reactions_path(reaction: {opinion_id: opinion.id, token: token}), reaction_options.update(method: :post) do
+        = emoji
+    - if count > 1
+      %small.text-muted
+        \+
+        = count

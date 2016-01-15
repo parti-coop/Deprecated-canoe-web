@@ -1,0 +1,5 @@
+.reaction
+  - Reaction.token.values.each do |token|
+    = link_to reactions_path(reaction: {opinion_id: opinion.id, token: token}), method: :post do
+      = image_tag "emoji/#{Emoji.find_by_alias(token).image_filename}", class: "reaction__image"
+

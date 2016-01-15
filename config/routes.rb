@@ -11,6 +11,7 @@ Rails.application.routes.draw do
         get :mark_as_read
       end
     end
+    resources :reactions
     resources :canoes do
       shallow do
         resources :discussions, except: :index do
