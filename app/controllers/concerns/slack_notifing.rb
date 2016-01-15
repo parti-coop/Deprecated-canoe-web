@@ -5,6 +5,7 @@ module SlackNotifing
 
   def slack(object)
     return if ApplicationController::skip_slack
+    return unless user_signed_in?
 
     @webhook_url = fetch_webhook_url(object)
     return if @webhook_url.blank?
@@ -28,8 +29,6 @@ module SlackNotifing
   end
 
   def make_message(object)
-    return unless user_signed_in?
-
     title = ""
     body = ""
 
@@ -103,7 +102,6 @@ module SlackNotifing
     else
       nil
     end
+    return { title: title, body: body }
   end
-
-  { title: title, body: body }
 end
