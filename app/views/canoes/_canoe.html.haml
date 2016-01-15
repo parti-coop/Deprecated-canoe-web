@@ -3,7 +3,7 @@
     = canoe.title
   .caption
     %h3= link_to canoe.title, canoe_home_path(canoe)
-    %p.canoe__description= simple_format auto_link(canoe.theme)
+    %div.canoe__description= simple_format auto_link(canoe.theme)
     %hr
     %ul.canoe__count.list-inline.text-muted
       %li
