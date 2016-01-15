@@ -14,7 +14,7 @@ module SlackNotifing
 
     message = make_message(object)
     if message.present?
-      notifier.ping("[Canoe!] #{message.title}", attachments: [{ text: message.body, color: "#36a64f" }])
+      notifier.ping("[Canoe!] #{message[:title]}", attachments: [{ text: message[:body], color: "#36a64f" }])
     end
   end
 
