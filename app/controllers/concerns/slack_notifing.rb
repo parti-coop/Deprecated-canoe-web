@@ -13,7 +13,7 @@ module SlackNotifing
 
     message = make_message(object)
     if message.present?
-      notifier.ping("Canoe! Canoe!", attachments: [{ text: message, color: "#36a64f" }])
+      notifier.ping("[Canoe!] #{message.title}", attachments: [{ text: message.body, color: "#36a64f" }])
     end
   end
 
@@ -30,131 +30,80 @@ module SlackNotifing
   def make_message(object)
     return unless user_signed_in?
 
+    title = ""
+    body = ""
+
     case "#{controller_name}##{action_name}"
     when "canoes#create"
       canoe = object
-
-      return <<EOF
-카누 "#{canoe.title}"
-@#{current_user.nickname}님이 카누를 만들었습니다.
-#{canoe.theme} >>> [보기](#{canoe_url canoe})
-EOF
+      title = "@#{current_user.nickname}님이 카누를 만들었습니다."
+      body = "[#{canoe.title}](#{canoe_url canoe}) >>> #{canoe.theme}"
     when "canoes#update"
       canoe = object
-
-      return <<EOF
-카누 "#{canoe.title}"
-@#{current_user.nickname}님이 카누를 고쳤습니다.
-#{canoe.theme} >>> [보기](#{canoe_url canoe})
-EOF
+      title = "@#{current_user.nickname}님이 카누를 고쳤습니다."
+      body = "[#{canoe.title}](#{canoe_url canoe}) >>> #{canoe.theme}"
     when "canoes#destroy"
       canoe = object
-
-      return <<EOF
-카누 "#{canoe.title}"
-#{current_user.nickname}님이 카누를 지웠습니다.
-#{canoe.theme} >>> [보기](#{root_url})
-EOF
+      title = "@#{current_user.nickname}님이 카누를 지웠습니다."
+      body = "#{canoe.title} >>> #{canoe.theme}"
     when "discussions#create"
       discussion = object
-
-      return <<EOF
-논의 "#{discussion.subject}"
-@#{current_user.nickname}님이 논의를 만들었습니다.
-#{discussion.body} >>> [보기](#{discussion_url discussion})
-EOF
+      title = "@#{current_user.nickname}님이 논의를 만들었습니다."
+      body = "[#{discussion.subject}](#{discussion_url discussion}) >>> #{discussion.body}"
     when "discussions#update"
       discussion = object
-
-      return <<EOF
-논의 "#{discussion.subject}"
-@#{current_user.nickname}님이 논의를 고쳤습니다.
-#{discussion.body} >>> [보기](#{discussion_url discussion})
-EOF
+      title = "@#{current_user.nickname}님이 논의를 고쳤습니다."
+      body = "[#{discussion.subject}](#{discussion_url discussion}) >>> #{discussion.body}"
     when "discussions#destroy"
       discussion = object
-
-      return <<EOF
-논의 "#{discussion.subject}"
-@#{current_user.nickname}님이 논의를 지웠습니다.
-#{discussion.body} >>> [보기](#{canoe_url discussion.canoe})
-EOF
+      title = "@#{current_user.nickname}님이 논의를 지웠습니다."
+      body = "#{discussion.subject} >>> #{discussion.body}"
     when "proposals#create"
       proposal = object
       discussion = proposal.discussion
-
-      return <<EOF
-논의 "#{discussion.subject}"
-@#{current_user.nickname}님이 "#{proposal.body}"이란 제안을 만들었습니다.
-#{proposal.body} >>> [보기](#{discussion_url discussion})
-EOF
+      title = "@#{current_user.nickname}님이 제안을 만들었습니다."
+      body = "[#{discussion.subject}](#{discussion_url discussion}) >>> #{proposal.body}"
     when "proposals#update"
       proposal = object
       discussion = proposal.discussion
-
-      return <<EOF
-논의 "#{discussion.subject}"
-@#{current_user.nickname}님이 "#{proposal.body}"이란 제안을 고쳤습니다.
-#{proposal.body} >>> [보기](#{discussion_url discussion})
-EOF
+      title = "@#{current_user.nickname}님이 제안을 고쳤습니다."
+      body = "[#{discussion.subject}](#{discussion_url discussion}) >>> #{proposal.body}"
     when "proposals#destroy"
       proposal = object
       discussion = proposal.discussion
-
-      return <<EOF
-논의 "#{discussion.subject}"
-@#{current_user.nickname}님이 "#{proposal.body}"이란 제안을 지웠습니다.
->>> [보기](#{discussion_url discussion})
-EOF
+      title = "@#{current_user.nickname}님이 제안을 지웠습니다."
+      body = "#{discussion.subject} >>> #{proposal.body}"
     when "opinions#create"
       opinion = object
       discussion = opinion.discussion
-
-      return <<EOF
-논의 "#{discussion.subject}"
-@#{current_user.nickname}님이 의견을 올렸습니다.
-#{opinion.body} >>> [보기](#{opinion_url opinion})
-EOF
+      title = "@#{current_user.nickname}님이 의견을 올렸습니다."
+      body = "[#{discussion.subject}](#{opinion_url opinion}) >>> #{opinion.body}"
     when "opinions#update"
       opinion = object
       discussion = opinion.discussion
-
-      return <<EOF
-논의 "#{discussion.subject}"
-@#{current_user.nickname}님이 의견을 고쳤습니다.
-#{opinion.body} >>> [보기](#{opinion_url opinion})
-EOF
+      title = "@#{current_user.nickname}님이 의견을 고쳤습니다."
+      body = "[#{discussion.subject}](#{opinion_url opinion}) >>> #{opinion.body}"
     when "opinions#destroy"
       opinion = object
       discussion = opinion.discussion
-
-      return <<EOF
-논의 "#{discussion.subject}"
-@#{current_user.nickname}님이 의견을 지웠습니다.
-#{opinion.body} >>> [보기](#{discussion_url discussion})
-EOF
+      title = "@#{current_user.nickname}님이 의견을 지웠습니다."
+      body = "#{discussion.subject} >>> #{opinion.body}"
     when "votes#in_favor", "votes#opposed"
       vote = object
       proposal = vote.proposal
       discussion = proposal.discussion
-
-      return <<EOF
-논의 "#{discussion.subject}"
-@#{current_user.nickname}님이 "#{proposal.body}" 제안에 투표합니다.
->>> [보기](#{discussion_url discussion})
-EOF
+      title = "@#{current_user.nickname}님이 #{proposal.body} 제안에 투표합니다."
+      body = "[#{discussion.subject}](#{discussion_url discussion})"
     when "votes#unvote"
       vote = object
       proposal = vote.proposal
       discussion = proposal.discussion
-
-      return <<EOF
-논의 "#{discussion.subject}"
-#{current_user.nickname}님이 "#{proposal.body}" 제안에 투표철회합니다.
->>> [보기](#{discussion_url discussion})
-EOF
+      title = "@#{current_user.nickname}님이 #{proposal.body} 제안에 투표철회합니다."
+      body = "[#{discussion.subject}](#{discussion_url discussion})"
     else
       nil
     end
   end
+
+  { title: title, body: body }
 end
