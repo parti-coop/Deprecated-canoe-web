@@ -81,3 +81,9 @@ body {
     max-height: 18px;
   }
 }
+
+.proposal {
+  &--highlight {
+    background-color: #FFFFDD;
+  }
+}

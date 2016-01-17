@@ -25,7 +25,7 @@
           = link_to opinion, method: :delete, data: { confirm: '정말 삭제하시겠습니까?'} do
             %i.fa.fa-trash
     %div
-      = simple_format auto_link(opinion.body)
+      = simple_format opinion_body(opinion)
       - opinion.reactions.group(:token).count.each do |token, count|
         = reaction_label opinion, token, count
       &nbsp;

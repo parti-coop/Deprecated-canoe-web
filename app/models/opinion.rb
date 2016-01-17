@@ -9,14 +9,14 @@ class Opinion < ActiveRecord::Base
 
   def set_mentions
     mention_texts ||= begin
-      regex = /@([\w]+)/
+      regex = /\s@([\w]+)/
       body.scan(regex).flatten
     end
 
     self.mentions.destroy_all
     mention_texts.uniq.each do |mention_text|
       user = User.find_or_sync_by_nickname(mention_text)
-      self.mentions.build(user: user)
+      self.mentions.build(user: user) if user.present?
     end
   end
 end

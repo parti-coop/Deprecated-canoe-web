@@ -2,3 +2,4 @@ proposal1:
   body: 'proposal1 body'
   discussion: discussion1
   user: one
+  sequential_id: 1
