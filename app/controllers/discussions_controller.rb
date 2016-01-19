@@ -15,6 +15,7 @@ class DiscussionsController < ApplicationController
       @discussion.mark_as_read! :for => current_user
     end
     @canoe = @discussion.canoe
+    render_404 and return if @canoe.nil?
   end
 
   def new
