@@ -6,9 +6,7 @@ class CanoesController < ApplicationController
   load_and_authorize_resource except: [:index, :short]
 
   def index
-    @owning_canoes = current_user.canoes
     @crewing_canoes = current_user.crewing_canoes
-    @canoes = [@owning_canoes, @crewing_canoes].flatten
     @opinions = Opinion.joins(:discussion).where('discussions.canoe_id': @canoes).order(id: :desc)
   end
 
