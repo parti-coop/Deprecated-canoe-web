@@ -4,7 +4,6 @@
 //= require trianglify
 //= require webui-popover
 //= require zenscroll/zenscroll
-
 //= require uservoice
 
 $(document).on('ready', function(e) {

@@ -5,22 +5,26 @@ class Discussion < ActiveRecord::Base
   belongs_to :canoe
   has_many :opinions
   has_many :proposals do
-    def best
-      first = self.sort_by(&:point).reverse.first
-      if first.present? and first.point > 0
-        self.select { |p| p.point == first.point }.sort_by { |p| [p.votes.in_favor.count, p.created_at] }.reverse
-      else
-        []
-      end
+    def top_of(choice)
+      self.where("#{choice}_votes_count": top_of_votes_count(choice))
     end
 
-    def soso
-      self.where.not(id: self.best)
+    def exclude_top_of(choice)
+      self.where.not("#{choice}_votes_count": top_of_votes_count(choice))
+    end
+
+    def top_of_votes_count(choice)
+      top_of_count = self.max_votes_count(choice)
+      top_of_count = -1 if top_of_count == 0
+      top_of_count
+    end
+
+    def max_votes_count(choice)
+      self.maximum("#{choice}_votes_count")
     end
   end
 
   validates :canoe, presence: true
-
   before_save :set_discussed_at
 
   def set_discussed_at

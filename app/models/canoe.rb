@@ -10,6 +10,7 @@ class Canoe < ActiveRecord::Base
       self.where.not(user: proxy_association.owner.user)
     end
   end
+  has_many :crews_as_user, through: :crews, class_name: User, source: :user
   has_many :request_to_joins
 
   mount_uploader :logo, ImageUploader

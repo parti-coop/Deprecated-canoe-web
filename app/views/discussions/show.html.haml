@@ -60,7 +60,7 @@
                   제안
               %table.table
                 %tbody
-                  - {best: @discussion.proposals.best, soso: @discussion.proposals.soso.latest}.each do |key, proposals|
+                  - [@discussion.proposals.top_of(:in_favor).latest, @discussion.proposals.exclude_top_of(:in_favor).latest].flatten.each do |proposals|
                     = render proposals
                   - if can? :edit, @discussion
                     %tr

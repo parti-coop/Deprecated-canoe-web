@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160116125443) do
+ActiveRecord::Schema.define(version: 20160118145427) do
 
   create_table "canoes", force: :cascade do |t|
     t.string   "title",             null: false
@@ -147,11 +147,13 @@ ActiveRecord::Schema.define(version: 20160116125443) do
 
   create_table "proposals", force: :cascade do |t|
     t.text     "body"
-    t.integer  "discussion_id", null: false
-    t.integer  "user_id",       null: false
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
-    t.integer  "sequential_id", null: false
+    t.integer  "discussion_id",                    null: false
+    t.integer  "user_id",                          null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.integer  "sequential_id",                    null: false
+    t.integer  "in_favor_votes_count", default: 0, null: false
+    t.integer  "opposed_votes_count",  default: 0, null: false
   end
 
   add_index "proposals", ["discussion_id"], name: "index_proposals_on_discussion_id"

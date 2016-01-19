@@ -26,9 +26,6 @@ class Ability
         opinion.user == user
       end
 
-      can :show_result, Proposal do |proposal|
-        proposal.votes.any? and proposal.voted?(user)
-      end
       can :create, Proposal do |proposal|
         proposal.discussion.canoe.crew? user
       end
@@ -47,13 +44,13 @@ class Ability
       end
 
       can :in_favor, Proposal do |proposal|
-        proposal.voted?(user, :in_favor)
+        proposal.voted_by?(user, :in_favor)
       end
       can :opposed, Proposal do |proposal|
-        proposal.voted?(user, :opposed)
+        proposal.voted_by?(user, :opposed)
       end
       can :unvote, Proposal do |proposal|
-        proposal.voted?(user)
+        proposal.voted_by?(user)
       end
 
       can :create, Reaction

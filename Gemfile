@@ -42,6 +42,7 @@ gem 'exception_notification', '~> 4.1', '>= 4.1.4'
 gem 'paranoia', '~> 2.1', '>= 2.1.4'
 gem 'gemoji', '~> 2.1'
 gem 'enumerize', '~> 1.1'
+gem 'counter_culture', '~> 0.1.34'
 
 group :development, :test do
   gem 'byebug'
