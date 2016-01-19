@@ -1,4 +1,6 @@
 = form_for @opinion do |f|
-  = f.label :body
-  = f.text_area :body
-  = f.submit '저장'
+  .form-group
+    = f.label :body
+    = f.text_area :body, class: 'form-control'
+  = f.submit '저장', class: 'btn btn-default'
+
