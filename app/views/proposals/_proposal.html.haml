@@ -24,8 +24,9 @@
           = link_to in_favor_proposal_path(proposal), method: :post, class: 'btn btn-default' do
             %span.text-default.text-muted
               %i.fa.fa-heart-o
-        %button.btn.btn-xs(class="#{proposal.votes.in_favor.any? ? 'text-success' : 'disabled text-muted'}" data-toggle="collapse" data-parent="##{dom_id(proposal)}--result" href="##{dom_id(proposal)}--result--in_favor" aria-expanded="false" style="background-color: white; border: 1px solid #dddddd;")
-          = proposal.votes.in_favor.count
+        %button.btn.btn-xs.text-muted(class="#{'disabled' unless proposal.votes.in_favor.any?}" data-toggle="collapse" data-parent="##{dom_id(proposal)}--result" href="##{dom_id(proposal)}--result--in_favor" aria-expanded="false" style="background-color: white; border: 1px solid #dddddd;")
+          %i.fa.fa-user
+          = proposal.votes.by_crews.in_favor.count
       .btn-group-vertical(style='width: 50px')
         - if !user_signed_in?
           %button.btn.btn-danger.disabled
@@ -39,7 +40,8 @@
           = link_to opposed_proposal_path(proposal), method: :post, class: 'btn btn-default' do
             %span.text-default.text-muted
               %i.fa.fa-ban
-        %button.btn.btn-xs(class="#{proposal.votes.opposed.any? ? 'text-danger' : 'disabled text-muted'}" data-toggle="collapse" data-parent="##{dom_id(proposal)}--result" href="##{dom_id(proposal)}--result--opposed" aria-expanded="false" style="background-color: white; border: 1px solid #dddddd;")
+        %button.btn.btn-xs.text-muted(class="#{'disabled' unless proposal.votes.opposed.any?}" data-toggle="collapse" data-parent="##{dom_id(proposal)}--result" href="##{dom_id(proposal)}--result--opposed" aria-expanded="false" style="background-color: white; border: 1px solid #dddddd;")
+          %i.fa.fa-user
           = proposal.votes.opposed.count
     %td
       - if proposal.best?(:in_favor) or proposal.best?(:opposed)
@@ -89,14 +91,14 @@
                   .col-md-7
                     - proposal.votes.in_favor.by_crews.map do |v|
                       @#{v.user.nickname}
-                - if proposal.votes.in_favor.by_guest.any?
+                - if proposal.votes.in_favor.by_guests.any?
                   .row
                     .col-md-5
                       %i.fa.fa-user-secret
                       손님
-                      #{proposal.votes.in_favor.by_guest.count}명
+                      #{proposal.votes.in_favor.by_guests.count}명
                     .col-md-7
-                      - proposal.votes.in_favor.by_guest.map do |v|
+                      - proposal.votes.in_favor.by_guests.map do |v|
                         @#{v.user.nickname}
         - if proposal.votes.opposed.any?
           .panel.panel-default{ "style" => "border: none; box-shadow: none; -webkit-box-shadow: none" }
@@ -114,13 +116,13 @@
                   .col-md-9
                     - proposal.votes.opposed.by_crews.map do |v|
                       @#{v.user.nickname}
-                - if proposal.votes.opposed.by_guest.any?
+                - if proposal.votes.opposed.by_guests.any?
                   .row
                     .col-md-5
                       %i.fa.fa-user-secret
                       손님
-                      #{proposal.votes.opposed.by_guest.count}명
+                      #{proposal.votes.opposed.by_guests.count}명
                     .col-md-7
-                      - proposal.votes.opposed.by_guest.map do |v|
+                      - proposal.votes.opposed.by_guests.map do |v|
                         @#{v.user.nickname}
 

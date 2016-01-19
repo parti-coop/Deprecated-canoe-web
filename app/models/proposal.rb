@@ -9,7 +9,7 @@ class Proposal < ActiveRecord::Base
       self.where(user: proxy_association.owner.canoe.crews_as_user)
     end
 
-    def by_guest
+    def by_guests
       self.where.not(user: proxy_association.owner.canoe.crews_as_user)
     end
   end
@@ -26,7 +26,7 @@ class Proposal < ActiveRecord::Base
   end
 
   def voted_by?(user, choice = nil)
-    (choice.nil? ? votes : votes.send(choice)).exists? user: user
+    (choice.nil? ? votes : votes.with_choice(choice)).exists? user: user
   end
 
   def votes_count(choice)

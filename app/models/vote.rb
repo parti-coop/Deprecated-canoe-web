@@ -1,8 +1,13 @@
 class Vote < ActiveRecord::Base
+  extend Enumerize
+
   belongs_to :user
   belongs_to :proposal
   has_one :discussion, through: :proposal
-  enum choice: { in_favor: 1, opposed: 2 }
+  enumerize :choice, in: [:in_favor, :opposed], predicates: true, scope: true
+
+  scope :in_favor, -> { where(choice: 'in_favor') }
+  scope :opposed, -> { where(choice: 'opposed') }
 
   counter_culture :proposal,
     column_name: Proc.new { |model|
