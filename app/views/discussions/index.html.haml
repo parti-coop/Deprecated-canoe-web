@@ -1,21 +1,19 @@
 .bs-component
   .container
-    .row
-      .col-md-6.col-md-offset-3
-        .panel.panel-default
-          .panel-heading
-            %h4.text-muted
-              %i.fa.fa-comments
-              승선 중인 카누들의 최근 논의
-          - if current_user.crewing_discussions.any?
-            %table.table.table-bordered
-              %tbody
-                = render @discussions_limited
-          - else
-            .panel-body
-              %p.lead.text-muted.text-center 아직 진행된 논의가 없습니다.
-          - if @discussions_limited.count != current_user.crewing_discussions.count
-            .panel-footer
-              %small.text-muted
-                표시하지 않은 #{current_user.crewing_discussions.count - @discussions_limited.count}개의 진행된 논의가 더 있습니다.
+    .panel.panel-default
+      .panel-heading
+        %h4.text-muted
+          %i.fa.fa-comments
+          승선 중인 카누들의 최근 논의
+      - if current_user.crewing_discussions.any?
+        %table.table.table-bordered
+          %tbody
+            = render @discussions_limited
+      - else
+        .panel-body
+          %p.lead.text-muted.text-center 아직 진행된 논의가 없습니다.
+      - if @discussions_limited.count != current_user.crewing_discussions.count
+        .panel-footer
+          %small.text-muted
+            표시하지 않은 #{current_user.crewing_discussions.count - @discussions_limited.count}개의 진행된 논의가 더 있습니다.
 

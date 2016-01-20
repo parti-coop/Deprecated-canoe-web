@@ -1,26 +1,24 @@
 .bs-component
   .container
-    .row
-      .col-md-6.col-md-offset-3
-        .panel.panel-default
-          .panel-heading
-            %h4.text-muted
-              %i.fa.fa-inbox
-              최근
-              - if @notifications.any?
-                %strong= @notifications.count
-                개의 알림이 있습니다.
-              - else
-                알림이 없습니다.
+    .panel.panel-default
+      .panel-heading
+        %h4.text-muted
+          %i.fa.fa-inbox
+          최근
           - if @notifications.any?
-            %table.table.table-bordered
-              %tbody
-                - @notifications.each do |notification|
-                  - tr_class = notification.is_read?(current_user) ? '' : 'alert-unread'
-                  %tr[notification]{ class: tr_class }
-                    %td
-                      %p.text-muted
-                        %i.fa.fa-clock-o
-                        = date_f notification.created_at
-                      %p= simple_format notification.body
+            %strong= @notifications.count
+            개의 알림이 있습니다.
+          - else
+            알림이 없습니다.
+      - if @notifications.any?
+        %table.table.table-bordered
+          %tbody
+            - @notifications.each do |notification|
+              - tr_class = notification.is_read?(current_user) ? '' : 'alert-unread'
+              %tr[notification]{ class: tr_class }
+                %td
+                  %p.text-muted
+                    %i.fa.fa-clock-o
+                    = date_f notification.created_at
+                  %p= simple_format notification.body
 
