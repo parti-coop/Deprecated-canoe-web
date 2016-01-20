@@ -14,7 +14,7 @@ class DiscussionsTest < ActionDispatch::IntegrationTest
 
   test 'shoud not create by visitor' do
     sign_in users(:visitor)
-    post canoe_discussions_path(canoe_id: canoes(:canoe1).id, discussion: { subject: 'test', body: 'test body'} )
+    post canoe_discussions_path(canoe_id: canoes(:canoe1).id, discussion: { subject: 'test' } )
 
     assert_redirected_to root_path
   end
@@ -23,7 +23,7 @@ class DiscussionsTest < ActionDispatch::IntegrationTest
     sign_in users(:one)
 
     subject = discussions(:discussion1).subject + 'xx'
-    put discussion_path(id: discussions(:discussion1).id, discussion: { subject: subject, body: 'new body'})
+    put discussion_path(id: discussions(:discussion1).id, discussion: { subject: subject })
 
     assert_equal subject, assigns(:discussion).subject
   end
@@ -33,7 +33,7 @@ class DiscussionsTest < ActionDispatch::IntegrationTest
     sign_in users(:crew)
 
     subject = discussions(:discussion1).subject + 'xx'
-    put discussion_path(id: discussions(:discussion1).id, discussion: { subject: subject, body: 'new body'})
+    put discussion_path(id: discussions(:discussion1).id, discussion: { subject: subject })
 
     assert_equal subject, assigns(:discussion).subject
   end
@@ -42,7 +42,7 @@ class DiscussionsTest < ActionDispatch::IntegrationTest
     sign_in users(:two)
 
     original_subject = discussions(:discussion1).subject
-    put discussion_path(id: discussions(:discussion1).id, discussion: { subject: discussions(:discussion1).subject + 'xx', body: 'new body'})
+    put discussion_path(id: discussions(:discussion1).id, discussion: { subject: discussions(:discussion1).subject + 'xx' })
 
     assert_equal original_subject, assigns(:discussion).subject
   end
@@ -58,7 +58,7 @@ class DiscussionsTest < ActionDispatch::IntegrationTest
     assert canoes(:canoe1).crew?(users(:crew))
 
     sign_in users(:one)
-    post canoe_discussions_path(canoe_id: canoes(:canoe1).id, discussion: { subject: 'test', body: 'test body'} )
+    post canoe_discussions_path(canoe_id: canoes(:canoe1).id, discussion: { subject: 'test' } )
     assert_equal users(:crew).mailbox.notifications.first.notified_object, assigns(:discussion)
     assert users(:one).mailbox.notifications.empty?
   end

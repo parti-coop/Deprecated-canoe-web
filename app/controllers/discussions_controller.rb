@@ -26,7 +26,7 @@ class DiscussionsController < ApplicationController
 
   def create
     @discussion.user = current_user
-    @discussion.opinions.first.user = current_user
+    @discussion.opinions.first.user = current_user if @discussion.opinions.first.present?
     if @discussion.save
       notify_to_crews(@discussion)
       slack(@discussion)
