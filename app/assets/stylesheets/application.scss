@@ -36,6 +36,10 @@ body {
 }
 
 /** components **/
+.navbar-brand {
+  text-transform: none;
+}
+
 .jumbotron-transparent {
   background: none;
   border: none;
