@@ -31,44 +31,34 @@
           %h5.text-success
             %i.fa.fa-thumb-tack
             = simple_format auto_link(@discussion.decision), {}, wrapper_tag: "span"
-        %hr
 
-        %div
-          .panel.panel-default
-            .panel-heading
-              %h6.text-muted
-                %i.fa.fa-rocket
-                제안
-            %table.table
-              %tbody
-                - [@discussion.proposals.top_of(:in_favor).latest, @discussion.proposals.exclude_top_of(:in_favor).latest].flatten.each do |proposals|
-                  = render proposals
-                - if can? :edit, @discussion
-                  %tr
-                    %td(colspan=2)
-                      = form_for [@discussion, @discussion.proposals.build] do |f|
-                        .form-group
-                          = f.text_area :body, class: 'form-control', style: "width: 100%; height: 60px;", placeholder: '내 제안은...'
-                        = f.submit '제안하기', class: 'btn btn-default'
-
-        %hr
-
-        %div
-          %h4
-            %i.fa.fa-comments
-            의견
-          %ul.media-list
-            = render @discussion.opinions
+      .panel-body{ style: 'background-color: #999' }
+        %table.table
+          %tbody
+            - [@discussion.proposals.top_of(:in_favor).latest, @discussion.proposals.exclude_top_of(:in_favor).latest].flatten.each do |proposals|
+              = render proposals
             - if can? :edit, @discussion
-              %li.media
-                .media-left
-                  %a{:href => "#"}
-                    = image_tag current_user.image_url, class: 'media-object img-circle', style: 'width:64px;height:64px;'
-                .media-body
-                  = form_for [@discussion, @discussion.opinions.build] do |f|
+              %tr
+                %td(colspan=2)
+                  = form_for [@discussion, @discussion.proposals.build] do |f|
                     .form-group
-                      = f.text_area :body, class: 'form-control', style: "width: 100%; height: 100px;", placeholder: '내 의견은...'
-                    = f.submit '의견올리기', class: 'btn btn-default'
+                      = f.text_area :body, class: 'form-control', style: "width: 100%; height: 60px;", placeholder: '내 제안은...'
+                    = f.submit '제안하기', class: 'btn btn-default'
+
+      .panel-body
+        %ul.media-list
+          - if can? :edit, @discussion
+            %li.media
+              .media-left
+                %a{:href => "#"}
+                  = image_tag current_user.image_url, class: 'media-object img-circle', style: 'width:64px;height:64px;'
+              .media-body
+                = form_for [@discussion, Opinion.new] do |f|
+                  .form-group
+                    = f.text_area :body, class: 'form-control', style: "width: 100%; height: 100px;", placeholder: '내 의견은...'
+                  = f.submit '의견올리기', class: 'btn btn-default'
+
+          = render @discussion.opinions
 
 .bs-component
   .container

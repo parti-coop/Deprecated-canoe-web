@@ -5,6 +5,8 @@ class Opinion < ActiveRecord::Base
   has_many :reactions
   before_save :set_mentions
 
+  default_scope { order("created_at DESC") }
+
   private
 
   def set_mentions
