@@ -1,10 +1,10 @@
 @import "bootstrap-sprockets";
-@import "bootswatch/lumen/variables";
+@import "bootswatch/journal/variables";
 @import "bootstrap";
 
 body { padding-top: 80px; padding-bottom: 80px; }
 
-@import "bootswatch/lumen/bootswatch";
+@import "bootswatch/journal/bootswatch";
 @import "webui-popover";
 @import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
 
