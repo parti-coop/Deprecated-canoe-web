@@ -1,128 +1,127 @@
-%tbody[proposal]
-  - if params[:controller] != 'discussions'
-    %tr
-      %td(colspan=2)
-        = link_to canoe_home_path(proposal.discussion.canoe) do
-          %i.fa.fa-ship
-          = proposal.discussion.canoe.title
-        &nbsp;
-        = link_to proposal.discussion do
-          %i.fa.fa-flag
-          = proposal.discussion.subject
+- if params[:controller] != 'discussions'
   %tr
-    %td(style='width: 140px')
-      .btn-group-vertical(style='width: 50px')
-        - if !user_signed_in?
-          %button.btn.btn-success.disabled
+    %td(colspan=2)
+      = link_to canoe_home_path(proposal.discussion.canoe) do
+        %i.fa.fa-ship
+        = proposal.discussion.canoe.title
+      &nbsp;
+      = link_to proposal.discussion do
+        %i.fa.fa-flag
+        = proposal.discussion.subject
+%tr
+  %td(style='width: 140px')
+    .btn-group-vertical(style='width: 50px')
+      - if !user_signed_in?
+        %button.btn.btn-success.disabled
+          %i.fa.fa-heart
+      - elsif proposal.in_favor_by?(current_user)
+        = link_to unvote_proposal_path(proposal), method: :delete, class: 'btn btn-success' do
+          %span.change-icon
             %i.fa.fa-heart
-        - elsif proposal.in_favor_by?(current_user)
-          = link_to unvote_proposal_path(proposal), method: :delete, class: 'btn btn-success' do
-            %span.change-icon
-              %i.fa.fa-heart
-              %i.fa.fa-minus-circle
-        - else
-          = link_to in_favor_proposal_path(proposal), method: :post, class: 'btn btn-default' do
-            %span.text-default.text-muted
-              %i.fa.fa-heart-o
-        %button.btn.btn-xs.text-muted(class="#{'disabled' unless proposal.votes.in_favor.any?}" data-toggle="collapse" data-parent="##{dom_id(proposal)}--result" href="##{dom_id(proposal)}--result--in_favor" aria-expanded="false" style="background-color: white; border: 1px solid #dddddd;")
-          %i.fa.fa-user
-          = proposal.votes.by_crews.in_favor.count
-      .btn-group-vertical(style='width: 50px')
-        - if !user_signed_in?
-          %button.btn.btn-danger.disabled
+            %i.fa.fa-minus-circle
+      - else
+        = link_to in_favor_proposal_path(proposal), method: :post, class: 'btn btn-default' do
+          %span.text-default.text-muted
+            %i.fa.fa-heart-o
+      %button.btn.btn-xs.text-muted(class="#{'disabled' unless proposal.votes.in_favor.any?}" data-toggle="collapse" data-parent="##{dom_id(proposal)}--result" href="##{dom_id(proposal)}--result--in_favor" aria-expanded="false" style="background-color: white; border: 1px solid #dddddd;")
+        %i.fa.fa-user
+        = proposal.votes.by_crews.in_favor.count
+    .btn-group-vertical(style='width: 50px')
+      - if !user_signed_in?
+        %button.btn.btn-danger.disabled
+          %i.fa.fa-ban
+      - elsif proposal.voted_by?(current_user, :opposed)
+        = link_to unvote_proposal_path(proposal), method: :delete, class: 'btn btn-danger' do
+          %span.change-icon
             %i.fa.fa-ban
-        - elsif proposal.voted_by?(current_user, :opposed)
-          = link_to unvote_proposal_path(proposal), method: :delete, class: 'btn btn-danger' do
-            %span.change-icon
-              %i.fa.fa-ban
-              %i.fa.fa-minus-circle
-        - else
-          = link_to opposed_proposal_path(proposal), method: :post, class: 'btn btn-default' do
-            %span.text-default.text-muted
-              %i.fa.fa-ban
-        %button.btn.btn-xs.text-muted(class="#{'disabled' unless proposal.votes.opposed.any?}" data-toggle="collapse" data-parent="##{dom_id(proposal)}--result" href="##{dom_id(proposal)}--result--opposed" aria-expanded="false" style="background-color: white; border: 1px solid #dddddd;")
-          %i.fa.fa-user
-          = proposal.votes.opposed.count
-    %td
-      - if proposal.best?(:in_favor) or proposal.best?(:opposed)
-        %p
-          - if proposal.best?(:in_favor)
-            %span.label.label-warning
-              %i.fa.fa-trophy
-              best
-              %i.fa.fa-heart
-            &nbsp;
-          - if proposal.best?(:opposed)
-            %span.label.label-danger
-              %i.fa.fa-trophy.fa-flip-vertical
-              best
-              %i.fa.fa-ban
-      %div
-        %strong
-          = simple_format auto_link("<span class='label label-danger'>#{proposal.sequential_id}</span> #{proposal.body}")
+            %i.fa.fa-minus-circle
+      - else
+        = link_to opposed_proposal_path(proposal), method: :post, class: 'btn btn-default' do
+          %span.text-default.text-muted
+            %i.fa.fa-ban
+      %button.btn.btn-xs.text-muted(class="#{'disabled' unless proposal.votes.opposed.any?}" data-toggle="collapse" data-parent="##{dom_id(proposal)}--result" href="##{dom_id(proposal)}--result--opposed" aria-expanded="false" style="background-color: white; border: 1px solid #dddddd;")
+        %i.fa.fa-user
+        = proposal.votes.opposed.count
+  %td
+    - if proposal.best?(:in_favor) or proposal.best?(:opposed)
+      %p
+        - if proposal.best?(:in_favor)
+          %span.label.label-warning
+            %i.fa.fa-trophy
+            best
+            %i.fa.fa-heart
+          &nbsp;
+        - if proposal.best?(:opposed)
+          %span.label.label-danger
+            %i.fa.fa-trophy.fa-flip-vertical
+            best
+            %i.fa.fa-ban
+    %div
+      %strong
+        = simple_format auto_link("<span class='label label-danger'>#{proposal.sequential_id}</span> #{proposal.body}")
 
-      .pull-right
-        = user_byline proposal.user
-        %i.fa.fa-clock-o
-        = date_f proposal.created_at
-        - if proposal.user == current_user
-          = link_to [:edit, proposal] do
-            %i.fa.fa-edit
-          = link_to proposal, method: :delete, data: { confirm: '정말 삭제하시겠습니까?'}  do
-            %i.fa.fa-trash
-      .clearfix
-  %tr
-    %td(colspan=2 style="padding: 0;")
-      .panel-group{"id" => "#{dom_id(proposal)}--result", "aria-multiselectable" => "true", :role => "tablist", "style" => "margin: 0"}
-        - if proposal.votes.in_favor.any?
-          .panel.panel-default{ "style" => "border: none; box-shadow: none; -webkit-box-shadow: none" }
-            .panel-collapse.collapse{"id" => "#{dom_id(proposal)}--result--in_favor", "aria-labelledby" => "headingOne", :role => "tabpanel"}
-              .panel-body
-                %hr(style="margin-top: 0;")
-                %strong.text-success
-                  %i.fa.fa-heart
-                  추천
+    .pull-right
+      = user_byline proposal.user
+      %i.fa.fa-clock-o
+      = date_f proposal.created_at
+      - if proposal.user == current_user
+        = link_to [:edit, proposal] do
+          %i.fa.fa-edit
+        = link_to proposal, method: :delete, data: { confirm: '정말 삭제하시겠습니까?'}  do
+          %i.fa.fa-trash
+    .clearfix
+%tr
+  %td(colspan=2 style="padding: 0;")
+    .panel-group{"id" => "#{dom_id(proposal)}--result", "aria-multiselectable" => "true", :role => "tablist", "style" => "margin: 0"}
+      - if proposal.votes.in_favor.any?
+        .panel.panel-default{ "style" => "border: none; box-shadow: none; -webkit-box-shadow: none" }
+          .panel-collapse.collapse{"id" => "#{dom_id(proposal)}--result--in_favor", "aria-labelledby" => "headingOne", :role => "tabpanel"}
+            .panel-body
+              %hr(style="margin-top: 0;")
+              %strong.text-success
+                %i.fa.fa-heart
+                추천
+              .row
+                .col-md-5
+                  %i.fa.fa-user
+                  탑승자
+                  #{proposal.votes.in_favor.by_crews.count}명
+                  (#{number_to_percentage proposal.in_favor_percentage_by_crews, precision: 0})
+                .col-md-7
+                  - proposal.votes.in_favor.by_crews.map do |v|
+                    @#{v.user.nickname}
+              - if proposal.votes.in_favor.by_guests.any?
                 .row
                   .col-md-5
-                    %i.fa.fa-user
-                    탑승자
-                    #{proposal.votes.in_favor.by_crews.count}명
-                    (#{number_to_percentage proposal.in_favor_percentage_by_crews, precision: 0})
+                    %i.fa.fa-user-secret
+                    손님
+                    #{proposal.votes.in_favor.by_guests.count}명
                   .col-md-7
-                    - proposal.votes.in_favor.by_crews.map do |v|
+                    - proposal.votes.in_favor.by_guests.map do |v|
                       @#{v.user.nickname}
-                - if proposal.votes.in_favor.by_guests.any?
-                  .row
-                    .col-md-5
-                      %i.fa.fa-user-secret
-                      손님
-                      #{proposal.votes.in_favor.by_guests.count}명
-                    .col-md-7
-                      - proposal.votes.in_favor.by_guests.map do |v|
-                        @#{v.user.nickname}
-        - if proposal.votes.opposed.any?
-          .panel.panel-default{ "style" => "border: none; box-shadow: none; -webkit-box-shadow: none" }
-            .panel-collapse.collapse{"id" => "#{dom_id(proposal)}--result--opposed", "aria-labelledby" => "headingTwo", :role => "tabpanel"}
-              .panel-body
-                %hr(style="margin-top: 0;")
-                %h5.text-danger
-                  %i.fa.fa-ban
-                  차단
+      - if proposal.votes.opposed.any?
+        .panel.panel-default{ "style" => "border: none; box-shadow: none; -webkit-box-shadow: none" }
+          .panel-collapse.collapse{"id" => "#{dom_id(proposal)}--result--opposed", "aria-labelledby" => "headingTwo", :role => "tabpanel"}
+            .panel-body
+              %hr(style="margin-top: 0;")
+              %h5.text-danger
+                %i.fa.fa-ban
+                차단
+              .row
+                .col-md-3
+                  %i.fa.fa-user
+                  탑승자
+                  #{proposal.votes.opposed.by_crews.count}명
+                .col-md-9
+                  - proposal.votes.opposed.by_crews.map do |v|
+                    @#{v.user.nickname}
+              - if proposal.votes.opposed.by_guests.any?
                 .row
-                  .col-md-3
-                    %i.fa.fa-user
-                    탑승자
-                    #{proposal.votes.opposed.by_crews.count}명
-                  .col-md-9
-                    - proposal.votes.opposed.by_crews.map do |v|
+                  .col-md-5
+                    %i.fa.fa-user-secret
+                    손님
+                    #{proposal.votes.opposed.by_guests.count}명
+                  .col-md-7
+                    - proposal.votes.opposed.by_guests.map do |v|
                       @#{v.user.nickname}
-                - if proposal.votes.opposed.by_guests.any?
-                  .row
-                    .col-md-5
-                      %i.fa.fa-user-secret
-                      손님
-                      #{proposal.votes.opposed.by_guests.count}명
-                    .col-md-7
-                      - proposal.votes.opposed.by_guests.map do |v|
-                        @#{v.user.nickname}
 

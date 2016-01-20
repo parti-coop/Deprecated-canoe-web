@@ -32,7 +32,7 @@
             %i.fa.fa-thumb-tack
             = simple_format auto_link(@discussion.decision), {}, wrapper_tag: "span"
 
-      .panel-body{ style: 'background-color: #999' }
+      .panel-body{ style: 'background-color: #fafadd; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd;' }
         %table.table
           %tbody
             - [@discussion.proposals.top_of(:in_favor).latest, @discussion.proposals.exclude_top_of(:in_favor).latest].flatten.each do |proposals|
