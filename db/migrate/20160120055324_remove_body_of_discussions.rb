@@ -3,18 +3,17 @@ class RemoveBodyOfDiscussions < ActiveRecord::Migration
 
     reversible do |dir|
       dir.up do
+        Opinion.record_timestamps = false
 
         Canoe.all.each do |canoe|
           canoe.discussions.each do |discussion|
             unless discussion.body.blank?
-              query = "INSERT INTO opinions(body, discussion_id, user_id, created_at, updated_at) VALUES(?, ?, ?, ?, ?)"
-              sanitized_sql = Discussion.sanitize_sql [query, discussion.body, discussion.id, discussion.user_id, discussion.created_at, discussion.created_at]
-              ActiveRecord::Base.connection.execute sanitized_sql
-
-              # st = ActiveRecord::Base.connection.raw_connection.prepare query
-              # st.execute discussion.body, discussion.id, discussion.user_id, discussion.created_at.to_s, discussion.created_at.to_s
-              # st.close
-              # say st.to_s
+              discussion.opinions.create({
+                body: discussion.body,
+                user: discussion.user,
+                created_at: discussion.created_at,
+                updated_at: discussion.created_at
+              })
             end
           end
         end
