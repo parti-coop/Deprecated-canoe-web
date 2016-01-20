@@ -48,15 +48,15 @@ module SlackNotifing
     when "discussions#create"
       discussion = object
       title = "@#{current_user.nickname}님이 논의를 만들었습니다."
-      body = "논의: [#{discussion.subject}](#{discussion_url discussion}) >>> #{discussion.body}"
+      body = "논의: [#{discussion.subject}](#{discussion_url discussion})"
     when "discussions#update"
       discussion = object
       title = "@#{current_user.nickname}님이 논의를 고쳤습니다."
-      body = "논의: [#{discussion.subject}](#{discussion_url discussion}) >>> #{discussion.body}"
+      body = "논의: [#{discussion.subject}](#{discussion_url discussion})"
     when "discussions#destroy"
       discussion = object
       title = "@#{current_user.nickname}님이 논의를 지웠습니다."
-      body = "논의: #{discussion.subject} >>> #{discussion.body}"
+      body = "논의: #{discussion.subject}"
     when "proposals#create"
       proposal = object
       discussion = proposal.discussion

@@ -19,8 +19,6 @@
       .panel-body
         %h3
           #{@discussion.subject}
-        %p.lead
-          = simple_format auto_link(@discussion.body)
         - if can? :edit, @discussion
           %h5
             현재 결정 사항은

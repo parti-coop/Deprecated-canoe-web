@@ -26,6 +26,7 @@ class Discussion < ActiveRecord::Base
 
   validates :canoe, presence: true
   before_save :set_discussed_at
+  accepts_nested_attributes_for :opinions
 
   def set_discussed_at
     self.discussed_at = DateTime.now

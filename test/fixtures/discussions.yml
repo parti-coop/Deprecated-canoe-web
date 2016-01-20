@@ -1,6 +1,5 @@
 discussion1:
   subject: 'subject1'
-  body: 'body1'
   user: one
   canoe: canoe1
   discussed_at: <%= 5.day.ago.to_s(:db) %>

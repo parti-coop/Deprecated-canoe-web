@@ -3,10 +3,13 @@ require 'test_helper'
 class DiscussionsTest < ActionDispatch::IntegrationTest
   test 'new' do
     sign_in users(:one)
-    post canoe_discussions_path(canoe_id: canoes(:canoe1).id, discussion: { subject: 'test', body: 'test body'} )
+    opinions_attributes = { body: 'test body' }
+    post canoe_discussions_path(canoe_id: canoes(:canoe1).id, discussion: { subject: 'test', opinions_attributes: {'0': opinions_attributes}} )
 
     assert_equal users(:one), assigns(:discussion).user
     assert_equal 'test', assigns(:discussion).subject
+    assert_equal users(:one), assigns(:discussion).opinions.first.user
+    assert_equal 'test body', assigns(:discussion).opinions.first.body
   end
 
   test 'shoud not create by visitor' do

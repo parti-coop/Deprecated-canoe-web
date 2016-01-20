@@ -26,6 +26,7 @@ class DiscussionsController < ApplicationController
 
   def create
     @discussion.user = current_user
+    @discussion.opinions.first.user = current_user
     if @discussion.save
       notify_to_crews(@discussion)
       slack(@discussion)
@@ -54,7 +55,7 @@ class DiscussionsController < ApplicationController
   private
 
   def create_params
-    params.require(:discussion).permit(:subject, :body, :canoe_id)
+    params.require(:discussion).permit(:subject, :canoe_id, opinions_attributes: [ :body ])
   end
 
   def update_params

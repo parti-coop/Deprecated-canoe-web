@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160119080432) do
+ActiveRecord::Schema.define(version: 20160120055324) do
 
   create_table "canoes", force: :cascade do |t|
     t.string   "title",             null: false
@@ -44,7 +44,6 @@ ActiveRecord::Schema.define(version: 20160119080432) do
 
   create_table "discussions", force: :cascade do |t|
     t.string   "subject",      null: false
-    t.text     "body"
     t.integer  "user_id",      null: false
     t.integer  "canoe_id",     null: false
     t.datetime "created_at",   null: false
