@@ -9,54 +9,49 @@
       %a.navbar-brand{ href: root_path }
         %strong canoe
     #navbar.navbar-offcanvas.navbar-offcanvas-right
-      - if user_signed_in?
-        %ul.nav.navbar-nav
-          %li.dropdown
-            %a.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button" }
-              %i.fa.fa-cubes
-              탑승한 카누
-              %span.caret
-            %ul.dropdown-menu
-              - current_user.crewing_canoes.each do |canoe|
-                %li= link_to canoe.title, canoe_home_path(canoe)
-              - unless current_user.crewing_canoes.empty?
-                %li(role="separator" class="divider")
-              %li
-                = link_to canoes_path do
-                  %i.fa.fa-list
-                  내가 탑승한 모든 카누 보기
-              %li
-                = link_to new_canoe_path do
-                  %i.fa.fa-edit
-                  카누 만들기
+      %ul.nav.navbar-nav
+        - if user_signed_in?
+          %li
+            = link_to new_discussion_path do
+              %i.fa.fa-flag
+              새 논의 만들기
           %li
             = link_to discussions_path do
               %i.fa.fa-comments
-              최근 논의
+              논의
               - if current_user.crewing_discussions.unread.any?
                 %span.badge.badge-default= current_user.crewing_discussions.unread.count
-
-        = link_to new_discussion_path, class: 'btn btn-success btn-xs navbar-btn navbar-left' do
-          %i.fa.fa-flag
-          새 논의 만들기
-      %ul.nav.navbar-nav.navbar-right
-        %li
-          %a(href='http://parti-xyz.uservoice.com/')
-            %i.fa.fa-support
-            고객센터
-        - if user_signed_in?
+          / %li.dropdown.active
+          /   %a.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", :href => "#", :role => "button" }
+          /     %i.fa.fa-cubes
+          /     탑승한 카누
+          /     %span.caret
+          /   %ul.dropdown-menu.shown
+          /     - current_user.crewing_canoes.each do |canoe|
+          /       %li= link_to canoe.title, canoe_home_path(canoe)
+          /     - unless current_user.crewing_canoes.empty?
+          /       %li(role="separator" class="divider")
+          /     %li
+          /       = link_to new_canoe_path do
+          /         %i.fa.fa-edit
+          /         카누 만들기
           %li
-            = link_to messages_path do
-              - if current_user.mailbox.notifications.unread.any?
-                %i.fa.fa-bell.text-danger
-                %span.badge= current_user.mailbox.notifications.unread.count
-              - else
-                %i.fa.fa-bell-o.text-mute
-          %li.dropdown
+            = link_to canoes_path do
+              %i.fa.fa-cubes
+              내 카누
+          %li.dropdown.active
             %a.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
               = user_byline current_user
               %span.caret
-            %ul.dropdown-menu
+            %ul.dropdown-menu.shown
+              %li
+                = link_to messages_path do
+                  - if current_user.mailbox.notifications.unread.any?
+                    %i.fa.fa-bell.text-danger
+                    %span.badge= current_user.mailbox.notifications.unread.count
+                  - else
+                    %i.fa.fa-bell-o.text-mute
+                  알림
               %li
                 = link_to edit_user_path do
                   %i.fa.fa-pencil-square-o
@@ -68,4 +63,7 @@
         - else
           %li= link_to '회원가입', sign_up_path
           %li= link_to '로그인', new_user_session_path
-
+        %li
+          %a(href='http://parti-xyz.uservoice.com/')
+            %i.fa.fa-support
+            고객센터
