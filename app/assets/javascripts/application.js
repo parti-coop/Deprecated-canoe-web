@@ -4,6 +4,7 @@
 //= require trianglify
 //= require webui-popover
 //= require zenscroll/zenscroll
+//= require iamphill-bootstrap-offcanvas/js/bootstrap.offcanvas
 //= require uservoice
 
 $(document).on('ready', function(e) {
