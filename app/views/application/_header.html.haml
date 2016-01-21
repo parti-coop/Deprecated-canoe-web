@@ -24,7 +24,7 @@
           / %li.dropdown.active
           /   %a.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", :href => "#", :role => "button" }
           /     %i.fa.fa-cubes
-          /     탑승한 카누
+          /     승선한 카누
           /     %span.caret
           /   %ul.dropdown-menu.shown
           /     - current_user.crewing_canoes.each do |canoe|
@@ -40,7 +40,7 @@
               %i.fa.fa-cubes
               내 카누
           %li.dropdown.active
-            %a.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
+            %a.dropdown-toggle{:href => "#"}
               = user_byline current_user
               %span.caret
             %ul.dropdown-menu.shown

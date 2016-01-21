@@ -8,14 +8,20 @@ class DiscussionsController < ApplicationController
   load_and_authorize_resource :discussion, through: :canoe, shallow: true
 
   def index
-    if params[:list] == 'unread'
-      @discussions = current_user.crewing_discussions.unread.order(discussed_at: :desc)
-    elsif params[:list] == 'all'
-      @discussions = Discussion.order(discussed_at: :desc)
+    limit = 30
+    crewing_discussions = current_user.crewing_discussions
+
+    @unread_count = current_user.crewing_discussions.unread_by(current_user).count
+    if(params[:list] == 'read')
+      fetch_read_discussions(limit)
+    elsif(params[:list] == 'other')
+      fetch_other_discussions(limit)
     else
-      @discussions = current_user.crewing_discussions.order(discussed_at: :desc).first(10)
+      fetch_unread_discussions
+      if @discussions.empty? and params[:list].blank?
+        fetch_read_discussions(limit)
+      end
     end
-    @unread_discussions = current_user.crewing_discussions.unread
   end
 
   def show
@@ -64,6 +70,20 @@ class DiscussionsController < ApplicationController
 
   private
 
+  def fetch_read_discussions(limit)
+    @list = 'read'
+    @discussions = current_user.crewing_discussions.read_by(current_user).order(discussed_at: :desc).first(limit)
+  end
+
+  def fetch_unread_discussions
+    @list = 'unread'
+    @discussions = current_user.crewing_discussions.unread_by(current_user).order(discussed_at: :desc)
+  end
+
+  def fetch_other_discussions(limit)
+    @list = 'other'
+    @discussions = Discussion.joins(:canoe).where.not(canoe: current_user.crewing_canoes).order(discussed_at: :desc).first(limit)
+  end
   def create_params
     params.require(:discussion).permit(:subject, :canoe_id, opinions_attributes: [ :body ])
   end

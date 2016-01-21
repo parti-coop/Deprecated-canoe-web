@@ -1,18 +1,50 @@
 .bs-component
   .container
-    %ul.nav.nav-tabs.nav-justified{ style: 'margin-bottom: 20px;' }
-      %li{ class: params[:list].nil? ? 'active' : '' }
-        = link_to '내 카누의 최근 논의', discussions_path
-      %li{ class: params[:list] == 'unread' ? 'active' : '' }
-        = link_to discussions_path({list: 'unread'}) do
-          읽지 않은 논의
-          %span.badge= @unread_discussions.count
-      %li{ class: params[:list] == 'all' ? 'active' : '' }
-        = link_to '전체 논의', discussions_path({list: 'all'})
-
-    - unless @discussions.empty?
-      .tab-content
-        .panel.panel-default
+    .page-header
+      %h3
+        - if @list == 'unread'
+          %i.fa.fa-comments
+          읽지않은 논의
+          %span.badge(style='font-size: 70%; background-color: black;')= @unread_count
+          %small
+            = link_to discussions_path({list: 'read'}) do
+              최근 논의
+          %small.pull-right(style='line-height:37px;')
+            = link_to discussions_path({list: 'other'}) do
+              다른 카누들의 최근 논의
+        - if @list == 'read'
+          %i.fa.fa-comments
+          최근 논의
+          %small
+            - if @unread_count > 0
+              = link_to discussions_path({list: 'unread'}) do
+                읽지않은 논의
+                %span.badge= @unread_count
+          %small.pull-right(style='line-height:37px;')
+            = link_to discussions_path({list: 'other'}) do
+              다른 카누들의 최근 논의
+        - if @list == 'other'
+          %i.fa.fa-comments
+          다른 카누들의 최근 논의
+          %small.pull-right(style='line-height:37px;')
+            - if @unread_count > 0
+              = link_to discussions_path({list: 'unread'}) do
+                읽지않은 논의
+                %span.badge= @unread_count
+              %strong
+                \|
+            = link_to discussions_path({list: 'read'}) do
+              최근 논의
+    .row
+      .panel.panel-default
+        - if @discussions.any?
           %table.table
             %tbody
               = render @discussions
+        - else
+          .panel-body
+            %p.lead.text-muted.text-center
+              - if @list == 'unread'
+                와아! 모두 읽으셨습니다!
+              - else
+                최근 진행된 논의가 없습니다.

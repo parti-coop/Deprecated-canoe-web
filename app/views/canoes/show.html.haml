@@ -20,27 +20,27 @@
       .panel-heading
         %h4.text-muted
           %i.fa.fa-users
-          탑승자
+          선원
           %span.badge= @canoe.crews.count
           - if can?(:accept_crew, @canoe)
             %small.pull-right
               - if @canoe.request_to_joins.any?
                 = link_to canoe_request_to_joins_path(@canoe), class: 'btn btn-xs btn-danger' do
                   %i.fa.fa-sign-in
-                  탑승요청 #{@canoe.request_to_joins.count}명
+                  승선요청 #{@canoe.request_to_joins.count}명
               = link_to new_canoe_crew_path(@canoe), class: 'btn btn-success btn-xs' do
                 %i.fa.fa-user-plus
-                탑승시키기
+                승선시키기
           - elsif user_signed_in?
             %small.pull-right
               - if @canoe.request_to_join?(current_user)
                 %button.btn.btn-xs.btn-danger.disabled
                   %i.fa.fa-sign-in
-                  탑승요청 중
+                  승선요청 중
               - elsif can?(:ask_crew, @canoe)
                 = link_to ask_canoe_request_to_joins_path(canoe_id: @canoe), method: :post, class: 'btn btn-xs btn-danger' do
                   %i.fa.fa-sign-in
-                  탑승요청하기
+                  승선요청하기
       .panel-body
         .row
           .col-sm-3.col-xs-4

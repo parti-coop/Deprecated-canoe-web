@@ -11,6 +11,6 @@ UserVoice.push(['showTab', 'classic_widget', {
   feedback_tab_name: '기능 제안',
   tab_label: '버그 신고 및 기능 제안',
   tab_color: '#ff4136',
-  tab_position: 'middle-right',
+  tab_position: 'bottom-left',
   tab_inverted: false
 }]);
