@@ -21,9 +21,9 @@
             %i.fa.fa-minus-circle
       - else
         = link_to in_favor_proposal_path(proposal), method: :post, class: 'btn btn-default' do
-          %span.text-default.text-muted
+          %span.text-default
             %i.fa.fa-heart-o
-      %button.btn.btn-xs.text-muted(class="#{'disabled' unless proposal.votes.in_favor.any?}" data-toggle="collapse" data-parent="##{dom_id(proposal)}--result" href="##{dom_id(proposal)}--result--in_favor" aria-expanded="false" style="background-color: white; border: 1px solid #dddddd;")
+      %button.btn.btn-xs.text-muted(class="#{'disabled' unless proposal.votes.in_favor.any?}" data-toggle="collapse" data-parent="##{dom_id(proposal)}--result" href="##{dom_id(proposal)}--result--in_favor" aria-expanded="false" style="background-color: white; border: 1px solid #dddddd; color: #999999;")
         %i.fa.fa-user
         = proposal.votes.by_crews.in_favor.count
     .btn-group-vertical(style='width: 50px')
@@ -37,9 +37,9 @@
             %i.fa.fa-minus-circle
       - else
         = link_to opposed_proposal_path(proposal), method: :post, class: 'btn btn-default' do
-          %span.text-default.text-muted
+          %span.text-default
             %i.fa.fa-ban
-      %button.btn.btn-xs.text-muted(class="#{'disabled' unless proposal.votes.opposed.any?}" data-toggle="collapse" data-parent="##{dom_id(proposal)}--result" href="##{dom_id(proposal)}--result--opposed" aria-expanded="false" style="background-color: white; border: 1px solid #dddddd;")
+      %button.btn.btn-xs(class="#{'disabled' unless proposal.votes.opposed.any?}" data-toggle="collapse" data-parent="##{dom_id(proposal)}--result" href="##{dom_id(proposal)}--result--opposed" aria-expanded="false" style="background-color: white; border: 1px solid #dddddd; color: #999999;")
         %i.fa.fa-user
         = proposal.votes.opposed.count
   %td
@@ -77,7 +77,6 @@
         .panel.panel-default{ "style" => "border: none; box-shadow: none; -webkit-box-shadow: none" }
           .panel-collapse.collapse{"id" => "#{dom_id(proposal)}--result--in_favor", "aria-labelledby" => "headingOne", :role => "tabpanel"}
             .panel-body
-              %hr(style="margin-top: 0;")
               %strong.text-success
                 %i.fa.fa-heart
                 추천
@@ -103,7 +102,6 @@
         .panel.panel-default{ "style" => "border: none; box-shadow: none; -webkit-box-shadow: none" }
           .panel-collapse.collapse{"id" => "#{dom_id(proposal)}--result--opposed", "aria-labelledby" => "headingTwo", :role => "tabpanel"}
             .panel-body
-              %hr(style="margin-top: 0;")
               %h5.text-danger
                 %i.fa.fa-ban
                 차단
