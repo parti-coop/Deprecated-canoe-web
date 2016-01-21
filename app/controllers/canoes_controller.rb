@@ -6,8 +6,7 @@ class CanoesController < ApplicationController
   load_and_authorize_resource except: [:index, :short]
 
   def index
-    @crewing_canoes = current_user.crewing_canoes
-    @opinions = Opinion.joins(:discussion).where('discussions.canoe_id': @canoes).order(id: :desc)
+    @canoes = params[:list] == 'all' ? Canoe.all : current_user.crewing_canoes
   end
 
   def show
