@@ -1,5 +1,9 @@
 @import "bootstrap-sprockets";
 @import "bootswatch/journal/variables";
+
+// collpase navbar
+$grid-float-breakpoint: 10000px;
+
 @import "bootstrap";
 
 body { padding-top: 80px; padding-bottom: 80px; }
