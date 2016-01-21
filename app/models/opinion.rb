@@ -1,5 +1,6 @@
 class Opinion < ActiveRecord::Base
   include DiscussionComponent
+
   belongs_to :user
   has_many :mentions
   has_many :reactions

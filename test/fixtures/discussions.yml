@@ -2,4 +2,5 @@ discussion1:
   subject: 'subject1'
   user: one
   canoe: canoe1
+  decision: decision1
   discussed_at: <%= 5.day.ago.to_s(:db) %>

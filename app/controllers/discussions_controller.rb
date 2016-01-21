@@ -1,6 +1,7 @@
 class DiscussionsController < ApplicationController
   include SlackNotifing
   include Messaging
+  include DiscussionActivityTraking
 
   before_filter :authenticate_user!, except: [:show]
   load_and_authorize_resource :canoe
@@ -30,6 +31,7 @@ class DiscussionsController < ApplicationController
     if @discussion.save
       notify_to_crews(@discussion)
       slack(@discussion)
+      create_opinions_create_activty(@discussion.opinions.first) if @discussion.opinions.first.present?
       redirect_to @discussion
     else
       render 'new'
@@ -39,6 +41,7 @@ class DiscussionsController < ApplicationController
   def update
     if @discussion.update_attributes(update_params)
       slack(@discussion)
+      create_discussions_update_decision_activty(@discussion) if @discussion.previous_changes['decision'].present?
       redirect_to @discussion
     else
       render 'edit'

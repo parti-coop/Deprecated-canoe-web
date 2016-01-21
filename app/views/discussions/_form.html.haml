@@ -6,8 +6,9 @@
   .form-group
     = f.label :subject
     = f.text_field :subject, class: 'form-control'
-  = f.fields_for :opinions, @discussion.opinions.build do |f_opinion|
-    .form-group
-      = f_opinion.label :body
-      = f_opinion.text_area :body, class: 'form-control'
+  - if @discussion.new_record?
+    = f.fields_for :opinions, @discussion.opinions.build do |f_opinion|
+      .form-group
+        = f_opinion.label :body
+        = f_opinion.text_area :body, class: 'form-control'
   = f.submit '저장', class: 'btn btn-default'

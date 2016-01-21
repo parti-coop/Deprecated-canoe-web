@@ -38,7 +38,7 @@ module ApplicationHelper
       sequential_id = $1
       proposal = opinion.discussion.proposals.find_by sequential_id: sequential_id
       if proposal.present?
-        m.gsub($1, "<span class='label label-danger' data-toggle='tooltip' data-placement='bottom' title='#{strip_tags proposal.body.squish} [자세히보기]' data-anchor='proposal' data-proposal-id='#{proposal.id}' style='cursor: pointer;'>#{$1}</span>")
+        m.gsub($1, "<span class='label label-danger' data-toggle='tooltip' data-placement='bottom' title='#{strip_tags proposal.body.squish}' data-anchor='proposal' data-proposal-id='#{proposal.id}' style='cursor: pointer;'>#{$1}</span>")
       else
         m
       end

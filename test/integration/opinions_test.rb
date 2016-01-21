@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class OpinionsTest < ActionDispatch::IntegrationTest
-  test 'new' do
+  test 'create' do
     previous_discussed_at = discussions(:discussion1).discussed_at
     sign_in users(:one)
     post discussion_opinions_path(discussion_id: discussions(:discussion1).id, opinion: { body: 'test' } )
@@ -9,6 +9,15 @@ class OpinionsTest < ActionDispatch::IntegrationTest
     assert_equal users(:one), assigns(:opinion).user
     assert_equal 'test', assigns(:opinion).body
     refute_equal previous_discussed_at, discussions(:discussion1).reload.discussed_at
+  end
+
+  test 'activity' do
+    previous_discussed_at = discussions(:discussion1).discussed_at
+    sign_in users(:one)
+    post discussion_opinions_path(discussion_id: discussions(:discussion1).id, opinion: { body: 'test' } )
+
+    activity = discussions(:discussion1).activities.first
+    assert_equal 'opinions.create', activity.key
   end
 
   test 'shoud not create by visitor' do

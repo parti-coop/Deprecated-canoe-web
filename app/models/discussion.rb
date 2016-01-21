@@ -1,4 +1,6 @@
 class Discussion < ActiveRecord::Base
+  include PublicActivity::Model
+
   acts_as_readable :on => :discussed_at
 
   belongs_to :user

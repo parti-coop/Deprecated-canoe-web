@@ -1,12 +1,22 @@
 require 'test_helper'
 
 class ProposalTest < ActionDispatch::IntegrationTest
-  test 'new' do
+  test 'create' do
     sign_in users(:one)
     post discussion_proposals_path(discussion_id: discussions(:discussion1).id, proposal: { body: 'test' } )
 
     assert_equal users(:one), assigns(:proposal).user
     assert_equal 'test', assigns(:proposal).body
+  end
+
+  test 'activity' do
+    sign_in users(:one)
+    post discussion_proposals_path(discussion_id: discussions(:discussion1).id, proposal: { body: 'test' } )
+
+    activity = discussions(:discussion1).reload.activities.last
+    assert_equal 'proposals.create', activity.key
+    assert_equal discussions(:discussion1), activity.trackable
+    assert_equal assigns(:proposal), activity.recipient
   end
 
   test 'shoud not create by visitor' do

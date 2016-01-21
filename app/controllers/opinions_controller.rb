@@ -1,6 +1,7 @@
 class OpinionsController < ApplicationController
   include SlackNotifing
   include Messaging
+  include DiscussionActivityTraking
 
   before_filter :authenticate_user!, except: [:show]
   after_action :message_for_mentions, only: [:create, :update]
@@ -22,6 +23,7 @@ class OpinionsController < ApplicationController
   def create
     @opinion.user = current_user
     if @opinion.save
+      create_opinions_create_activty @opinion
       slack(@opinion)
     end
     redirect_to @discussion

@@ -1,5 +1,6 @@
 class ProposalsController < ApplicationController
   include SlackNotifing
+  include DiscussionActivityTraking
 
   before_filter :authenticate_user!, except: [:show]
   load_and_authorize_resource :canoe
@@ -18,6 +19,7 @@ class ProposalsController < ApplicationController
   def create
     @proposal.user = current_user
     if @proposal.save
+      create_porposals_create_activty(@proposal)
       slack(@proposal)
     end
     redirect_to @discussion
@@ -26,6 +28,7 @@ class ProposalsController < ApplicationController
   def update
     if @proposal.update_attributes(proposal_params)
       slack(@proposal)
+      create_porposals_update_activty(@proposal)
     end
     redirect_to @proposal.discussion
   end
