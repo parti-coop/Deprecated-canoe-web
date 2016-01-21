@@ -1,30 +1,29 @@
-%tbody
-  - unread = user_signed_in? && discussion.unread?(current_user)
-  - tr_class = unread ? 'alert-unread' : ''
-  %tr[discussion]{ class: tr_class }
-    %td
-      %h4
-        = link_to discussion.subject, discussion
-        %small
-          (
-          %span
-            %i.fa.fa-comments
-            = discussion.opinions.count
-          %span
-            %i.fa.fa-rocket
-            = discussion.proposals.count
-          )
-      - if discussion.decision.present?
-        %p.text-success
-          %i.fa.fa-thumb-tack
-          = simple_format auto_link(discussion.decision), {}, wrapper_tag: "span"
-    %td.text-right{ style: 'min-width: 120px' }
-      %div= user_byline discussion.user
-      %div.text-muted
-        %i.fa.fa-clock-o
-        = date_f discussion.discussed_at
-      - if params[:controller] == 'discussions'
-        %div
-          = link_to canoe_home_path(discussion.canoe) do
-            %i.fa.fa-cube
-            = discussion.canoe.title
+- unread = user_signed_in? && discussion.unread?(current_user)
+- tr_class = unread ? 'alert-unread' : ''
+%tr[discussion]{ class: tr_class }
+  %td
+    %h4
+      = link_to discussion.subject, discussion
+      %small
+        (
+        %span
+          %i.fa.fa-comments
+          = discussion.opinions.count
+        %span
+          %i.fa.fa-rocket
+          = discussion.proposals.count
+        )
+    - if discussion.decision.present?
+      %p.text-success
+        %i.fa.fa-thumb-tack
+        = simple_format auto_link(discussion.decision), {}, wrapper_tag: "span"
+  %td.text-right{ style: 'min-width: 120px' }
+    %div= user_byline discussion.user
+    %div.text-muted
+      %i.fa.fa-clock-o
+      = date_f discussion.discussed_at
+    - if params[:controller] == 'discussions'
+      %div
+        = link_to canoe_home_path(discussion.canoe) do
+          %i.fa.fa-cube
+          = discussion.canoe.title

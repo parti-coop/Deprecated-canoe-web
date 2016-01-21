@@ -8,7 +8,14 @@ class DiscussionsController < ApplicationController
   load_and_authorize_resource :discussion, through: :canoe, shallow: true
 
   def index
-    @discussions_limited = current_user.crewing_discussions.order(discussed_at: :desc).first(10)
+    if params[:list] == 'unread'
+      @discussions = current_user.crewing_discussions.unread.order(discussed_at: :desc)
+    elsif params[:list] == 'all'
+      @discussions = Discussion.order(discussed_at: :desc)
+    else
+      @discussions = current_user.crewing_discussions.order(discussed_at: :desc).first(10)
+    end
+    @unread_discussions = current_user.crewing_discussions.unread
   end
 
   def show
