@@ -84,16 +84,18 @@ class DiscussionsTest < ActionDispatch::IntegrationTest
     assert users(:one).mailbox.notifications.empty?
   end
 
-  test 'edit decision' do
+  test 'edit subject do not create activity' do
     sign_in users(:one)
 
-    previsou_last_activity = discussions(:discussion1).activities.last
-
-    decision = discussions(:discussion1).subject + 'xx'
+    previous_last_activity = discussions(:discussion1).activities.last
     put discussion_path(id: discussions(:discussion1).id, discussion: { subject: 'test' })
 
     activity = assigns(:discussion).reload.activities.last
-    assert previsou_last_activity, activity
+    assert_equal previous_last_activity, activity
+  end
+
+  test 'edit decision create activity' do
+    sign_in users(:one)
 
     decision = discussions(:discussion1).decision + 'xx'
     put discussion_path(id: discussions(:discussion1).id, discussion: { decision: decision })
