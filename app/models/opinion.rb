@@ -1,4 +1,5 @@
 class Opinion < ActiveRecord::Base
+  acts_as_paranoid
   include DiscussionComponent
 
   belongs_to :user

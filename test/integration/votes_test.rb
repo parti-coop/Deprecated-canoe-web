@@ -54,4 +54,13 @@ class VotesTest < ActionDispatch::IntegrationTest
     activity = proposals(:proposal1).discussion.activities.last
     assert_equal 'votes.opposed', activity.key
   end
+
+  test 'activity with unvoted' do
+    sign_in users(:one)
+    post in_favor_proposal_path(id: proposals(:proposal1).id)
+    delete unvote_proposal_path(id: proposals(:proposal1).id)
+    activity = proposals(:proposal1).discussion.activities.last
+    assert_equal assigns(:vote).id, activity.recipient_with_deleted.id
+    assert_equal 'votes.unvote', activity.key
+  end
 end

@@ -44,10 +44,33 @@ class ProposalTest < ActionDispatch::IntegrationTest
     assert_equal original_body, assigns(:proposal).body
   end
 
-  test 'delete' do
+  test 'destroy' do
     sign_in users(:one)
     delete proposal_path(id: proposals(:proposal1).id)
 
     refute Canoe.exists?(proposals(:proposal1).id)
+  end
+
+  test 'activity with destroyed' do
+    sign_in users(:one)
+    post discussion_proposals_path(discussion_id: discussions(:discussion1).id, proposal: { body: 'test' } )
+
+    delete proposal_path(id: assigns(:proposal).id)
+    activity = discussions(:discussion1).reload.activities.last
+    assert_equal assigns(:proposal).id, activity.recipient_with_deleted.id
+    assert_equal 'proposals.destroy', activity.key
+  end
+
+  test 'sequential_id' do
+    sign_in users(:one)
+    post discussion_proposals_path(discussion_id: discussions(:discussion1).id, proposal: { body: 'test1' } )
+    previous_sequential_id = assigns(:proposal).sequential_id
+
+    post discussion_proposals_path(discussion_id: discussions(:discussion1).id, proposal: { body: 'test2' } )
+    assert_equal previous_sequential_id + 1, assigns(:proposal).sequential_id
+
+    delete proposal_path(id: assigns(:proposal).id)
+    post discussion_proposals_path(discussion_id: discussions(:discussion1).id, proposal: { body: 'test3' } )
+    assert_equal previous_sequential_id + 2, assigns(:proposal).sequential_id
   end
 end

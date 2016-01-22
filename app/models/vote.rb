@@ -1,10 +1,13 @@
 class Vote < ActiveRecord::Base
+  acts_as_paranoid
   extend Enumerize
 
   belongs_to :user
   belongs_to :proposal
   has_one :discussion, through: :proposal
   enumerize :choice, in: [:in_favor, :opposed], predicates: true, scope: true
+
+  validates :user, uniqueness: {scope: [:proposal, :deleted_at]}
 
   scope :in_favor, -> { where(choice: 'in_favor') }
   scope :opposed, -> { where(choice: 'opposed') }

@@ -20,7 +20,7 @@ class DiscussionsTest < ActionDispatch::IntegrationTest
     activity = assigns(:discussion).reload.activities.first
     assert_equal 'opinions.create', activity.key
     assert_equal assigns(:discussion), activity.trackable
-    assert_equal assigns(:discussion).opinions.first, activity.recipient
+    assert_equal assigns(:discussion).opinions.first, activity.recipient_with_deleted
   end
 
   test 'shoud not create by visitor' do
@@ -58,11 +58,24 @@ class DiscussionsTest < ActionDispatch::IntegrationTest
     assert_equal original_subject, assigns(:discussion).subject
   end
 
-  test 'delete' do
+  test 'destroy' do
     sign_in users(:one)
     delete discussion_path(id: discussions(:discussion1).id)
 
     refute Canoe.exists?(discussions(:discussion1).id)
+  end
+
+  test 'activity with destroyed discussion' do
+    sign_in users(:one)
+    opinions_attributes = { body: 'test body' }
+    post canoe_discussions_path(canoe_id: canoes(:canoe1).id, discussion: { subject: 'test', opinions_attributes: {'0': opinions_attributes}} )
+
+    activity = assigns(:discussion).reload.activities.first
+    assert_equal 'opinions.create', activity.key
+
+    delete discussion_path(id: assigns(:discussion).id)
+
+    assert_equal assigns(:discussion), activity.trackable_with_deleted
   end
 
   test 'to notify when a disscussion is created' do
@@ -103,6 +116,6 @@ class DiscussionsTest < ActionDispatch::IntegrationTest
     activity = assigns(:discussion).reload.activities.last
     assert_equal 'discussions.update_decision', activity.key
     assert_equal assigns(:discussion), activity.trackable
-    assert_equal assigns(:discussion), activity.recipient
+    assert_equal assigns(:discussion), activity.recipient_with_deleted
   end
 end

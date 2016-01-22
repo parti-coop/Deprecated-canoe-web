@@ -49,6 +49,8 @@ module ApplicationHelper
   def current_canoe
     if params[:controller] == 'canoes'
       @canoe
+    elsif params[:controller] == 'crews'
+      @canoe
     elsif params[:controller] == 'discussions'
       @discussion.try(:canoe)
     elsif params[:controller] == 'opinions'

@@ -1,4 +1,5 @@
 class Proposal < ActiveRecord::Base
+  acts_as_paranoid
   acts_as_sequenced scope: :discussion_id
 
   belongs_to :user

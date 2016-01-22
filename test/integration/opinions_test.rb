@@ -45,11 +45,21 @@ class OpinionsTest < ActionDispatch::IntegrationTest
     assert_equal original_body, assigns(:opinion).body
   end
 
-  test 'delete' do
+  test 'destroy' do
     sign_in users(:one)
     delete opinion_path(id: opinions(:opinion1).id)
 
     refute Canoe.exists?(opinions(:opinion1).id)
+  end
+
+  test 'remove activity for destroyed opinion' do
+    previous_discussed_at = discussions(:discussion1).discussed_at
+    sign_in users(:one)
+    post discussion_opinions_path(discussion_id: discussions(:discussion1).id, opinion: { body: 'test' } )
+
+    activity = discussions(:discussion1).reload.activities.last
+    delete opinion_path(id: assigns(:opinion).id)
+    refute discussions(:discussion1).activities.exists? activity.id
   end
 
   test 'mention' do

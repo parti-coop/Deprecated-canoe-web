@@ -1,4 +1,5 @@
 class Discussion < ActiveRecord::Base
+  acts_as_paranoid
   include PublicActivity::Model
 
   acts_as_readable :on => :discussed_at

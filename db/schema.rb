@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160121010645) do
+ActiveRecord::Schema.define(version: 20160122061609) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id"
@@ -67,9 +67,11 @@ ActiveRecord::Schema.define(version: 20160121010645) do
     t.datetime "updated_at",   null: false
     t.text     "decision"
     t.datetime "discussed_at", null: false
+    t.datetime "deleted_at"
   end
 
   add_index "discussions", ["canoe_id"], name: "index_discussions_on_canoe_id"
+  add_index "discussions", ["deleted_at"], name: "index_discussions_on_deleted_at"
   add_index "discussions", ["user_id"], name: "index_discussions_on_user_id"
 
   create_table "mailboxer_conversation_opt_outs", force: :cascade do |t|
@@ -141,8 +143,10 @@ ActiveRecord::Schema.define(version: 20160121010645) do
     t.integer  "user_id",       null: false
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.datetime "deleted_at"
   end
 
+  add_index "opinions", ["deleted_at"], name: "index_opinions_on_deleted_at"
   add_index "opinions", ["discussion_id"], name: "index_opinions_on_discussion_id"
   add_index "opinions", ["user_id"], name: "index_opinions_on_user_id"
 
@@ -170,8 +174,10 @@ ActiveRecord::Schema.define(version: 20160121010645) do
     t.integer  "sequential_id",                    null: false
     t.integer  "in_favor_votes_count", default: 0, null: false
     t.integer  "opposed_votes_count",  default: 0, null: false
+    t.datetime "deleted_at"
   end
 
+  add_index "proposals", ["deleted_at"], name: "index_proposals_on_deleted_at"
   add_index "proposals", ["discussion_id"], name: "index_proposals_on_discussion_id"
   add_index "proposals", ["sequential_id", "discussion_id"], name: "index_proposals_on_sequential_id_and_discussion_id", unique: true
   add_index "proposals", ["user_id"], name: "index_proposals_on_user_id"
@@ -222,9 +228,12 @@ ActiveRecord::Schema.define(version: 20160121010645) do
     t.string   "choice",      null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.datetime "deleted_at"
   end
 
+  add_index "votes", ["deleted_at"], name: "index_votes_on_deleted_at"
   add_index "votes", ["proposal_id"], name: "index_votes_on_proposal_id"
+  add_index "votes", ["user_id", "proposal_id", "deleted_at"], name: "index_votes_on_user_id_and_proposal_id_and_deleted_at", unique: true
   add_index "votes", ["user_id"], name: "index_votes_on_user_id"
 
 end

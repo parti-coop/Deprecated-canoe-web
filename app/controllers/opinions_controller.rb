@@ -37,8 +37,10 @@ class OpinionsController < ApplicationController
   end
 
   def destroy
-    @opinion.destroy
-    slack(@opinion)
+    if @opinion.destroy
+      destroy_opinions_activty @opinion
+      slack(@opinion)
+    end
     redirect_to @opinion.discussion
   end
 

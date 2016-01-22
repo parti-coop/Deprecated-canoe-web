@@ -34,8 +34,10 @@ class ProposalsController < ApplicationController
   end
 
   def destroy
-    @proposal.destroy
-    slack(@proposal)
+    if @proposal.destroy
+      create_porposals_destroy_activty(@proposal)
+      slack(@proposal)
+    end
     redirect_to @proposal.discussion
   end
 

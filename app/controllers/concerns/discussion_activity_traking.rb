@@ -12,6 +12,12 @@ module DiscussionActivityTraking
     discussion.create_activity(key: 'opinions.create', owner: current_user, recipient: opinion)
   end
 
+  def destroy_opinions_activty(opinion)
+    discussion = opinion.discussion
+    activity = discussion.activities.find_by(key: 'opinions.create', recipient: opinion)
+    activity.try(:destroy)
+  end
+
   def create_votes_in_favor_activty(vote)
     discussion = vote.proposal.discussion
     discussion.create_activity(key: 'votes.in_favor', owner: current_user, recipient: vote)
@@ -22,6 +28,11 @@ module DiscussionActivityTraking
     discussion.create_activity(key: 'votes.opposed', owner: current_user, recipient: vote)
   end
 
+  def create_votes_unvote_activty(vote)
+    discussion = vote.proposal.discussion
+    discussion.create_activity(key: 'votes.unvote', owner: current_user, recipient: vote)
+  end
+
   def create_porposals_create_activty(proposal)
     discussion = proposal.discussion
     discussion.create_activity(key: 'proposals.create', owner: current_user, recipient: proposal)
@@ -30,5 +41,10 @@ module DiscussionActivityTraking
   def create_porposals_update_activty(proposal)
     discussion = proposal.discussion
     discussion.create_activity(key: 'proposals.update', owner: current_user, recipient: proposal)
+  end
+
+  def create_porposals_destroy_activty(proposal)
+    discussion = proposal.discussion
+    discussion.create_activity(key: 'proposals.destroy', owner: current_user, recipient: proposal)
   end
 end
