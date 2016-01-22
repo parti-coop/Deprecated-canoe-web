@@ -2,11 +2,16 @@ class CanoesController < ApplicationController
   include SlackNotifing
   include Messaging
 
-  before_filter :authenticate_user!, except: [:show, :short]
+  before_filter :authenticate_user!, except: [:index, :show, :short]
   load_and_authorize_resource except: [:index, :short]
 
   def index
-    @canoes = params[:list] == 'all' ? Canoe.all : current_user.crewing_canoes
+    if params[:list] == 'all'
+      @canoes = Canoe.all
+    else
+      authenticate_user!
+      @canoes = current_user.crewing_canoes
+    end
   end
 
   def show

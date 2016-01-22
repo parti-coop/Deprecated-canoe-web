@@ -45,4 +45,18 @@ module ApplicationHelper
     end
     auto_link(smart_text)
   end
+
+  def current_canoe
+    if params[:controller] == 'canoes'
+      @canoe
+    elsif params[:controller] == 'discussions'
+      @discussion.try(:canoe)
+    elsif params[:controller] == 'opinions'
+      (@opinion.try(:discussion) || @discussion).try(:canoe)
+    elsif params[:controller] == 'proposals'
+      (@proposal.try(:discussion) || @discussion).try(:canoe)
+    elsif params[:controller] == 'request_to_joins'
+      (@request_to_join.try(:discussion) || @discussion).try(:canoe)
+    end
+  end
 end

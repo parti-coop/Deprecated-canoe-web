@@ -1,9 +1,10 @@
-%nav.navbar.navbar-default.navbar-fixed-top
+%nav.navbar.navbar-default.navbar-fixed-top(role='navigation')
   .container
     .navbar-header.navbar-left.pull-left
       %a.navbar-brand{ href: root_path }
         %strong canoe
-      %ul.nav.navbar-nav.pull-right(style="margin-left: 5px")
+    .navbar-header.navbar-right.pull-right
+      %ul.nav.pull-right(style="margin-left: 30px")
         - unless user_signed_in?
           %li
             = link_to canoes_path({list: 'all'}) do
@@ -36,8 +37,7 @@
                   %i.fa.fa-edit
                   카누 만들기
 
-    .navbar-header
-      %button.navbar-toggle.navbar-right.offcanvas-toggle{"aria-controls" => "navbar", "aria-expanded" => "false", "data-target" => "#navbar", "data-toggle" => "offcanvas", :type => "button"}
+      %button.navbar-toggle.offcanvas-toggle{"aria-controls" => "navbar", "aria-expanded" => "false", "data-target" => "#navbar", "data-toggle" => "offcanvas", :type => "button"}
         %span.sr-only Toggle navigation
         %span.icon-bar
         %span.icon-bar
@@ -45,6 +45,7 @@
         - if user_signed_in? and (current_user.mailbox.notifications.unread.any? or current_user.crewing_discussions.unread.any?)
           %i.fa.fa-circle.text-danger(style='position: absolute; top: -7px; left: 35px;')
 
+    .visible-xs-block.clearfix
     #navbar.navbar-offcanvas.navbar-offcanvas-right
       %ul.nav.navbar-nav
         - if user_signed_in?
@@ -58,6 +59,10 @@
               논의
               - if current_user.crewing_discussions.unread.any?
                 %span.badge.badge-default= current_user.crewing_discussions.unread.count
+          %li
+            = link_to canoes_path do
+              %i.fa.fa-cubes
+              내 카누
           %li.dropdown.active
             %a.dropdown-toggle{:href => "#"}
               = user_byline current_user
@@ -67,11 +72,10 @@
                 = link_to messages_path do
                   - if current_user.mailbox.notifications.unread.any?
                     %i.fa.fa-bell.text-danger
-                    알림
                     %span.badge= current_user.mailbox.notifications.unread.count
                   - else
                     %i.fa.fa-bell-o.text-mute
-                    알림
+                  알림
               %li
                 = link_to edit_user_path do
                   %i.fa.fa-pencil-square-o

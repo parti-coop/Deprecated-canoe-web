@@ -49,6 +49,17 @@ body {
   display: block;
 }
 
+.navbar-nav .open .dropdown-menu.dropdown-menu-canoe{
+  position: absolute;
+  float: left;
+  min-width: 160px;
+  margin: 2px 0 0;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+}
+
 .jumbotron-transparent {
   background: none;
   border: none;
