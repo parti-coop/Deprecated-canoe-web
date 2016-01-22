@@ -1,50 +1,42 @@
 .bs-component
   .container
-    .page-header
+    .page-header.clearfix
       %h3
-        - if @list == 'unread'
+        - if params[:list] == 'all'
           %i.fa.fa-comments
-          읽지않은 논의
-          %span.badge(style='font-size: 70%; background-color: black;')= @unread_count
+          다른 카누 논의
           %small
-            = link_to discussions_path({list: 'read'}) do
-              최근 논의
-          %small.pull-right(style='line-height:37px;')
-            = link_to discussions_path({list: 'other'}) do
-              다른 카누들의 최근 논의
-        - if @list == 'read'
-          %i.fa.fa-comments
-          최근 논의
-          %small
-            - if @unread_count > 0
-              = link_to discussions_path({list: 'unread'}) do
-                읽지않은 논의
+            = link_to discussions_path do
+              내 카누 논의
+              - if @unread_count > 0
                 %span.badge= @unread_count
-          %small.pull-right(style='line-height:37px;')
-            = link_to discussions_path({list: 'other'}) do
-              다른 카누들의 최근 논의
-        - if @list == 'other'
-          %i.fa.fa-comments
-          다른 카누들의 최근 논의
-          %small.pull-right(style='line-height:37px;')
-            - if @unread_count > 0
-              = link_to discussions_path({list: 'unread'}) do
-                읽지않은 논의
-                %span.badge= @unread_count
-              %strong
-                \|
-            = link_to discussions_path({list: 'read'}) do
-              최근 논의
-    .row
-      .panel.panel-default
-        - if @discussions.any?
-          %table.table
-            %tbody
-              = render @discussions
         - else
-          .panel-body
-            %p.lead.text-muted.text-center
-              - if @list == 'unread'
-                와아! 모두 읽으셨습니다!
-              - else
-                최근 진행된 논의가 없습니다.
+          %i.fa.fa-comments
+          내 카누 논의
+          - if @unread_count > 0
+            %span.badge.bg-danger(style='font-size: 50%; background-color: black;')= @unread_count
+          %small
+            = link_to discussions_path({list: 'all'}) do
+              다른 카누 논의
+
+    - if @unread_discussions.try(:any?)
+      .panel.panel-default
+        .panel-heading
+          읽지 않은 논의
+          %strong= @unread_count
+          개
+        %table.table
+          %tbody
+            = render @unread_discussions
+
+    .panel.panel-default
+      - if @discussions.any?
+        .panel-heading
+          최근 진행된 논의
+        %table.table
+          %tbody
+            = render @discussions
+      - else
+        .panel-body
+          %p.lead.text-muted.text-center
+            최근 진행된 논의가 없습니다.
