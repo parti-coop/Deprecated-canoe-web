@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     resources :canoes do
       shallow do
         resources :discussions, except: :index do
+          resources :attachments
           resources :opinions do
             member do
               patch :pin

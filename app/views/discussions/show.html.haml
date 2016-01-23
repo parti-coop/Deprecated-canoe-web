@@ -25,7 +25,26 @@
           %strong
             - if @discussion.decision.present?
               = simple_format auto_link(@discussion.decision), {}, wrapper_tag: "span"
-            - else
+            - if @discussion.attachments.any?
+              %ul.list-inline(style='margin-top: 10px')
+                - @discussion.attachments.reject(&:image?).each do |attachment|
+                  %li
+                    %i.fa.fa-file-o
+                    = link_to attachment.original_filename, attachment.file_url
+                    - if can? :delete, attachment
+                      = link_to attachment, method: :delete, class: 'text-muted', data: { confirm: '정말 삭제하시겠습니까?'} do
+                        %i.fa.fa-times-circle
+              .row
+                - @discussion.attachments.select(&:image?).each do |attachment|
+                  .col-xs-4
+                    .thumbnail
+                      - if can? :delete, attachment
+                        = link_to attachment, method: :delete, class: 'text-muted', style: 'position:absolute; top:5px; right:30px;', data: { confirm: '정말 삭제하시겠습니까?'} do
+                          %i.fa.fa-times-circle
+                      = link_to attachment.file_url do
+                        = image_tag attachment.file_url, style: 'min-height:50px; height:50px; margin-top: 15px;'
+                        %p.caption.text-center= attachment.original_filename
+            - if @discussion.decision.blank? and @discussion.attachments.empty?
               아직 결정된 사항이 없습니다.
         - if can? :edit, @discussion
           %button.btn.btn-default.pull-right(role="button" data-toggle="canoe-toggle" data-parent="#discussion-decision" data-focus="#discussion_decision")
@@ -36,9 +55,12 @@
             .form-group
               = f.text_area :decision, placeholder: '모두 볼 수 있도록 현재까지 결정한 사항을 적어주세요', autofocus: true, class: 'form-control'
             .form-group.pull-right
-              = link_to '#', style: 'margin-right: 20px;' do
-                %i.fa.fa-upload
               = f.submit '저장하기', class: 'btn btn-primary'
+          .btn-file.pull-right(style='line-height: 40px; margin-right: 20px;')
+            = form_for [@discussion, @discussion.attachments.build] do |f|
+              = link_to '#', class: 'btn-file' do
+                = f.file_field :file
+                %i.fa.fa-upload
           %button.btn.btn-default(role="button" data-toggle="canoe-toggle" data-parent="#discussion-decision") << 닫기
 
     %h4

@@ -57,6 +57,10 @@ class Ability
       can :destroy, Reaction do |reaction|
         reaction.user == user
       end
+
+      can :manage, Attachment do |attachment|
+        attachment.discussion.canoe.crew? user
+      end
     end
   end
 end

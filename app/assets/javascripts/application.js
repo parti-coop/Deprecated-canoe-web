@@ -7,6 +7,13 @@
 //= require iamphill-bootstrap-offcanvas/js/bootstrap.offcanvas
 //= require uservoice
 
+$(document).on('change', '.btn-file :file', function() {
+  var input = $(this),
+      numFiles = input.get(0).files ? input.get(0).files.length : 1,
+      label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+  input.trigger('fileselect', [numFiles, label]);
+});
+
 $(document).on('ready', function(e) {
   $('[data-toggle="tooltip"]').tooltip();
   $('[data-toggle="webui-popover"]').webuiPopover();
@@ -39,6 +46,9 @@ $(document).on('ready', function(e) {
   var pattern = Trianglify({
     width: 1200,
     height: 600,
+  });
+  $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
+    event.target.form.submit();
   });
   $('.pattern-trianglify').css("background-image", "url('" + pattern.png() + "')");
 });
