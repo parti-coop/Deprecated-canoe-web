@@ -14,10 +14,10 @@
   .media-body
     %h5.media-heading
       %strong= opinion.user.nickname
-      .pull-right
-        %span.text-muted
-          %i.fa.fa-clock-o
-          = date_f opinion.created_at
+      %span.text-muted(style='margin-left: 10px;')
+        %i.fa.fa-clock-o
+        = date_f opinion.created_at
+      %span.text-muted(style='margin-left: 10px;')
         - if can? :edit, opinion
           = link_to [:edit, opinion] do
             %i.fa.fa-edit
@@ -31,7 +31,7 @@
       &nbsp;
       - if can? :create, Reaction
         %span.reaction_button
-          %a.text-muted{"data-content" => "#{render partial: 'reaction_popover', locals: {opinion: opinion}}", "data-placement" => "right", "data-html" => "true", "data-toggle" => "webui-popover", :title => "", :type => "button", :style => "color: #cccccc; text-decoration: none;"}
+          %a.text-muted{"href" => "#", "data-content" => "#{render partial: 'reaction_popover', locals: {opinion: opinion}}", "data-placement" => "right", "data-html" => "true", "data-toggle" => "webui-popover", :title => "", :type => "button", :style => "color: #cccccc; text-decoration: none;"}
             %i.fa.fa-plus-square
             호응하기
 

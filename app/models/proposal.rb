@@ -16,6 +16,7 @@ class Proposal < ActiveRecord::Base
   end
   has_many :in_favor_votes, -> { where choice: :in_favor }, class_name: Vote, counter_cache: 'in_favor_votes_count'
 
+  validates :body, presence: true
   scope :latest, -> { order(id: :desc) }
 
   def opposed_by? user

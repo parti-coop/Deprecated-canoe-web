@@ -10,6 +10,23 @@
 $(document).on('ready', function(e) {
   $('[data-toggle="tooltip"]').tooltip();
   $('[data-toggle="webui-popover"]').webuiPopover();
+  $('[data-toggle="canoe-toggle"]').on('click', function(e) {
+    var parent_id = $(e.target).data('parent');
+    $parent = $(parent_id);
+    $parent.find('.canoe-toggle-item').each(function(index, object) {
+      $object = $(object);
+      if($object.hasClass('hidden')) {
+        $object.removeClass('hidden');
+      } else {
+        $object.addClass('hidden');
+      }
+    });
+
+    var focus_id = $(e.target).data('focus');
+    $focus = $(focus_id)
+    $focus.focus()
+  });
+  zenscroll.setup(null, 60)
   zenscroll.setup(null, 60)
   $('[data-anchor="proposal"]').on('click', function(e) {
     var proposal_id = $(e.target).data('proposal-id');

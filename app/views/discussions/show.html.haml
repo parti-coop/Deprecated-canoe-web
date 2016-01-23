@@ -2,63 +2,92 @@
 
 .bs-component
   .container
-    .panel.panel-default
-      .panel-heading
-        .clearfix
-          .pull-left
-            = user_byline @discussion.user
-          .pull-right
-            %i.fa.fa-clock-o
-            = date_f @discussion.created_at
-            - if can? :edit, @discussion
-              = link_to [:edit, @discussion] do
-                %i.fa.fa-edit
-            - if can? :destroy, @discussion
-              = link_to @discussion, method: :delete, data: { confirm: '정말 삭제하시겠습니까?'} do
-                %i.fa.fa-trash
-      .panel-body
-        %h3
-          #{@discussion.subject}
+    .clearfix
+      .pull-right
+        = user_byline @discussion.user
+        %i.fa.fa-clock-o
+        = date_f @discussion.created_at
         - if can? :edit, @discussion
-          %h5
-            현재 결정 사항은
-          %p.lead
-            = form_for @discussion do |f|
-              .form-group
-                = f.text_area :decision, placeholder: '모두 볼 수 있도록 논의의 현재 결정 사항을 적어주세요', class: 'form-control'
-              = f.submit '저장하기', class: 'btn btn-default'
-        - elsif @discussion.decision.present?
-          %h5.text-success
-            %i.fa.fa-thumb-tack
-            = simple_format auto_link(@discussion.decision), {}, wrapper_tag: "span"
+          = link_to [:edit, @discussion] do
+            %i.fa.fa-edit
+        - if can? :destroy, @discussion
+          = link_to @discussion, method: :delete, data: { confirm: '정말 삭제하시겠습니까?'} do
+            %i.fa.fa-trash
+    %h2.text-center(style='margin-bottom:50px;')
+      #{@discussion.subject}
 
-      .panel-body{ style: 'background-color: #fafadd; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd;' }
-        %table.table
+    %h4
+      %i.fa.fa-thumb-tack
+      현재 결정 사항
+    #discussion-decision.clearfix(style='margin: 20px 0;')
+      .canoe-toggle-item
+        %div(style='margin-bottom: 20px')
+          %strong
+            - if @discussion.decision.present?
+              = simple_format auto_link(@discussion.decision), {}, wrapper_tag: "span"
+            - else
+              아직 결정된 사항이 없습니다.
+        - if can? :edit, @discussion
+          %button.btn.btn-default.pull-right(role="button" data-toggle="canoe-toggle" data-parent="#discussion-decision" data-focus="#discussion_decision")
+            결정 #{@discussion.decision.present? ? '수정' : '작성'}하기 >>
+      - if can? :edit, @discussion
+        .canoe-toggle-item.hidden
+          = form_for @discussion do |f|
+            .form-group
+              = f.text_area :decision, placeholder: '모두 볼 수 있도록 현재까지 결정한 사항을 적어주세요', autofocus: true, class: 'form-control'
+            .form-group.pull-right
+              = link_to '#', style: 'margin-right: 20px;' do
+                %i.fa.fa-upload
+              = f.submit '저장하기', class: 'btn btn-primary'
+          %button.btn.btn-default(role="button" data-toggle="canoe-toggle" data-parent="#discussion-decision") << 닫기
+
+    %h4
+      %i.fa.fa-rocket
+      제안
+    #discussion-proposals.clearfix(style='margin: 20px 0;')
+      - if @discussion.proposals.any?
+        %ul.list-group
           - [@discussion.proposals.top_of(:in_favor).latest, @discussion.proposals.exclude_top_of(:in_favor).latest].flatten.each do |proposals|
             = render proposals
-          %tbody(style='border: none;')
-            - if can? :edit, @discussion
-              %tr
-                %td(colspan=2)
-                  = form_for [@discussion, @discussion.proposals.build] do |f|
-                    .form-group
-                      = f.text_area :body, class: 'form-control', style: "width: 100%; height: 60px;", placeholder: '내 제안은...'
-                    = f.submit '제안하기', class: 'btn btn-default'
+      - else
+        .canoe-toggle-item
+          %strong 아직 제안이 없습니다.
+      - if can? :edit, @discussion
+        .canoe-toggle-item.pull-right
+          %button.btn.btn-default.btn-block(role="button" data-toggle="canoe-toggle" href="#discussion-proposals-form" data-parent="#discussion-proposals" data-focus="#proposal_body")
+            제안 작성하기 >>
+        .canoe-toggle-item.hidden
+          = form_for [@discussion, @discussion.proposals.build] do |f|
+            .form-group
+              = f.text_area :body, autofocus: true, class: 'form-control', style: "width: 100%; height: 60px;", placeholder: '내 제안은...'
+            .form-group.pull-right
+              = link_to '#', style: 'margin-right: 20px;' do
+                %i.fa.fa-upload
+              = f.submit '제안올리기', class: 'btn btn-default'
+          %button.btn.btn-default(role="button" data-toggle="canoe-toggle" href="#discussion-proposals-static" data-parent="#discussion-proposals") << 닫기
+.bs-component(style='background-color: #efefef; padding-top: 50px; padding-bottom: 50px; margin-bottom: 50px; margin-top: 20px;')
+  .container
+    %h4
+      %i.fa.fa-comments
+      의견
+    %ul.media-list
+      - if can? :edit, @discussion
+        %li.media
+          .media-left
+            %a{:href => "#"}
+              = image_tag current_user.image_url, class: 'media-object img-circle', style: 'width:64px;height:64px;'
+          .media-body
+            = form_for [@discussion, Opinion.new] do |f|
+              .form-group
+                = f.text_area :body, class: 'form-control', style: "width: 100%; height: 100px;", placeholder: '내 의견은...'
+              .form-group.pull-right
+                = link_to '#', style: 'margin-right: 20px;' do
+                  %i.fa.fa-upload
+                = f.submit '의견올리기', class: 'btn btn-default'
 
-      .panel-body
-        %ul.media-list
-          - if can? :edit, @discussion
-            %li.media
-              .media-left
-                %a{:href => "#"}
-                  = image_tag current_user.image_url, class: 'media-object img-circle', style: 'width:64px;height:64px;'
-              .media-body
-                = form_for [@discussion, Opinion.new] do |f|
-                  .form-group
-                    = f.text_area :body, class: 'form-control', style: "width: 100%; height: 100px;", placeholder: '내 의견은...'
-                  = f.submit '의견올리기', class: 'btn btn-default'
+      = render_activities @discussion.activities.order(created_at: :desc)
 
-          = render_activities @discussion.activities.order(created_at: :desc)
+    %hr
 
 .bs-component
   .container

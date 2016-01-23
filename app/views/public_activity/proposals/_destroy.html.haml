@@ -5,7 +5,9 @@
         %i.fa.fa-circle.fa-stack-2x
         %i.fa.fa-rocket.fa-stack-1x.fa-inverse
     .media-body(style='vertical-align: middle')
-      @#{activity.owner.nickname}님이 제안#{activity.recipient_with_deleted.sequential_id}을(를) 지웠습니다.
       %span.text-muted
         %i.fa.fa-clock-o
         = date_f activity.created_at
+      %div
+        @#{activity.owner.nickname}님이 제안#{activity.recipient_with_deleted.sequential_id}을(를) 지웠습니다.
+
