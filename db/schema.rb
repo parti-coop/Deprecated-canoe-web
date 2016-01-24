@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160124043145) do
+ActiveRecord::Schema.define(version: 20160124060252) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id"
@@ -39,9 +39,11 @@ ActiveRecord::Schema.define(version: 20160124043145) do
     t.datetime "updated_at",        null: false
     t.integer  "attachable_id",     null: false
     t.string   "attachable_type",   null: false
+    t.datetime "deleted_at"
   end
 
   add_index "attachments", ["attachable_type", "attachable_id"], name: "index_attachments_on_attachable_type_and_attachable_id"
+  add_index "attachments", ["deleted_at"], name: "index_attachments_on_deleted_at"
 
   create_table "canoes", force: :cascade do |t|
     t.string   "title",             null: false

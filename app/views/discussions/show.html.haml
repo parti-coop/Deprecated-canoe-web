@@ -77,7 +77,7 @@
                   %i.fa.fa-upload
                 = f.submit '의견올리기', class: 'btn btn-default'
 
-      = render_activities @discussion.activities.order(created_at: :desc)
+      = render partial: 'public_activity/collection', locals: { activities: @discussion.activities.order(created_at: :desc) }
 
     %hr
 

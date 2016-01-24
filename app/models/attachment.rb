@@ -1,5 +1,8 @@
 class Attachment < ActiveRecord::Base
-  belongs_to :attachable, polymorphic: true
+  acts_as_paranoid
+
+  belongs_to :attachable, -> { unscope(where: :deleted_at) }, polymorphic: true
+
   belongs_to :user
 
   mount_uploader :source, AttachmentUploader

@@ -1,0 +1,12 @@
+- if activity.recipient_with_deleted.present?
+  %li.media[activity](style='margin-top: 5px;')
+    .media-left(style='font-size: 28px;')
+      %span.fa-stack.fa-lg(style='right: 5px;')
+        %i.fa.fa-circle.fa-stack-2x
+        = @view_flow.get(:icon)
+    .media-body(style='vertical-align: middle')
+      %span.text-muted
+        %i.fa.fa-clock-o
+        = date_f activity.created_at
+      %div
+        = yield

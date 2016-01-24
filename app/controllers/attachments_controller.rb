@@ -6,7 +6,9 @@ class AttachmentsController < ApplicationController
 
   def create
     @attachment.user = current_user
-    @attachment.save
+    if @attachment.save
+      create_attachments_create_activty(@attachment)
+    end
 
     @discussion = @attachment.discussion
     if @discussion.present?
@@ -17,7 +19,9 @@ class AttachmentsController < ApplicationController
   end
 
   def destroy
-    @attachment.destroy
+    if @attachment.destroy
+      create_attachments_destroy_activty(@attachment)
+    end
 
     @discussion = @attachment.discussion
     if @discussion.present?

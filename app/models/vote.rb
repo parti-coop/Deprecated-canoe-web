@@ -4,6 +4,7 @@ class Vote < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :proposal
+  belongs_to :proposal_with_deleted, -> { unscope(where: :deleted_at) }, class_name: Proposal, foreign_key: :proposal_id
   has_one :discussion, through: :proposal
   enumerize :choice, in: [:in_favor, :opposed], predicates: true, scope: true
 

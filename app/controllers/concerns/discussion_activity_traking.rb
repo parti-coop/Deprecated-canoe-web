@@ -47,4 +47,30 @@ module DiscussionActivityTraking
     discussion = proposal.discussion
     discussion.create_activity(key: 'proposals.destroy', owner: current_user, recipient: proposal)
   end
+
+  def create_attachments_create_activty(attachment)
+    discussion = attachment.discussion
+    return if discussion.nil?
+
+    case attachment.attachable_type
+    when Discussion.to_s
+      discussion.create_activity(key: 'discussions.attachments.create', owner: current_user, recipient: attachment)
+    when Proposal.to_s
+      discussion.create_activity(key: 'proposals.attachments.create', owner: current_user, recipient: attachment)
+    else
+    end
+  end
+
+  def create_attachments_destroy_activty(attachment)
+    discussion = attachment.discussion
+    return if discussion.nil?
+
+    case attachment.attachable_type
+    when Discussion.to_s
+      discussion.create_activity(key: 'discussions.attachments.destroy', owner: current_user, recipient: attachment)
+    when Proposal.to_s
+      discussion.create_activity(key: 'proposals.attachments.destroy', owner: current_user, recipient: attachment)
+    else
+    end
+  end
 end
