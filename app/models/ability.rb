@@ -59,7 +59,7 @@ class Ability
       end
 
       can :manage, Attachment do |attachment|
-        attachment.discussion.canoe.crew? user
+        can? :update, attachment.attachable
       end
     end
   end

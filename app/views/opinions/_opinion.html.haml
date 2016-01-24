@@ -18,7 +18,7 @@
         %i.fa.fa-clock-o
         = date_f opinion.created_at
       %span.text-muted(style='margin-left: 10px;')
-        - if can? :edit, opinion
+        - if can? :update, opinion
           = link_to [:edit, opinion] do
             %i.fa.fa-edit
         - if can? :destroy, opinion

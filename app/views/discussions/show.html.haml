@@ -7,7 +7,7 @@
         = user_byline @discussion.user
         %i.fa.fa-clock-o
         = date_f @discussion.created_at
-        - if can? :edit, @discussion
+        - if can? :update, @discussion
           = link_to [:edit, @discussion] do
             %i.fa.fa-edit
         - if can? :destroy, @discussion
@@ -19,81 +19,51 @@
     %h4
       %i.fa.fa-thumb-tack
       현재 결정 사항
-    #discussion-decision.clearfix(style='margin: 20px 0;')
-      .canoe-toggle-item
-        %div(style='margin-bottom: 20px')
-          %strong
-            - if @discussion.decision.present?
-              = simple_format auto_link(@discussion.decision), {}, wrapper_tag: "span"
-            - if @discussion.attachments.any?
-              %ul.list-inline(style='margin-top: 10px')
-                - @discussion.attachments.reject(&:image?).each do |attachment|
-                  %li
-                    %i.fa.fa-file-o
-                    = link_to attachment.original_filename, attachment.file_url
-                    - if can? :delete, attachment
-                      = link_to attachment, method: :delete, class: 'text-muted', data: { confirm: '정말 삭제하시겠습니까?'} do
-                        %i.fa.fa-times-circle
-              .row
-                - @discussion.attachments.select(&:image?).each do |attachment|
-                  .col-xs-4
-                    .thumbnail
-                      - if can? :delete, attachment
-                        = link_to attachment, method: :delete, class: 'text-muted', style: 'position:absolute; top:5px; right:30px;', data: { confirm: '정말 삭제하시겠습니까?'} do
-                          %i.fa.fa-times-circle
-                      = link_to attachment.file_url do
-                        = image_tag attachment.file_url, style: 'min-height:50px; height:50px; margin-top: 15px;'
-                        %p.caption.text-center= attachment.original_filename
-            - if @discussion.decision.blank? and @discussion.attachments.empty?
-              아직 결정된 사항이 없습니다.
-        - if can? :edit, @discussion
-          %button.btn.btn-default.pull-right(role="button" data-toggle="canoe-toggle" data-parent="#discussion-decision" data-focus="#discussion_decision")
-            결정 #{@discussion.decision.present? ? '수정' : '작성'}하기 >>
-      - if can? :edit, @discussion
-        .canoe-toggle-item.hidden
-          = form_for @discussion do |f|
-            .form-group
-              = f.text_area :decision, placeholder: '모두 볼 수 있도록 현재까지 결정한 사항을 적어주세요', autofocus: true, class: 'form-control'
-            .form-group.pull-right
-              = f.submit '저장하기', class: 'btn btn-primary'
-          .btn-file.pull-right(style='line-height: 40px; margin-right: 20px;')
-            = form_for [@discussion, @discussion.attachments.build] do |f|
-              = link_to '#', class: 'btn-file' do
-                = f.file_field :file
-                %i.fa.fa-upload
-          %button.btn.btn-default(role="button" data-toggle="canoe-toggle" data-parent="#discussion-decision") << 닫기
+      - if can? :update, @discussion
+        %button.btn-link(role="button" data-toggle="canoe-toggle" data-parent="#discussion-decision" data-focus="#discussion_decision")
+          %i.fa.fa-edit
+      %button.btn-link
+        = render partial: 'attachments/button', locals: { attachable: @discussion }
+
+    = render 'decision'
 
     %h4
       %i.fa.fa-rocket
       제안
-    #discussion-proposals.clearfix(style='margin: 20px 0;')
+    #proposals.clearfix(style='margin: 20px 0;')
       - if @discussion.proposals.any?
         %ul.list-group
           - [@discussion.proposals.top_of(:in_favor).latest, @discussion.proposals.exclude_top_of(:in_favor).latest].flatten.each do |proposals|
             = render proposals
       - else
         .canoe-toggle-item
-          %strong 아직 제안이 없습니다.
-      - if can? :edit, @discussion
+          %strong
+            아직 제안이 없습니다.
+      - if can? :update, @discussion
         .canoe-toggle-item.pull-right
-          %button.btn.btn-default.btn-block(role="button" data-toggle="canoe-toggle" href="#discussion-proposals-form" data-parent="#discussion-proposals" data-focus="#proposal_body")
+          %button.btn.btn-default.btn-block(role="button" data-toggle="canoe-toggle" href="#proposals-form" data-parent="#proposals" data-focus="#proposal_body")
             제안 작성하기 >>
         .canoe-toggle-item.hidden
           = form_for [@discussion, @discussion.proposals.build] do |f|
             .form-group
               = f.text_area :body, autofocus: true, class: 'form-control', style: "width: 100%; height: 60px;", placeholder: '내 제안은...'
             .form-group.pull-right
-              = link_to '#', style: 'margin-right: 20px;' do
+              = f.submit '제안올리기', class: 'btn btn-primary'
+            .form-group.pull-right
+              .btn-file(style='line-height: 40px; margin-right: 20px;')
+                = f.fields_for 'attachments_attributes[]', f.object.attachments.build do |f_attachment|
+                  = f_attachment.file_field :source, data: {list: '#proposals-files'}
                 %i.fa.fa-upload
-              = f.submit '제안올리기', class: 'btn btn-default'
-          %button.btn.btn-default(role="button" data-toggle="canoe-toggle" href="#discussion-proposals-static" data-parent="#discussion-proposals") << 닫기
+          %button.btn.btn-default(role="button" data-toggle="canoe-toggle" href="#proposals-static" data-parent="#proposals") << 닫기
+          .clearfix
+          %ul#proposals-files.list-inline
 .bs-component(style='background-color: #efefef; padding-top: 50px; padding-bottom: 50px; margin-bottom: 50px; margin-top: 20px;')
   .container
     %h4
       %i.fa.fa-comments
       의견
     %ul.media-list
-      - if can? :edit, @discussion
+      - if can? :update, @discussion
         %li.media
           .media-left
             %a{:href => "#"}

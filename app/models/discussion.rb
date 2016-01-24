@@ -26,7 +26,7 @@ class Discussion < ActiveRecord::Base
       self.maximum("#{choice}_votes_count")
     end
   end
-  has_many :attachments
+  has_many :attachments, as: :attachable
 
   validates :canoe, presence: true
   before_save :set_discussed_at

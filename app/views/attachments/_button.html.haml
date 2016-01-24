@@ -1,0 +1,8 @@
+- if can? :update, attachable
+  .btn-file
+    = form_for Attachment.new(attachable: attachable) do |f|
+      = f.hidden_field :attachable_id
+      = f.hidden_field :attachable_type
+      = f.file_field :source, data: { autoupload: true }
+      %i.fa.fa-upload
+      = local_assigns[:button_text]

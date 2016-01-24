@@ -63,6 +63,7 @@ body {
 .btn-file {
     position: relative;
     overflow: hidden;
+    cursor: pointer;
 }
 .btn-file input[type=file] {
     position: absolute;
@@ -78,6 +79,14 @@ body {
     background: white;
     cursor: inherit;
     display: block;
+}
+
+.btn-link {
+  background:none!important;
+  border:none;
+  padding:0!important;
+  font: inherit;
+  cursor: pointer;
 }
 
 .jumbotron-transparent {

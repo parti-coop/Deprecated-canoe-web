@@ -1,9 +1,12 @@
 class Proposal < ActiveRecord::Base
+  include DiscussionComponent
+
   acts_as_paranoid
   acts_as_sequenced scope: :discussion_id
 
   belongs_to :user
-  include DiscussionComponent
+  has_one :canoe, through: :discussion
+  has_many :attachments, as: :attachable
 
   has_many :votes do
     def by_crews
@@ -18,6 +21,7 @@ class Proposal < ActiveRecord::Base
 
   validates :body, presence: true
   scope :latest, -> { order(id: :desc) }
+  accepts_nested_attributes_for :attachments
 
   def opposed_by? user
     voted_by?(user, :opposed)

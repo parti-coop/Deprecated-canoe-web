@@ -14,9 +14,10 @@
           = discussion.proposals.count
         )
     - if discussion.decision.present?
-      %p.text-success
-        %i.fa.fa-thumb-tack
-        = simple_format auto_link(discussion.decision), {}, wrapper_tag: "span"
+      %p
+        .clearfix.text-success
+          %i.fa.fa-thumb-tack.pull-left
+          = simple_format auto_link(discussion.decision)
   %td.text-right{ style: 'min-width: 120px' }
     %div= user_byline discussion.user
     %div.text-muted

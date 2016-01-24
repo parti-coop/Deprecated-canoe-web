@@ -12,10 +12,10 @@ Rails.application.routes.draw do
       end
     end
     resources :reactions
+    resources :attachments
     resources :canoes do
       shallow do
         resources :discussions, except: :index do
-          resources :attachments
           resources :opinions do
             member do
               patch :pin
@@ -23,6 +23,7 @@ Rails.application.routes.draw do
             end
           end
           resources :proposals, except: :index do
+            resources :attachments
             member do
               post :in_favor, to: 'votes#in_favor'
               post :opposed, to: 'votes#opposed'

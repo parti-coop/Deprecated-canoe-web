@@ -18,6 +18,9 @@ class ProposalsController < ApplicationController
 
   def create
     @proposal.user = current_user
+    @proposal.attachments.each do |attachment|
+      attachment.user = current_user
+    end
     if @proposal.save
       create_porposals_create_activty(@proposal)
       slack(@proposal)
@@ -44,6 +47,6 @@ class ProposalsController < ApplicationController
   private
 
   def proposal_params
-    params.require(:proposal).permit(:body)
+    params.require(:proposal).permit(:body, attachments_attributes: [ :source ])
   end
 end

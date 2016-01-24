@@ -1,0 +1,20 @@
+- attachments = attachable.attachments
+%ul.list-unstyled(style='margin-top: 10px; margin-bottom: 10px;')
+  - attachments.reject(&:image?).each do |attachment|
+    %li
+      %i.fa.fa-file-o
+      = link_to attachment.original_filename, attachment.source_url
+      - if can? :delete, attachment
+        = link_to attachment, method: :delete, class: 'text-muted', data: { confirm: '정말 삭제하시겠습니까?'} do
+          %i.fa.fa-times-circle
+.row
+  - attachments.select(&:image?).each do |attachment|
+    .col-xs-6
+      .thumbnail(style='overflow:hidden')
+        - if can? :delete, attachment
+          = link_to attachment, method: :delete, class: 'text-muted', style: 'position:absolute; top:5px; right:30px;', data: { confirm: '정말 삭제하시겠습니까?'} do
+            %i.fa.fa-times-circle
+        = link_to attachment.source_url do
+          = image_tag attachment.source_url, style: 'min-height:100px; height:100px; margin-top: 15px;'
+          %p.caption.text-center= attachment.original_filename
+

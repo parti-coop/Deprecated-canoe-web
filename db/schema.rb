@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160123065641) do
+ActiveRecord::Schema.define(version: 20160124043145) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id"
@@ -31,17 +31,17 @@ ActiveRecord::Schema.define(version: 20160123065641) do
   add_index "activities", ["trackable_id", "trackable_type"], name: "index_activities_on_trackable_id_and_trackable_type"
 
   create_table "attachments", force: :cascade do |t|
-    t.string   "file",              null: false
+    t.string   "source",            null: false
     t.string   "content_type"
     t.string   "original_filename", null: false
     t.integer  "user_id",           null: false
-    t.integer  "discussion_id",     null: false
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.integer  "attachable_id",     null: false
+    t.string   "attachable_type",   null: false
   end
 
-  add_index "attachments", ["discussion_id"], name: "index_attachments_on_discussion_id"
-  add_index "attachments", ["user_id"], name: "index_attachments_on_user_id"
+  add_index "attachments", ["attachable_type", "attachable_id"], name: "index_attachments_on_attachable_type_and_attachable_id"
 
   create_table "canoes", force: :cascade do |t|
     t.string   "title",             null: false

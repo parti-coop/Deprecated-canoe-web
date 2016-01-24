@@ -1,0 +1,22 @@
+#discussion-decision.clearfix(style='margin: 20px 0;')
+  .clearfix
+    .canoe-toggle-item
+      %div(style='margin-bottom: 20px')
+        %strong
+          - if @discussion.decision.present?
+            = simple_format auto_link(@discussion.decision)
+          - if @discussion.decision.blank?
+            아직 결정된 사항이 없습니다.
+    - if can? :update, @discussion
+      .canoe-toggle-item.hidden
+        = form_for @discussion do |f|
+          .form-group
+            = f.text_area :decision, placeholder: '모두 볼 수 있도록 현재까지 결정한 사항을 적어주세요', autofocus: true, class: 'form-control'
+          .form-group.pull-right
+            = f.submit '저장하기', class: 'btn btn-primary'
+        %button.btn.btn-default(role="button" data-toggle="canoe-toggle" data-parent="#discussion-decision") << 닫기
+  - if @discussion.attachments.any?
+    .row
+      .col-xs-9
+        = render partial: 'attachments/collection', locals: { attachable: @discussion }
+

@@ -3,7 +3,7 @@ require 'test_helper'
 class CanoesTest < ActionDispatch::IntegrationTest
   test 'new' do
     sign_in users(:one)
-    post canoes_path(canoe: { title: 'test', theme: 'theme'} )
+    post canoes_path, { canoe: { title: 'test', theme: 'theme'} }
 
     assert_equal users(:one), assigns(:canoe).user
     assert_equal 'test', assigns(:canoe).title

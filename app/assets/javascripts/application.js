@@ -9,16 +9,16 @@
 
 $(document).on('change', '.btn-file :file', function() {
   var input = $(this),
-      numFiles = input.get(0).files ? input.get(0).files.length : 1,
+      nums = input.get(0).files ? input.get(0).files.length : 1,
       label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-  input.trigger('fileselect', [numFiles, label]);
+  input.trigger('fileselect', [nums, label]);
 });
 
 $(document).on('ready', function(e) {
   $('[data-toggle="tooltip"]').tooltip();
   $('[data-toggle="webui-popover"]').webuiPopover();
   $('[data-toggle="canoe-toggle"]').on('click', function(e) {
-    var parent_id = $(e.target).data('parent');
+    var parent_id = $(e.currentTarget).data('parent');
     $parent = $(parent_id);
     $parent.find('.canoe-toggle-item').each(function(index, object) {
       $object = $(object);
@@ -47,8 +47,25 @@ $(document).on('ready', function(e) {
     width: 1200,
     height: 600,
   });
-  $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
-    event.target.form.submit();
+  $('.btn-file :file').on('fileselect', function(e, nums, label) {
+    var $target = $(e.target)
+    if($target.data('autoupload')) {
+      e.target.form.submit();
+      return;
+    }
+
+    var list = $(e.target).data('list');
+    var $list = $(list);
+    $list.append(function() {
+      return $("<li style='cursor: pointer;'><i class='fa fa-file-o' /> " + label + " <i class='fa fa-times-circle' /></li>").on('click', function(list_e) {
+        $target.prop('disabled', true);
+        $(list_e.target).closest('li').hide();
+      });
+    });
+
+    $target.after($target.clone(true));
+    $target.hide();
+    $target.data('filenum', nums);
   });
   $('.pattern-trianglify').css("background-image", "url('" + pattern.png() + "')");
 });
