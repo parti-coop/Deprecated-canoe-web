@@ -22,6 +22,9 @@ class OpinionsController < ApplicationController
 
   def create
     @opinion.user = current_user
+    @opinion.attachments.each do |attachment|
+      attachment.user = current_user
+    end
     if @opinion.save
       create_opinions_create_activty @opinion
       slack(@opinion)
@@ -47,7 +50,7 @@ class OpinionsController < ApplicationController
   private
 
   def opinion_params
-    params.require(:opinion).permit(:body)
+    params.require(:opinion).permit(:body, attachments_attributes: [ :source ])
   end
 
   def message_for_mentions

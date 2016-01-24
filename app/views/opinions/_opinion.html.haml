@@ -24,6 +24,8 @@
         - if can? :destroy, opinion
           = link_to opinion, method: :delete, data: { confirm: '정말 삭제하시겠습니까?'} do
             %i.fa.fa-trash
+        %button.btn-link
+          = render partial: 'attachments/button', locals: { attachable: opinion }
     %div
       = simple_format opinion_body(opinion)
       - opinion.reactions.group(:token).count.each do |token, count|
@@ -34,4 +36,6 @@
           %a.text-muted{"href" => "#", "data-content" => "#{render partial: 'reaction_popover', locals: {opinion: opinion}}", "data-placement" => "right", "data-html" => "true", "data-toggle" => "webui-popover", :title => "", :type => "button", :style => "color: #cccccc; text-decoration: none;"}
             %i.fa.fa-plus-square
             호응하기
+    - if opinion.attachments.any?
+      = render partial: 'attachments/collection', locals: { attachable: opinion }
 

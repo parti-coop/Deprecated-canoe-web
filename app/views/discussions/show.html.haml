@@ -73,10 +73,14 @@
               .form-group
                 = f.text_area :body, class: 'form-control', style: "width: 100%; height: 100px;", placeholder: '내 의견은...'
               .form-group.pull-right
-                = link_to '#', style: 'margin-right: 20px;' do
-                  %i.fa.fa-upload
                 = f.submit '의견올리기', class: 'btn btn-default'
-
+              .form-group.pull-right
+                .btn-file(style='line-height: 40px; margin-right: 20px;')
+                  = f.fields_for 'attachments_attributes[]', f.object.attachments.build do |f_attachment|
+                    = f_attachment.file_field :source, data: {list: '#opinions-files'}
+                  %i.fa.fa-upload
+            .clearfix
+            %ul#opinions-files.list-inline
       = render partial: 'public_activity/collection', locals: { activities: @discussion.activities.order(created_at: :desc) }
 
     %hr

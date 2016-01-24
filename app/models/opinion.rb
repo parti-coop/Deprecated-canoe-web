@@ -6,8 +6,10 @@ class Opinion < ActiveRecord::Base
   has_many :mentions
   has_many :reactions
   before_save :set_mentions
+  has_many :attachments, as: :attachable
 
   default_scope { order("created_at DESC") }
+  accepts_nested_attributes_for :attachments
 
   private
 
