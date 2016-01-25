@@ -14,7 +14,7 @@
             - if can?(:destory, @canoe)
               = link_to @canoe, method: :delete, data: { confirm: '정말 삭제하시겠습니까?'} do
                 %i.fa.fa-trash
-        = simple_format auto_link(@canoe.theme), style: 'font-size: 15px; color: white; text-shadow: 1px 1px 0px black; margin-left: 145px;'
+        = smart_body @canoe.theme, style: 'font-size: 15px; color: white; text-shadow: 1px 1px 0px black; margin-left: 145px;'
 
         - if user_signed_in? and !@canoe.crew?(current_user)
           %p.text-muted{style: 'font-size: 15px; color: white; text-shadow: 1px 1px 0px black; margin-left: 145px;'}

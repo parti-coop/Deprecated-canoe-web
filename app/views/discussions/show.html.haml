@@ -20,7 +20,7 @@
       %i.fa.fa-thumb-tack
       현재 결정 사항
       - if can? :update, @discussion
-        %button.btn-link(role="button" data-toggle="canoe-toggle" data-parent="#discussion-decision" data-focus="#discussion_decision")
+        %button.btn-link(role="button" data-toggle="canoe-toggle" data-parent="#discussion__decision" data-focus="#discussion_decision")
           %i.fa.fa-edit
       %button.btn-link
         = render partial: 'attachments/button', locals: { attachable: @discussion }
@@ -41,7 +41,7 @@
             아직 제안이 없습니다.
       - if can? :update, @discussion
         .canoe-toggle-item.pull-right
-          %button.btn.btn-default.btn-block(role="button" data-toggle="canoe-toggle" href="#proposals-form" data-parent="#proposals" data-focus="#proposal_body")
+          %button.btn.btn-default.btn-block(role="button" data-toggle="canoe-toggle" data-parent="#proposals" data-focus="#proposal_body")
             제안 작성하기 >>
         .canoe-toggle-item.hidden
           = form_for [@discussion, @discussion.proposals.build] do |f|
@@ -52,11 +52,11 @@
             .form-group.pull-right
               .btn-file(style='line-height: 40px; margin-right: 20px;')
                 = f.fields_for 'attachments_attributes[]', f.object.attachments.build do |f_attachment|
-                  = f_attachment.file_field :source, data: {list: '#proposals-files'}
+                  = f_attachment.file_field :source, data: {list: '#proposals__files'}
                 %i.fa.fa-upload
           %button.btn.btn-default(role="button" data-toggle="canoe-toggle" href="#proposals-static" data-parent="#proposals") << 닫기
           .clearfix
-          %ul#proposals-files.list-inline
+          %ul#proposals__files.list-inline
 .bs-component(style='background-color: #efefef; padding-top: 50px; padding-bottom: 50px; margin-bottom: 50px; margin-top: 20px;')
   .container
     %h4
@@ -77,10 +77,10 @@
               .form-group.pull-right
                 .btn-file(style='line-height: 40px; margin-right: 20px;')
                   = f.fields_for 'attachments_attributes[]', f.object.attachments.build do |f_attachment|
-                    = f_attachment.file_field :source, data: {list: '#opinions-files'}
+                    = f_attachment.file_field :source, data: {list: '#opinions__files'}
                   %i.fa.fa-upload
             .clearfix
-            %ul#opinions-files.list-inline
+            %ul#opinions__files.list-inline(style='margin-botton: 7px;')
       = render partial: 'public_activity/collection', locals: { activities: @discussion.activities.order(created_at: :desc) }
 
     %hr

@@ -34,7 +34,7 @@ module ApplicationHelper
 
   def opinion_body(opinion)
     text = opinion.body
-    smart_text = text.gsub(/(?:^|\s)제안(\d+)/u) do |m|
+    parsed_text = text.gsub(/(?:^|\s)제안(\d+)/u) do |m|
       sequential_id = $1
       proposal = opinion.discussion.proposals.find_by sequential_id: sequential_id
       if proposal.present?
@@ -43,7 +43,11 @@ module ApplicationHelper
         m
       end
     end
-    auto_link(smart_text)
+    smart_body(parsed_text, { class: 'opinion__body' })
+  end
+
+  def smart_body(text, html_options = {}, options = {})
+    simple_format(auto_link(text, link: :urls), html_options, options)
   end
 
   def current_canoe

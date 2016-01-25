@@ -16,7 +16,7 @@
         %strong
           .clearfix
             %span.label.label-danger.pull-left(style='margin-right: 3px;')= proposal.sequential_id
-            = simple_format auto_link(proposal.body)
+            = smart_body(proposal.body)
           - if proposal.attachments.any?
             = render partial: 'attachments/collection', locals: { attachable: proposal }
         %p.text-muted(style='margin-top:10px;')

@@ -1,4 +1,4 @@
-%li.media[opinion](onmouseover="$('.reaction_button').addClass('hidden'); $('##{dom_id(opinion)} .reaction_button').removeClass('hidden');")
+%li.media.opinion[opinion](onmouseover="$('.reaction_button').addClass('hidden'); $('##{dom_id(opinion)} .reaction_button').removeClass('hidden');")
   - if params[:controller] != 'discussions'
     .media-head
       = link_to canoe_home_path(opinion.discussion.canoe) do
@@ -27,15 +27,18 @@
         %button.btn-link
           = render partial: 'attachments/button', locals: { attachable: opinion }
     %div
-      = simple_format opinion_body(opinion)
+      = opinion_body(opinion)
       - opinion.reactions.group(:token).count.each do |token, count|
         = reaction_label opinion, token, count
-      &nbsp;
-      - if can? :create, Reaction
-        %span.reaction_button
-          %a.text-muted{"href" => "#", "data-content" => "#{render partial: 'reaction_popover', locals: {opinion: opinion}}", "data-placement" => "right", "data-html" => "true", "data-toggle" => "webui-popover", :title => "", :type => "button", :style => "color: #cccccc; text-decoration: none;"}
-            %i.fa.fa-plus-square
-            호응하기
+      %p
+        &nbsp;
+        - if can? :create, Reaction
+          %span.reaction_button
+            %a.text-muted{"href" => "#", "data-content" => "#{render partial: 'reaction_popover', locals: {opinion: opinion}}", "data-placement" => "right", "data-html" => "true", "data-toggle" => "webui-popover", :title => "", :type => "button", :style => "color: #cccccc; text-decoration: none;"}
+              %i.fa.fa-plus-square
+              호응하기
+
     - if opinion.attachments.any?
       = render partial: 'attachments/collection', locals: { attachable: opinion }
-
+    %div
+      %blockquote.opinion--body--links(style="padding: 0 21px; margin: 0; font-size: 100%; border-left: 5px solid #f57a00")
