@@ -1,4 +1,3 @@
-- single_content_for :icon do
-  %i.fa.fa-file-o.fa-stack-1x.fa-inverse
-
-@#{activity.owner.nickname}님이 제안#{activity.recipient_with_deleted.attachable.sequential_id}에 #{activity.recipient_with_deleted.original_filename} 파일을 삭제했습니다.
+%strong
+  %i.fa.fa-times-circle
+제안#{activity.recipient_with_deleted.attachable.sequential_id}에 #{activity.recipient_with_deleted.original_filename} 파일을 삭제했습니다.

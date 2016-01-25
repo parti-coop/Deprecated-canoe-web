@@ -1,13 +1,4 @@
-%li.media.opinion[opinion](onmouseover="$('.reaction_button').addClass('hidden'); $('##{dom_id(opinion)} .reaction_button').removeClass('hidden');")
-  - if params[:controller] != 'discussions'
-    .media-head
-      = link_to canoe_home_path(opinion.discussion.canoe) do
-        %i.fa.fa-ship
-        = opinion.discussion.canoe.title
-      &nbsp;
-      = link_to opinion.discussion do
-        %i.fa.fa-flag
-        = opinion.discussion.subject
+%li.media.timeline.timeline-opinion.opinion[opinion](onmouseover="$('.reaction_button').addClass('hidden'); $('##{dom_id(opinion)} .reaction_button').removeClass('hidden');")
   .media-left
     %a{:href => "#"}
       = image_tag opinion.user.image_url, class: 'media-object img-circle', style: 'width:64px;height:64px;'
@@ -17,7 +8,7 @@
       %span.text-muted(style='margin-left: 10px;')
         %i.fa.fa-clock-o
         = date_f opinion.created_at
-      %span.text-muted(style='margin-left: 10px;')
+      %span.text-muted.text-nowrap(style='margin-left: 10px;')
         - if can? :update, opinion
           = link_to [:edit, opinion] do
             %i.fa.fa-edit
@@ -41,4 +32,4 @@
     - if opinion.attachments.any?
       = render partial: 'attachments/collection', locals: { attachable: opinion }
     %div
-      %blockquote.opinion--body--links(style="padding: 0 21px; margin: 0; font-size: 100%; border-left: 5px solid #f57a00")
+      %blockquote.opinion--body--links(style="padding: 0 21px; margin: 0; font-size: 100%; border-left: 5px solid #dadada")

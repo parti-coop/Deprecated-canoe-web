@@ -1,2 +1,18 @@
-- activities.each do |activity|
-  = render_activity activity, layout: (:activity unless activity.recipient_type == Opinion.to_s)
+- activities.select{ |a| a.recipient_with_deleted.present? }.slice_when{ |a, b| a.separated_with?(b) }.each do |chunk|
+  - first_activity = chunk.first
+  - if first_activity.key == 'opinions.create'
+    = render(first_activity.recipient) if first_activity.recipient.present?
+  - else
+    %li.timeline[first_activity]
+      .media-left(style='min-width: 74px;')
+      .media-body
+        %h5.media-heading
+          %p.text-muted
+            = user_byline first_activity.owner
+            %span(style='margin-left: 10px;')
+              %i.fa.fa-clock-o
+              = date_f first_activity.created_at
+        %div(style="color: #bfbfbf")
+          - chunk.each do |activity|
+            %p= render_activity activity
+

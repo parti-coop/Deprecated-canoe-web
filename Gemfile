@@ -46,6 +46,7 @@ gem 'slack-notifier', '~> 1.4'
 gem 'carrierwave', '~> 0.10.0'
 gem 'exception_notification', '~> 4.1', '>= 4.1.4'
 gem 'gemoji', '~> 2.1'
+gem 'time_difference', '~> 0.4.2'
 
 group :development, :test do
   gem 'byebug'

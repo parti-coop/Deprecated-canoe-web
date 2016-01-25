@@ -23,14 +23,15 @@
           = user_byline proposal.user
           %i.fa.fa-clock-o
           = date_f proposal.created_at
-          - if can? :update, proposal
-            = link_to [:edit, proposal] do
-              %i.fa.fa-edit
-          - if can? :destroy, proposal
-            = link_to proposal, method: :delete, data: { confirm: '정말 삭제하시겠습니까?'}  do
-              %i.fa.fa-trash
-          %button.btn-link
-            = render partial: 'attachments/button', locals: { attachable: proposal }
+          .text-nowrap
+            - if can? :update, proposal
+              = link_to [:edit, proposal] do
+                %i.fa.fa-edit
+            - if can? :destroy, proposal
+              = link_to proposal, method: :delete, data: { confirm: '정말 삭제하시겠습니까?'}  do
+                %i.fa.fa-trash
+            %button.btn-link
+              = render partial: 'attachments/button', locals: { attachable: proposal }
       .col-xs-3
         .text-center
           .btn-group-vertical(style='width: 50px; margin-bottom: 5px;')

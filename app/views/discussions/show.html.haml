@@ -61,7 +61,7 @@
   .container
     %ul.media-list
       - if can? :update, @discussion
-        %li.media
+        %li.media.timeline.timeline-opinion
           .media-left
             %a{:href => "#"}
               = image_tag current_user.image_url, class: 'media-object img-circle', style: 'width:64px;height:64px;'
