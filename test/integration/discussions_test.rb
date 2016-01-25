@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class DiscussionsTest < ActionDispatch::IntegrationTest
-  test 'new' do
+  test 'create' do
     sign_in users(:one)
     opinions_attributes = { body: 'test body' }
     post canoe_discussions_path(canoe_id: canoes(:canoe1).id, discussion: { subject: 'test', opinions_attributes: {'0': opinions_attributes}} )
@@ -10,6 +10,14 @@ class DiscussionsTest < ActionDispatch::IntegrationTest
     assert_equal 'test', assigns(:discussion).subject
     assert_equal users(:one), assigns(:discussion).opinions.first.user
     assert_equal 'test body', assigns(:discussion).opinions.first.body
+  end
+
+  test 'create with blank opinion' do
+    sign_in users(:one)
+    opinions_attributes = { body: '' }
+    post canoe_discussions_path(canoe_id: canoes(:canoe1).id, discussion: { subject: 'test', opinions_attributes: {'0': opinions_attributes}} )
+
+    assert assigns(:discussion).opinions.empty?
   end
 
   test 'activity' do

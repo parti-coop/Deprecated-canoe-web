@@ -11,6 +11,8 @@ class Opinion < ActiveRecord::Base
   default_scope { order("created_at DESC") }
   accepts_nested_attributes_for :attachments
 
+  validates :body, presence: true
+
   private
 
   def set_mentions
