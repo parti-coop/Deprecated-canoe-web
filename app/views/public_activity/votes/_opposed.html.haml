@@ -1,5 +1,5 @@
 - single_content_for :icon do
   %i.fa.fa-ban.fa-stack-1x.fa-inverse
 
-@#{activity.owner.nickname}님이 제안#{activity.recipient_with_deleted.proposal_with_deleted.try(:sequential_id)}을(를) 차단합니다.
+@#{activity.owner.nickname}님이 제안#{activity.recipient_with_deleted.try(:proposal_with_deleted).try(:sequential_id)}을(를) 차단합니다.
 
