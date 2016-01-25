@@ -30,12 +30,16 @@ class Canoe < ActiveRecord::Base
 
   scope :latest, -> { order(id: :desc) }
 
-  def crew?(target)
-    crews.exists? user: target
+  def captain?(someone)
+    user == someone
   end
 
-  def request_to_join?(target)
-    request_to_joins.exists? user: target
+  def crew?(someone)
+    crews.exists? user: someone
+  end
+
+  def request_to_join?(someone)
+    request_to_joins.exists? user: someone
   end
 
   def assure_that_captain_is_crew

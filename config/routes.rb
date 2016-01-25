@@ -32,8 +32,7 @@ Rails.application.routes.draw do
           end
         end
 
-        resources :crews do
-        end
+        delete 'crews/me', to: 'crews#destory'
       end
 
       resources :request_to_joins do

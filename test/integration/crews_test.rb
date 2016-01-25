@@ -1,41 +1,22 @@
 require 'test_helper'
 
 class CrewsTest < ActionDispatch::IntegrationTest
-  test 'new' do
-    assert_equal users(:one), canoes(:canoe1).user
+  test 'crew getting off' do
+    assert canoes(:canoe1).crew?(users(:crew))
 
-    sign_in users(:one)
-    refute canoes(:canoe1).crews.exists? user: users(:two)
+    sign_in users(:crew)
+    delete canoe_crews_me_path(canoe_id: canoes(:canoe1).id)
 
-    user_key = users(:two).nickname
-    post canoe_crews_path(canoe_id: canoes(:canoe1), crew: { user_key: user_key})
-
-    assert canoes(:canoe1).crews.exists? user: users(:two)
+    refute canoes(:canoe1).crew?(users(:crew))
   end
 
-  test 'should not add owner' do
-    assert_equal users(:one), canoes(:canoe1).user
+  test 'captain should not get off' do
+    assert canoes(:canoe1).captain?(users(:one))
+    assert canoes(:canoe1).crew?(users(:one))
 
     sign_in users(:one)
+    delete canoe_crews_me_path(canoe_id: canoes(:canoe1).id)
 
-    user_key = users(:one).nickname
-    post canoe_crews_path(canoe_id: canoes(:canoe1), crew: { user_key: user_key})
-
-    refute canoes(:canoe1).crews.exists? user: users(:two)
-  end
-
-  test 'should not duplicated crew' do
-    assert_equal users(:one), canoes(:canoe1).user
-
-    sign_in users(:one)
-    refute canoes(:canoe1).crews.exists? user: users(:two)
-
-    user_key = users(:two).nickname
-    post canoe_crews_path(canoe_id: canoes(:canoe1), crew: { user_key: user_key})
-
-    origin_count = canoes(:canoe1).crews.count
-
-    post canoe_crews_path(canoe_id: canoes(:canoe1), crew: { user_key: user_key})
-    assert_equal origin_count, canoes(:canoe1).crews.count
+    assert canoes(:canoe1).crew?(users(:one))
   end
 end
