@@ -25,7 +25,7 @@ class VotesController < ApplicationController
 
   def unvote
     @vote = @proposal.votes.find_by user: current_user
-    if @vote.persisted? and @vote.destroy
+    if @vote.present? and @vote.destroy
       slack(@vote)
       create_votes_unvote_activty(@vote)
     end
