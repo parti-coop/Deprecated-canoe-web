@@ -55,7 +55,7 @@ $(document).on('ready', function(e) {
         var query = $body.data('stage');
         var $stage = $(query);
 
-        var content = '<div class="col-xs-6">';
+        var content = '<div class="col-xs-8">';
         content += '<div class="thumbnail">';
         content += '<img src="' + img.src+ '">';
         content += '</a>';
