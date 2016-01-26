@@ -13,7 +13,7 @@
           .form-group
             = f.text_area :decision, placeholder: '모두 볼 수 있도록 현재까지 결정한 사항을 적어주세요', autofocus: true, class: 'form-control'
           .form-group.pull-right
+            %a.text-muted(role="button" data-toggle="canoe-toggle" href="#" data-parent="#discussion__decision" style="margin-right: 20px;") 취소
             = f.submit '저장하기', class: 'btn btn-primary'
-        %button.btn.btn-default(role="button" data-toggle="canoe-toggle" data-parent="#discussion__decision") << 닫기
   = render partial: 'attachments/collection', locals: { attachable: @discussion }
 
