@@ -105,7 +105,7 @@ body {
 
   &:after {
     content: '';
-    width: 4px;
+    width: 0.2em;
     height: 100%;
     position: absolute;
     background-color: #cfcfcf;
@@ -131,7 +131,7 @@ body {
 
   &.timeline-activity:first-child:before {
     content: '\25CF';
-    font-size: 4px;
+    font-size: 0.6em;
     position: absolute;
     color: #cfcfcf;
     top: 0;
@@ -146,7 +146,7 @@ body {
 
   &.timeline-activity:last-child:before {
     content: '\25CF';
-    font-size: 4px;
+    font-size: 0.6em;
     position: absolute;
     color: #cfcfcf;
     top: 0;
