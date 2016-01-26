@@ -105,12 +105,12 @@ body {
 
   &:after {
     content: '';
-    width: 3px;
+    width: 4px;
     height: 100%;
     position: absolute;
     background-color: #cfcfcf;
     top: 0;
-    left: 31px;
+    left: 30px;
   }
 
   &.timeline-opinion:after {
@@ -123,6 +123,34 @@ body {
 
   &:last-child:after {
     display: none;
+  }
+
+  &.timeline-activity:first-child:after {
+    top: 3px;
+  }
+
+  &.timeline-activity:first-child:before {
+    content: '\25CF';
+    font-size: 4px;
+    position: absolute;
+    color: #cfcfcf;
+    top: 0;
+    left: 27px;
+  }
+
+  &.timeline-activity:last-child:after {
+    top: 0;
+    display: inline;
+    height: 3px;
+  }
+
+  &.timeline-activity:last-child:before {
+    content: '\25CF';
+    font-size: 4px;
+    position: absolute;
+    color: #cfcfcf;
+    top: 0;
+    left: 27px;
   }
 }
 

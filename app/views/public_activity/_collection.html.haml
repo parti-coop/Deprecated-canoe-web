@@ -3,7 +3,7 @@
   - if first_activity.key == 'opinions.create'
     = render(first_activity.recipient) if first_activity.recipient.present?
   - else
-    %li.timeline[first_activity]
+    %li.timeline.timeline-activity[first_activity]
       .media-left(style='min-width: 74px;')
       .media-body
         %h5.media-heading
