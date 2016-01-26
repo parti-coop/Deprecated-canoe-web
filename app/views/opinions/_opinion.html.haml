@@ -29,7 +29,5 @@
               %i.fa.fa-plus-square
               호응하기
 
-    - if opinion.attachments.any?
-      = render partial: 'attachments/collection', locals: { attachable: opinion }
-    %div
-      %blockquote.opinion--body--links(style="padding: 0 21px; margin: 0; font-size: 100%; border-left: 5px solid #dadada")
+    = render partial: 'attachments/collection', locals: { attachable: opinion }
+

@@ -14,11 +14,10 @@
               worst
               %i.fa.fa-ban
         %strong
-          .clearfix
+          .clearfix.proposal__body
             %span.label.label-danger.pull-left(style='margin-right: 3px;')= proposal.sequential_id
-            = smart_body(proposal.body)
-          - if proposal.attachments.any?
-            = render partial: 'attachments/collection', locals: { attachable: proposal }
+            = smart_body(proposal.body, {data: { toggle: 'preview', stage: "##{dom_id(proposal)} .attachments--image" } })
+          = render partial: 'attachments/collection', locals: { attachable: proposal }
         %p.text-muted(style='margin-top:10px;')
           = user_byline proposal.user
           %i.fa.fa-clock-o
@@ -47,7 +46,7 @@
               = link_to in_favor_proposal_path(proposal), method: :post, class: 'btn btn-default' do
                 %span.text-default
                   %i.fa.fa-heart-o
-            %button.btn.btn-xs.text-muted(class="#{'disabled' unless proposal.votes.in_favor.any?}" data-toggle="collapse" data-parent="##{dom_id(proposal)}--result" href="##{dom_id(proposal)}--result--in_favor" aria-expanded="false" style="background-color: white; border: 1px solid #dddddd; color: #999999;")
+            %button.btn.btn-xs.text-muted(class="#{'disabled' unless proposal.votes.in_favor.any?}" data-toggle="collapse" data-parent="##{dom_id(proposal)}__result" href="##{dom_id(proposal)}__result__in_favor" aria-expanded="false" style="background-color: white; border: 1px solid #dddddd; color: #999999;")
               %i.fa.fa-user
               = proposal.votes.by_crews.in_favor.count
           .btn-group-vertical(style='width: 50px; margin-bottom: 5px;')
@@ -63,16 +62,16 @@
               = link_to opposed_proposal_path(proposal), method: :post, class: 'btn btn-default' do
                 %span.text-default
                   %i.fa.fa-ban
-            %button.btn.btn-xs(class="#{'disabled' unless proposal.votes.opposed.any?}" data-toggle="collapse" data-parent="##{dom_id(proposal)}--result" href="##{dom_id(proposal)}--result--opposed" aria-expanded="false" style="background-color: white; border: 1px solid #dddddd; color: #999999;")
+            %button.btn.btn-xs(class="#{'disabled' unless proposal.votes.opposed.any?}" data-toggle="collapse" data-parent="##{dom_id(proposal)}__result" href="##{dom_id(proposal)}__result__opposed" aria-expanded="false" style="background-color: white; border: 1px solid #dddddd; color: #999999;")
               %i.fa.fa-user
               = proposal.votes.opposed.count
 
   %ul.list-group(style="margin: 0;")
     %li.list-group-item(style='border: none; padding-top: 0; padding-bottom: 0;')
-      .panel-group{"id" => "#{dom_id(proposal)}--result", "aria-multiselectable" => "true", :role => "tablist", "style" => "margin: 0"}
+      .panel-group{"id" => "#{dom_id(proposal)}__result", "aria-multiselectable" => "true", :role => "tablist", "style" => "margin: 0"}
         - if proposal.votes.in_favor.any?
           .panel.panel-default{ "style" => "border: none; box-shadow: none; -webkit-box-shadow: none" }
-            .panel-collapse.collapse{"id" => "#{dom_id(proposal)}--result--in_favor", :role => "tabpanel"}
+            .panel-collapse.collapse{"id" => "#{dom_id(proposal)}__result__in_favor", :role => "tabpanel"}
               .panel-body
                 %hr(style='margin-top:0')
                 %strong.text-success
@@ -98,7 +97,7 @@
                         @#{v.user.nickname}
         - if proposal.votes.opposed.any?
           .panel.panel-default{ "style" => "border: none; box-shadow: none; -webkit-box-shadow: none" }
-            .panel-collapse.collapse{"id" => "#{dom_id(proposal)}--result--opposed", "aria-labelledby" => "headingTwo", :role => "tabpanel"}
+            .panel-collapse.collapse{"id" => "#{dom_id(proposal)}__result__opposed", "aria-labelledby" => "headingTwo", :role => "tabpanel"}
               .panel-body
                 %hr(style='margin-top:0')
                 %h5.text-danger

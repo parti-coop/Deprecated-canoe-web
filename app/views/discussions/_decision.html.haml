@@ -1,10 +1,10 @@
 #discussion__decision.clearfix(style='margin: 20px 0;')
   .clearfix
     .canoe-toggle-item
-      %div(style='margin-bottom: 20px')
+      %div.discussion__decision__body(style='margin-bottom: 20px')
         %strong
           - if @discussion.decision.present?
-            = smart_body(@discussion.decision)
+            = smart_body(@discussion.decision, {data: { toggle: 'preview', stage: "#discussion__decision .attachments--image" } })
           - if @discussion.decision.blank?
             아직 결정된 사항이 없습니다.
     - if can? :update, @discussion
@@ -15,7 +15,5 @@
           .form-group.pull-right
             = f.submit '저장하기', class: 'btn btn-primary'
         %button.btn.btn-default(role="button" data-toggle="canoe-toggle" data-parent="#discussion__decision") << 닫기
-  - if @discussion.attachments.any?
-    %blockquote(style="font-size: 100%; border-left: 5px solid #dadada")
-      = render partial: 'attachments/collection', locals: { attachable: @discussion }
+  = render partial: 'attachments/collection', locals: { attachable: @discussion }
 

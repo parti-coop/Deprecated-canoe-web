@@ -1,13 +1,14 @@
 - attachments = attachable.attachments
-%ul.list-unstyled(style='margin-top: 10px; margin-bottom: 10px;')
-  - attachments.reject(&:image?).each do |attachment|
-    %li
-      %i.fa.fa-file-o
-      = link_to attachment.original_filename, attachment.source_url
-      - if can? :delete, attachment
-        = link_to attachment, method: :delete, class: 'text-muted', data: { confirm: '정말 삭제하시겠습니까?'} do
-          %i.fa.fa-times-circle
-.row
+- if attachments.reject(&:image?).any?
+  %ul.list-unstyled(style='margin-top: 10px; margin-bottom: 10px;')
+    - attachments.reject(&:image?).each do |attachment|
+      %li
+        %i.fa.fa-file-o
+        = link_to attachment.original_filename, attachment.source_url
+        - if can? :delete, attachment
+          = link_to attachment, method: :delete, class: 'text-muted', data: { confirm: '정말 삭제하시겠습니까?'} do
+            %i.fa.fa-times-circle
+.row.attachments--image
   - attachments.select(&:image?).each do |attachment|
     .col-xs-6
       .thumbnail(style='overflow:hidden')

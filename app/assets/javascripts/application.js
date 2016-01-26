@@ -43,6 +43,28 @@ $(document).on('ready', function(e) {
     zenscroll.intoView($the_proposal.get(0));
     $the_proposal.addClass('proposal--highlight');
   });
+  $('[data-toggle="preview"]').each(function(k, body) {
+    var $body = $(body);
+    var $links = $body.find('.auto_link')
+    $links.each(function(k, v) {
+      $v = $(v);
+      var img = new Image();
+      img.src = $v.attr('href');
+      $(img).load(function() {
+        var query = $body.data('stage');
+        var $stage = $(query);
+
+        var content = '<div class="col-xs-6">';
+        content += '<div class="thumbnail">';
+        content += '<img src="' + img.src+ '">';
+        content += '</a>';
+        content += '</div>';
+        content += '</div>';
+
+        $(content).appendTo($stage);
+      });
+    });
+  });
   var pattern = Trianglify({
     width: 1200,
     height: 600,

@@ -43,11 +43,11 @@ module ApplicationHelper
         m
       end
     end
-    smart_body(parsed_text, { class: 'opinion__body' })
+    smart_body(parsed_text, { class: 'opinion__body', data: { toggle: 'preview', stage: "##{dom_id(opinion)} .attachments--image" } })
   end
 
   def smart_body(text, html_options = {}, options = {})
-    simple_format(auto_link(text, link: :urls), html_options, options)
+    simple_format(auto_link(text, html: {class: 'auto_link'}, link: :urls), html_options, options)
   end
 
   def current_canoe
