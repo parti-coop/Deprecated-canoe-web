@@ -70,16 +70,17 @@
           .media-body
             = form_for [@discussion, Opinion.new] do |f|
               .form-group
-                = f.text_area :body, class: 'form-control', style: "width: 100%; height: 100px;", placeholder: '내 의견은...'
+                = f.text_area :body, class: 'form-control', style: "width: 100%; height: 100px; border-bottom-right-radius: 0; border-bottom-left-radius: 0;", placeholder: '내 의견은...'
+                .clearfix(style="background-color: #efefef; border: 1px solid #ccc; border-top: none; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; padding: 10px 0;")
+                  .pull-left.text-center(style='width: 10%')
+                    %button.btn-file.btn-link
+                      = f.fields_for 'attachments_attributes[]', f.object.attachments.build do |f_attachment|
+                        = f_attachment.file_field :source, data: {list: '#opinions__files'}
+                      %i.fa.fa-upload.text-muted
+                  %ul.pull-left.list-inline#opinions__files(style='margin-bottom: 0; margin-left: 0; width: 90%;')
               .form-group.pull-right
                 = f.submit '의견올리기', class: 'btn btn-default'
-              .form-group.pull-right
-                .btn-file(style='line-height: 40px; margin-right: 20px;')
-                  = f.fields_for 'attachments_attributes[]', f.object.attachments.build do |f_attachment|
-                    = f_attachment.file_field :source, data: {list: '#opinions__files'}
-                  %i.fa.fa-upload
-            .clearfix
-            %ul#opinions__files.list-inline(style='margin-botton: 7px;')
+
       = render partial: 'public_activity/collection', locals: { activities: @discussion.activities.order(created_at: :desc) }
 
     %hr
