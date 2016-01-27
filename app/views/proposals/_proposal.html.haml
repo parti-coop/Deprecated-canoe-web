@@ -13,7 +13,8 @@
       %strong
         .clearfix.proposal__body
           %span.label.label-default.pull-left(style='margin-right: 3px;')= proposal.sequential_id
-          = smart_body(proposal.body, {data: { toggle: 'preview', stage: "##{dom_id(proposal)} .attachments--image" } })
+          = smart_body(proposal.body, {data: { toggle: 'preview', 'embed-stage': "##{dom_id(proposal)} .proposal__body--embeded", 'image-stage': "##{dom_id(proposal)} .attachments--image" } })
+        .proposal__body--embeded
         = render partial: 'attachments/collection', locals: { attachable: proposal }
       %p.text-muted
         %small

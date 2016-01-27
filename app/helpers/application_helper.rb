@@ -54,7 +54,7 @@ module ApplicationHelper
       end
     end
 
-    smart_body(parsed_text, { class: 'opinion__body', data: { toggle: 'preview', stage: "##{dom_id(opinion)} .attachments--image" } })
+    smart_body(parsed_text, { class: 'opinion__body', data: { toggle: 'preview', 'embed-stage': "##{dom_id(opinion)} .opinion__body--embeded", 'image-stage': "##{dom_id(opinion)} .attachments--image" } })
   end
 
   def smart_body(text, html_options = {}, options = {})

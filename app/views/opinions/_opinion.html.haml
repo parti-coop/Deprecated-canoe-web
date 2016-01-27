@@ -28,6 +28,5 @@
             %a.text-muted{"href" => "#", "data-content" => "#{render partial: 'reaction_popover', locals: {opinion: opinion}}", "data-placement" => "right", "data-html" => "true", "data-toggle" => "webui-popover", :title => "", :type => "button", :style => "color: #cccccc; text-decoration: none;"}
               %i.fa.fa-plus-square
               호응하기
-
     = render partial: 'attachments/collection', locals: { attachable: opinion }
-
+    .opinion__body--embeded

@@ -4,7 +4,8 @@
       %div.discussion__decision__body(style='margin-bottom: 20px')
         %strong
           - if @discussion.decision.present?
-            = smart_body(@discussion.decision, {data: { toggle: 'preview', stage: "#discussion__decision .attachments--image" } })
+            = smart_body(@discussion.decision, {data: { toggle: 'preview', 'embed-stage': "#discussion__decision .decision__body--embeded", 'image-stage': "#discussion__decision .attachments--image" } })
+            .decision__body--embeded
           - if @discussion.decision.blank?
             아직 결정된 사항이 없습니다.
     - if can? :update, @discussion

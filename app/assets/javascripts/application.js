@@ -5,6 +5,7 @@
 //= require webui-popover
 //= require zenscroll/zenscroll
 //= require iamphill-bootstrap-offcanvas/js/bootstrap.offcanvas
+//= require jquery-oembed-all/jquery.oembed
 //= require uservoice
 
 $(document).on('change', '.btn-file :file', function() {
@@ -46,24 +47,40 @@ $(document).on('ready', function(e) {
   });
   $('[data-toggle="preview"]').each(function(k, body) {
     var $body = $(body);
-    var $links = $body.find('.auto_link')
+    var $links = $body.find('.auto_link');
+    var $image_stage = $($body.data('image-stage'));
+    var $embed_stage = $($body.data('embed-stage'));
+
     $links.each(function(k, v) {
       $v = $(v);
-      var img = new Image();
-      img.src = $v.attr('href');
-      $(img).load(function() {
-        var query = $body.data('stage');
-        var $stage = $(query);
+      var source_url = $v.attr('href');
 
-        var content = '<div class="col-xs-8">';
-        content += '<div class="thumbnail">';
-        content += '<img src="' + img.src+ '">';
-        content += '</a>';
-        content += '</div>';
-        content += '</div>';
+      if ($image_stage) {
+        var img = new Image();
+        img.src = source_url;
+        $(img).load(function() {
 
-        $(content).appendTo($stage);
-      });
+
+          var content = '<div class="col-xs-8">';
+          content += '<div class="thumbnail">';
+          content += '<img src="' + img.src+ '">';
+          content += '</a>';
+          content += '</div>';
+          content += '</div>';
+
+          $(content).appendTo($stage);
+        });
+      }
+
+      if ($embed_stage) {
+        $item = $('<div></div>')
+        $item.oembed(source_url,
+          { embedMethod: 'fill',
+            includeHandle: false,
+            maxWidth: $embed_stage.width(),
+            fallback: false});
+        $item.appendTo($embed_stage);
+      }
     });
   });
   var pattern = Trianglify({
