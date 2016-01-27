@@ -16,15 +16,7 @@ class Opinion < ActiveRecord::Base
   private
 
   def set_mentions
-    mention_texts ||= begin
-      regex = /\s@([\w]+)/
-      body.scan(regex).flatten
-    end
-
     self.mentions.destroy_all
-    mention_texts.uniq.each do |mention_text|
-      user = User.find_or_sync_by_nickname(mention_text)
-      self.mentions.build(user: user) if user.present?
-    end
+    Mention.scan_users_from(self).each { |user| self.mentions.build(user: user) }
   end
 end

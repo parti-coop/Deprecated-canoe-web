@@ -43,6 +43,17 @@ module ApplicationHelper
         m
       end
     end
+
+    parsed_text.gsub!(Mention::PATTERN_WITH_AT) do |m|
+      at_nickname = $1
+      user = User.find_by nickname: at_nickname[1..-1]
+      if user.present?
+        m.gsub($1, "<span class='text-success'>#{$1}</span>")
+      else
+        m
+      end
+    end
+
     smart_body(parsed_text, { class: 'opinion__body', data: { toggle: 'preview', stage: "##{dom_id(opinion)} .attachments--image" } })
   end
 
