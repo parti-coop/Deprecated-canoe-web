@@ -3,16 +3,11 @@ class OpinionsController < ApplicationController
   include Messaging
   include DiscussionActivityTraking
 
-  before_filter :authenticate_user!, except: [:show]
+  before_filter :authenticate_user!
   after_action :message_for_mentions, only: [:create, :update]
   load_and_authorize_resource :canoe
   load_and_authorize_resource :discussion, through: :canoe, shallow: true
   load_and_authorize_resource :opinion, through: :discussion, shallow: true
-
-  def show
-    @canoe = @opinion.discussion.canoe
-    @discussion = @opinion.discussion
-  end
 
   def new
   end
