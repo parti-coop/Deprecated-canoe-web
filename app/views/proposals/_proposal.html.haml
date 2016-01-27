@@ -83,7 +83,7 @@
           .col-xs-12
             %strong.text-success
               %i.fa.fa-heart
-              추천
+              좋아요
         - if proposal.votes.by_crews.in_favor.any?
           .row
             .col-xs-5
@@ -109,7 +109,7 @@
           .col-xs-12
             %strong.text-danger
               %i.fa.fa-ban
-              차단
+              안돼요
         - if proposal.votes.by_crews.opposed.any?
           .row
             .col-xs-5
