@@ -7,13 +7,13 @@ if File.exists?(Rails.root + 'config/redis.yml')
   if redis_config
     Sidekiq.configure_server do |config|
       config.redis = {
-         namespace: "spider:#{Rails.env}",
+         namespace: "canoe:#{Rails.env}",
          url: "redis://#{redis_config['host']}:#{redis_config['port']}"
       }
     end
     Sidekiq.configure_client do |config|
       config.redis = {
-         namespace: "spider:#{Rails.env}",
+         namespace: "canoe:#{Rails.env}",
          url: "redis://#{redis_config['host']}:#{redis_config['port']}"
       }
     end
@@ -21,9 +21,9 @@ if File.exists?(Rails.root + 'config/redis.yml')
 
 else
   Sidekiq.configure_server do |config|
-    config.redis = {namespace: "spider:#{Rails.env}"}
+    config.redis = {namespace: "canoe:#{Rails.env}"}
   end
   Sidekiq.configure_client do |config|
-    config.redis = {namespace: "spider:#{Rails.env}"}
+    config.redis = {namespace: "canoe:#{Rails.env}"}
   end
 end
