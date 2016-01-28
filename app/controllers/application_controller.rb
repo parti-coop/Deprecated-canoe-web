@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
 
   include PartiSsoClient::Authentication
   before_action :verify_authentication
+  after_action :allow_iframe
 
   def redirect_to(*args)
     if args[0].class == Canoe and args[0].persisted?
@@ -21,4 +22,11 @@ class ApplicationController < ActionController::Base
   def render_404
     render file: "#{Rails.root}/public/404.html", layout: false, status: 404
   end
+
+  private
+
+  def allow_iframe
+    response.headers.except! 'X-Frame-Options'
+  end
+
 end
