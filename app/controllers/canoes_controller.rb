@@ -56,6 +56,17 @@ class CanoesController < ApplicationController
     redirect_to canoes_path
   end
 
+  def new_invitation
+    @canoe = Canoe.find params[:canoe_id]
+    redirect_to @canoe and return unless @canoe.crew? current_user
+  end
+
+  def create_invitation
+    @canoe = Canoe.find params[:canoe_id]
+    CanoeMailer.invite(@canoe, current_user, params[:email]).deliver_later
+    redirect_to @canoe
+  end
+
   private
 
   def create_params

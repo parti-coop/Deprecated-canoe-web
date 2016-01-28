@@ -33,6 +33,8 @@ Rails.application.routes.draw do
         end
 
         delete 'crews/me', to: 'crews#destory'
+        get 'invite', to: 'canoes#new_invitation'
+        post 'invite', to: 'canoes#create_invitation'
       end
 
       resources :request_to_joins do
@@ -47,4 +49,8 @@ Rails.application.routes.draw do
   end
 
   get '/:slug', to: "canoes#short", as: 'short_canoe'
+
+  if Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: "/devel/emails"
+  end
 end

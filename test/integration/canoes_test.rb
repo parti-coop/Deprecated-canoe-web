@@ -70,4 +70,13 @@ class CanoesTest < ActionDispatch::IntegrationTest
     assert users(:one).mailbox.notifications.empty?
   end
 
+  test 'invite' do
+    sign_in users(:one)
+    post canoe_invite_path(canoe_id: canoes(:canoe1), email: 'a@test.com')
+
+    assert_not ActionMailer::Base.deliveries.empty?
+    email = ActionMailer::Base.deliveries.first
+    assert_equal [users(:one).email], email.from
+    assert_equal ['a@test.com'], email.to
+  end
 end

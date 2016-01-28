@@ -1,0 +1,9 @@
+%p.lead @#{@coller.nickname}님이 '#{@canoe.title}' 카누에 초대합니다.
+
+.well
+  %h3 #{@canoe.title}
+  %p #{@canoe.theme}
+
+%p.text-center
+  = link_to "'#{@canoe.title}' 카누로 이동합니다.", canoe_home_url(@canoe), class: 'btn btn-primary'
+

@@ -1,0 +1,7 @@
+.container
+  %h3 카누 초대메일 보내기
+  = form_tag canoe_invite_path(@canoe), method: :post do |f|
+    .form-group
+      = label_tag '이메일'
+      = text_field_tag :title, nil, class: 'form-control'
+    = submit_tag '보내기', class: 'btn btn-default'

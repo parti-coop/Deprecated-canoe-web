@@ -9,6 +9,7 @@
 
 /.powenv
 /db/*.sqlite3
+dump.rdb
 
 # Ignore all logfiles and tempfiles.
 /log/*
@@ -18,3 +19,4 @@
 
 # Uploads
 public/uploads/
+

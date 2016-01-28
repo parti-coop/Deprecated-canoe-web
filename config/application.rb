@@ -25,5 +25,7 @@ module CanoeWeb
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    config.active_job.queue_adapter = ((Rails.env.test? or  Rails.env.development?) ? :inline : :sidekiq)
   end
 end

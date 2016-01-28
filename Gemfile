@@ -5,6 +5,8 @@ gem 'rails', '4.2.5'
 # persistence
 gem 'mysql2', '~> 0.3.13'
 gem 'sqlite3'
+gem 'redis', '~> 3.2', '>= 3.2.2'
+gem 'redis-namespace', '~> 1.5', '>= 1.5.2'
 
 # auth
 gem 'devise'
@@ -47,8 +49,12 @@ gem 'carrierwave', '~> 0.10.0'
 gem 'exception_notification', '~> 4.1', '>= 4.1.4'
 gem 'gemoji', '~> 2.1'
 gem 'time_difference', '~> 0.4.2'
+gem 'sidekiq', '~> 4.0', '>= 4.0.2'
+gem 'premailer-rails', '~> 1.8', '>= 1.8.2'
+gem 'nokogiri', '~> 1.6', '>= 1.6.7.2'
 
 group :development, :test do
+  gem "letter_opener_web"
   gem 'byebug'
   gem 'minitest-focus',     '~> 1.1', '>= 1.1.2'
   gem 'guard', '~> 2.13.0'
