@@ -1,0 +1,8 @@
+- if @notification.is_read?(current_user)
+  $('##{dom_id(@notification)} .read-check').show();
+  $('##{dom_id(@notification)} .unread-check').hide();
+  $('##{dom_id(@notification)}').removeClass('alert-unread');
+- else
+  $('##{dom_id(@notification)} .read-check').hide();
+  $('##{dom_id(@notification)} .unread-check').show();
+  $('##{dom_id(@notification)}').addClass('alert-unread');

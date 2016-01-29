@@ -8,7 +8,8 @@ Rails.application.routes.draw do
     get :opinions, to: 'opinions#index'
     resources :messages, only: :index do
       member do
-        get :mark_as_read
+        patch :mark_as_read
+        patch :mark_as_unread
       end
     end
     resources :reactions
