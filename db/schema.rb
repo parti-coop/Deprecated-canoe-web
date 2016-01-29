@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160124060252) do
+ActiveRecord::Schema.define(version: 20160128154618) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id"
@@ -24,11 +24,21 @@ ActiveRecord::Schema.define(version: 20160124060252) do
     t.string   "recipient_type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "subject_id",     null: false
+    t.string   "subject_type",   null: false
+    t.integer  "measure_id"
+    t.string   "measure_type"
+    t.string   "task"
   end
 
+  add_index "activities", ["measure_type", "measure_id"], name: "index_activities_on_measure_type_and_measure_id"
   add_index "activities", ["owner_id", "owner_type"], name: "index_activities_on_owner_id_and_owner_type"
   add_index "activities", ["recipient_id", "recipient_type"], name: "index_activities_on_recipient_id_and_recipient_type"
+  add_index "activities", ["subject_type", "subject_id"], name: "index_activities_on_subject_type_and_subject_id"
   add_index "activities", ["trackable_id", "trackable_type"], name: "index_activities_on_trackable_id_and_trackable_type"
+
+# Could not dump table "activities_backup" because of following NoMethodError
+#   undefined method `[]' for nil:NilClass
 
   create_table "attachments", force: :cascade do |t|
     t.string   "source",            null: false

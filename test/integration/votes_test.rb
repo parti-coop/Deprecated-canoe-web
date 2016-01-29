@@ -45,14 +45,16 @@ class VotesTest < ActionDispatch::IntegrationTest
     sign_in users(:one)
     post in_favor_proposal_path(id: proposals(:proposal1).id)
     activity = proposals(:proposal1).discussion.activities.last
-    assert_equal 'votes.in_favor', activity.key
+    assert_equal 'proposal', activity.key
+    assert_equal 'vote.in_favor', activity.task
   end
 
   test 'activity of opposed' do
     sign_in users(:one)
     post opposed_proposal_path(id: proposals(:proposal1).id)
     activity = proposals(:proposal1).discussion.activities.last
-    assert_equal 'votes.opposed', activity.key
+    assert_equal 'proposal', activity.key
+    assert_equal 'vote.opposed', activity.task
   end
 
   test 'activity with unvoted' do
@@ -60,7 +62,8 @@ class VotesTest < ActionDispatch::IntegrationTest
     post in_favor_proposal_path(id: proposals(:proposal1).id)
     delete unvote_proposal_path(id: proposals(:proposal1).id)
     activity = proposals(:proposal1).discussion.activities.last
-    assert_equal assigns(:vote).id, activity.recipient_with_deleted.id
-    assert_equal 'votes.unvote', activity.key
+    assert_equal assigns(:vote).id, activity.measure.id
+    assert_equal 'proposal', activity.key
+    assert_equal 'vote.unvote', activity.task
   end
 end

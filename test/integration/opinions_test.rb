@@ -17,7 +17,8 @@ class OpinionsTest < ActionDispatch::IntegrationTest
     post discussion_opinions_path(discussion_id: discussions(:discussion1).id, opinion: { body: 'test' } )
 
     activity = discussions(:discussion1).activities.first
-    assert_equal 'opinions.create', activity.key
+    assert_equal 'opinion', activity.key
+    assert_equal 'create', activity.task
   end
 
   test 'shoud not create by visitor' do

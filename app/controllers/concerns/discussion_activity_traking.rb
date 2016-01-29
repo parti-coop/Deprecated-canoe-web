@@ -1,51 +1,76 @@
-# TEST web hook url : "https://hooks.slack.com/services/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"
-
 module DiscussionActivityTraking
   extend ActiveSupport::Concern
 
   def create_discussions_update_decision_activty(discussion)
-    discussion.create_activity(key: 'discussions.update_decision', owner: current_user, recipient: discussion)
+    discussion.create_activity(key: 'discussion.decision',
+      task: 'update',
+      subject: discussion,
+      owner: current_user)
   end
 
   def create_opinions_create_activty(opinion)
     discussion = opinion.discussion
-    discussion.create_activity(key: 'opinions.create', owner: current_user, recipient: opinion)
+    discussion.create_activity(key: 'opinion',
+      task: 'create',
+      subject: opinion,
+      owner: current_user)
   end
 
   def destroy_opinions_activty(opinion)
     discussion = opinion.discussion
-    activity = discussion.activities.find_by(key: 'opinions.create', recipient: opinion)
+    activity = discussion.activities.find_by(key: 'opinion', subject: opinion)
     activity.try(:destroy)
   end
 
   def create_votes_in_favor_activty(vote)
     discussion = vote.proposal.discussion
-    discussion.create_activity(key: 'votes.in_favor', owner: current_user, recipient: vote)
+    discussion.create_activity(key: 'proposal',
+      task: 'vote.in_favor',
+      subject: vote.proposal,
+      measure: vote,
+      owner: current_user)
   end
 
   def create_votes_opposed_activty(vote)
     discussion = vote.proposal.discussion
-    discussion.create_activity(key: 'votes.opposed', owner: current_user, recipient: vote)
+    discussion.create_activity(key: 'proposal',
+      task: 'vote.opposed',
+      subject: vote.proposal,
+      measure: vote,
+      owner: current_user)
   end
 
   def create_votes_unvote_activty(vote)
     discussion = vote.proposal.discussion
-    discussion.create_activity(key: 'votes.unvote', owner: current_user, recipient: vote)
+    discussion.create_activity(key: 'proposal',
+      task: 'vote.unvote',
+      subject: vote.proposal,
+      measure: vote,
+      owner: current_user)
   end
 
   def create_porposals_create_activty(proposal)
     discussion = proposal.discussion
-    discussion.create_activity(key: 'proposals.create', owner: current_user, recipient: proposal)
+    discussion.create_activity(key: 'proposal',
+      task: 'create',
+      subject: proposal,
+      owner: current_user)
   end
 
   def create_porposals_update_activty(proposal)
     discussion = proposal.discussion
-    discussion.create_activity(key: 'proposals.update', owner: current_user, recipient: proposal)
+    discussion.create_activity(key: 'proposal',
+      task: 'update',
+      subject: proposal,
+      owner: current_user)
   end
 
   def create_porposals_destroy_activty(proposal)
     discussion = proposal.discussion
-    discussion.create_activity(key: 'proposals.destroy', owner: current_user, recipient: proposal)
+    discussion.create_activity(key: 'proposal',
+      task: 'destroy',
+      subject: proposal,
+      owner: current_user)
   end
 
   def create_attachments_create_activty(attachment)
@@ -54,9 +79,17 @@ module DiscussionActivityTraking
 
     case attachment.attachable_type
     when Discussion.to_s
-      discussion.create_activity(key: 'discussions.attachments.create', owner: current_user, recipient: attachment)
+      discussion.create_activity(key: 'discussion.decision',
+      task: 'attachment.create',
+      subject: attachment.attachable,
+      measure: attachment,
+      owner: current_user)
     when Proposal.to_s
-      discussion.create_activity(key: 'proposals.attachments.create', owner: current_user, recipient: attachment)
+      discussion.create_activity(key: 'proposal',
+      task: 'attachment.create',
+      subject: attachment.attachable,
+      measure: attachment,
+      owner: current_user)
     else
     end
   end
@@ -67,10 +100,29 @@ module DiscussionActivityTraking
 
     case attachment.attachable_type
     when Discussion.to_s
-      discussion.create_activity(key: 'discussions.attachments.destroy', owner: current_user, recipient: attachment)
+      discussion.create_activity(key: 'discussion.decision',
+      task: 'attachment.destroy',
+      subject: attachment.attachable,
+      measure: attachment,
+      owner: current_user)
     when Proposal.to_s
-      discussion.create_activity(key: 'proposals.attachments.destroy', owner: current_user, recipient: attachment)
+      discussion.create_activity(key: 'proposal',
+      task: 'attachment.destroy',
+      subject: attachment.attachable,
+      measure: attachment,
+      owner: current_user)
     else
+    end
+  end
+
+  def grouping_criteria(activity)
+    case(activity.key)
+    when 'votes.in_favor', 'votes.opposed', 'votes.unvote'
+      return activity.recipient_with_deleted.proposal
+    when 'discussions.attachments.create', 'discussions.attachments.destroy', 'proposals.attachments.create', 'proposals.attachments.destroy'
+      return activity.recipient_with_deleted.attachable
+    else
+      return activity.recipient_with_deleted
     end
   end
 end

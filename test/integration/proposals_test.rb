@@ -14,9 +14,10 @@ class ProposalTest < ActionDispatch::IntegrationTest
     post discussion_proposals_path(discussion_id: discussions(:discussion1).id, proposal: { body: 'test' } )
 
     activity = discussions(:discussion1).reload.activities.last
-    assert_equal 'proposals.create', activity.key
+    assert_equal 'proposal', activity.key
+    assert_equal 'create', activity.task
     assert_equal discussions(:discussion1), activity.trackable
-    assert_equal assigns(:proposal), activity.recipient
+    assert_equal assigns(:proposal), activity.subject
   end
 
   test 'shoud not create by visitor' do
@@ -57,8 +58,9 @@ class ProposalTest < ActionDispatch::IntegrationTest
 
     delete proposal_path(id: assigns(:proposal).id)
     activity = discussions(:discussion1).reload.activities.last
-    assert_equal assigns(:proposal).id, activity.recipient_with_deleted.id
-    assert_equal 'proposals.destroy', activity.key
+    assert_equal assigns(:proposal).id, activity.subject.id
+    assert_equal 'proposal', activity.key
+    assert_equal 'destroy', activity.task
   end
 
   test 'sequential_id' do

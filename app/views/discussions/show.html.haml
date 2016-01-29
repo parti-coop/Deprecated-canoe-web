@@ -81,7 +81,7 @@
               .form-group.pull-right
                 = f.submit '의견올리기', class: 'btn btn-default'
 
-      = render partial: 'public_activity/collection', locals: { activities: @discussion.activities.order(created_at: :desc) }
+      = render partial: 'public_activity/collection', locals: { discussion: @discussion }
 
     %hr
 

@@ -26,9 +26,10 @@ class DiscussionsTest < ActionDispatch::IntegrationTest
     post canoe_discussions_path(canoe_id: canoes(:canoe1).id, discussion: { subject: 'test', opinions_attributes: {'0': opinions_attributes}} )
 
     activity = assigns(:discussion).reload.activities.first
-    assert_equal 'opinions.create', activity.key
+    assert_equal 'opinion', activity.key
+    assert_equal 'create', activity.task
     assert_equal assigns(:discussion), activity.trackable
-    assert_equal assigns(:discussion).opinions.first, activity.recipient_with_deleted
+    assert_equal assigns(:discussion).opinions.first, activity.subject
   end
 
   test 'shoud not create by visitor' do
@@ -79,10 +80,12 @@ class DiscussionsTest < ActionDispatch::IntegrationTest
     post canoe_discussions_path(canoe_id: canoes(:canoe1).id, discussion: { subject: 'test', opinions_attributes: {'0': opinions_attributes}} )
 
     activity = assigns(:discussion).reload.activities.first
-    assert_equal 'opinions.create', activity.key
+    assert_equal 'opinion', activity.key
+    assert_equal 'create', activity.task
 
     delete discussion_path(id: assigns(:discussion).id)
 
+    activity.reload
     assert_equal assigns(:discussion), activity.trackable_with_deleted
   end
 
@@ -105,7 +108,7 @@ class DiscussionsTest < ActionDispatch::IntegrationTest
     assert users(:one).mailbox.notifications.empty?
   end
 
-  test 'edit subject do not create activity' do
+  test 'edit subject and do not create activity' do
     sign_in users(:one)
 
     previous_last_activity = discussions(:discussion1).activities.last
@@ -115,15 +118,28 @@ class DiscussionsTest < ActionDispatch::IntegrationTest
     assert_equal previous_last_activity, activity
   end
 
-  test 'edit decision create activity' do
+  test 'edit decision and create activity' do
     sign_in users(:one)
 
     decision = discussions(:discussion1).decision + 'xx'
     put discussion_path(id: discussions(:discussion1).id, discussion: { decision: decision })
 
     activity = assigns(:discussion).reload.activities.last
-    assert_equal 'discussions.update_decision', activity.key
+    assert_equal 'discussion.decision', activity.key
+    assert_equal 'update', activity.task
     assert_equal assigns(:discussion), activity.trackable
-    assert_equal assigns(:discussion), activity.recipient_with_deleted
+    assert_equal assigns(:discussion), activity.subject
+  end
+
+  test 'edit decision and create a activity only once' do
+    sign_in users(:one)
+
+    decision = discussions(:discussion1).decision + 'xx'
+    put discussion_path(id: discussions(:discussion1).id, discussion: { decision: decision })
+
+    previous_count = assigns(:discussion).reload.activities_merged.count
+    put discussion_path(id: discussions(:discussion1).id, discussion: { decision: decision })
+
+    assert_equal previous_count, assigns(:discussion).reload.activities_merged.count
   end
 end
