@@ -5,8 +5,8 @@
         %h4.text-muted
           %i.fa.fa-inbox
           최근
-          - if @notifications.any?
-            %strong= @notifications.count
+          - if @all_count > 0
+            %strong= @all_count
             개의 알림이 있습니다.
           - else
             알림이 없습니다.
@@ -22,3 +22,4 @@
                     = date_f notification.created_at
                   %p= simple_format notification.body
 
+    .text-center= paginate @notifications, theme: 'twitter-bootstrap-3'

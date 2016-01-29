@@ -52,6 +52,8 @@ gem 'time_difference', '~> 0.4.2'
 gem 'sidekiq', '~> 4.0', '>= 4.0.2'
 gem 'premailer-rails', '~> 1.8', '>= 1.8.2'
 gem 'nokogiri', '~> 1.6', '>= 1.6.7.2'
+gem 'kaminari', '~> 0.16.3'
+gem 'bootstrap-kaminari-views', '~> 0.0.5'
 
 group :development, :test do
   gem "letter_opener_web"

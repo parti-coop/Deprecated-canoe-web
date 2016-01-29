@@ -3,7 +3,8 @@ class MessagesController < ApplicationController
   after_action :mark_as_read, only: :index
 
   def index
-    @notifications = current_user.mailbox.notifications
+    @all_count = current_user.mailbox.notifications.count
+    @notifications = current_user.mailbox.notifications.page params[:page]
   end
 
   private
