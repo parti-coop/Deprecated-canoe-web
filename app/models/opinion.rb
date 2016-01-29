@@ -12,6 +12,7 @@ class Opinion < ActiveRecord::Base
   accepts_nested_attributes_for :attachments
 
   validates :body, presence: true
+  scoped_search on: %w(body)
 
   private
 

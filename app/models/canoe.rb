@@ -29,6 +29,7 @@ class Canoe < ActiveRecord::Base
     length: { maximum: 100 }
 
   scope :latest, -> { order(id: :desc) }
+  scoped_search on: %w(title theme slug)
 
   def captain?(someone)
     user == someone

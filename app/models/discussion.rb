@@ -31,6 +31,10 @@ class Discussion < ActiveRecord::Base
 
   validates :canoe, presence: true
   before_save :set_discussed_at
+  scope :valid_parent, -> { joins(:canoe) }
+  scoped_search on: %w(subject decision)
+  scoped_search in: :opinions, on: %w(body)
+  scoped_search in: :proposals, on: %w(body)
   accepts_nested_attributes_for :opinions
 
   def set_discussed_at

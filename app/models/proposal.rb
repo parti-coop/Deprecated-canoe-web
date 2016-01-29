@@ -21,6 +21,8 @@ class Proposal < ActiveRecord::Base
 
   validates :body, presence: true
   scope :latest, -> { order(id: :desc) }
+  scoped_search on: %w(body)
+
   accepts_nested_attributes_for :attachments
 
   def opposed_by? user

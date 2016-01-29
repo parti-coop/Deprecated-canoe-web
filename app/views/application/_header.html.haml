@@ -35,7 +35,6 @@
                 = link_to new_canoe_path do
                   %i.fa.fa-edit
                   카누 만들기
-
     .navbar-header
       %button.navbar-toggle.navbar-right.offcanvas-toggle{"aria-controls" => "navbar", "aria-expanded" => "false", "data-target" => "#navbar", "data-toggle" => "offcanvas", :type => "button"}
         %span.sr-only Toggle navigation
@@ -44,6 +43,17 @@
         %span.icon-bar
         - if user_signed_in? and (current_user.mailbox.notifications.unread.any? or current_user.crewing_discussions.unread.any?)
           %i.fa.fa-circle.text-danger(style='position: absolute; top: -7px; left: 35px;')
+      %ul.nav.navbar-nav
+        %li.dropdown.pull-right
+          %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+            %i.fa.fa-search
+          %ul#dropdown-login.dropdown-menu.dropdown-menu-canoe(style="padding: 20px;")
+            = form_tag search_path, method: :get, class: 'form-inline' do
+              %li(style='white-space: nowrap')
+                .form-group
+                  = text_field_tag :q, nil, class: 'form-control', style: 'width: 300px;'
+                .form-group
+                  = submit_tag "찾기", :class => "btn btn-primary pull-right"
 
     #navbar.navbar-offcanvas.navbar-offcanvas-right
       %ul.nav.navbar-nav

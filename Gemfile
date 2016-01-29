@@ -22,6 +22,7 @@ gem 'paranoia', '~> 2.1', '>= 2.1.4'
 gem 'enumerize', '~> 1.1'
 gem 'counter_culture', '~> 0.1.34'
 gem 'public_activity', '~> 1.4', '>= 1.4.2'
+gem 'scoped_search', '~> 3.2', '>= 3.2.2'
 
 # ui
 gem 'sass-rails', '~> 5.0'

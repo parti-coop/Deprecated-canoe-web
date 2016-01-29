@@ -47,6 +47,8 @@ Rails.application.routes.draw do
         end
       end
     end
+
+    get '/search', to: "search#index"
   end
 
   get '/:slug', to: "canoes#short", as: 'short_canoe'

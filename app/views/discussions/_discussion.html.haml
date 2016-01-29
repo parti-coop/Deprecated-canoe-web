@@ -15,7 +15,7 @@
         )
     - if discussion.decision.present?
       %p
-        .clearfix.text-success
+        .clearfix.text-success.discussion__decision__body
           %i.fa.fa-thumb-tack.pull-left
           = smart_body(discussion.decision)
   %td.text-right{ style: 'min-width: 120px' }
