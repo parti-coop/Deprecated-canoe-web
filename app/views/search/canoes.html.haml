@@ -1,0 +1,27 @@
+.bs-component
+  .container
+    .page-header
+      %h3
+        %i.fa.fa-search
+        = form_tag search_path, method: :get, class: 'form-inline', style: 'display: inline-block' do
+          .form-group
+            = text_field_tag :q, params[:q], class: 'form-control'
+          = submit_tag '찾기', class: 'btn btn-default'
+    - if params[:q].present?
+      - if @canoes_on_current_page.any?
+        %h4
+          %i.fa.fa-cubes
+          카누
+          %small
+            = link_to search_path(q: params[:q], model: 'discussion') do
+              %i.fa.fa-flag
+              논의
+        .row
+          - @canoes_on_current_page.each do |canoe|
+            .col-sm-4.col-xs-6
+              = render canoe
+        - if @canoes_on_current_page.count < @canoes_count
+          .row
+            .col-xs-12.text-right
+              = link_to search_path(q: params[:q], model: Canoe.to_s.underscore), class: 'btn btn-default' do
+                더보기

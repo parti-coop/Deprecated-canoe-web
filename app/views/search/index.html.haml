@@ -1,4 +1,3 @@
-
 .bs-component
   .container
     .page-header
@@ -23,7 +22,8 @@
         - if @canoes_on_current_page.count < @canoes_count
           .row
             .col-xs-12.text-right
-              %button.btn.btn-default 더보기
+              = link_to search_path(q: params[:q], model: Canoe.to_s.underscore), class: 'btn btn-default' do
+                더보기
       - if @discussions_on_current_page.any?
         %h4
           %i.fa.fa-flag

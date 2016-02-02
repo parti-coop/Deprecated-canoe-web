@@ -7,13 +7,17 @@
           .form-group
             = text_field_tag :q, params[:q], class: 'form-control'
           = submit_tag '찾기', class: 'btn btn-default'
-    - if @models_on_current_page.any?
+    - if @discussions_on_current_page.any?
       %h4
         %i.fa.fa-flag
         논의
+        %small
+          = link_to search_path(q: params[:q], model: 'canoe') do
+            %i.fa.fa-cubes
+            카누
       .row
         .col-xs-12
-          - @models_on_current_page.group_by(&:canoe).each do |canoe, discussions|
+          - @discussions_on_current_page.group_by(&:canoe).each do |canoe, discussions|
             - discussions.each do |discussion|
               .panel.panel-default
                 .panel-heading.text-muted
@@ -45,6 +49,6 @@
                         검색되었습니다.
       .row
         .col-xs-12.text-center
-          = paginate @models_on_current_page, theme: 'twitter-bootstrap-3'
+          = paginate @discussions_on_current_page, theme: 'twitter-bootstrap-3'
 
 
