@@ -13,6 +13,21 @@ class RequestToJoinsTest < ActionDispatch::IntegrationTest
     assert canoes(:canoe1).request_to_join?(users(:two))
   end
 
+  test 'should not ask to private_join canoe' do
+    canoes(:canoe1).how_to_join = 'private_join'
+    canoes(:canoe1).save!
+
+    refute canoes(:canoe1).crew?(users(:two))
+    refute canoes(:canoe1).request_to_join?(users(:two))
+
+    sign_in users(:two)
+
+    post ask_canoe_request_to_joins_path(canoe_id: canoes(:canoe1))
+
+    refute canoes(:canoe1).crew?(users(:two))
+    refute canoes(:canoe1).request_to_join?(users(:two))
+  end
+
   test 'accept' do
     refute canoes(:canoe1).crew?(users(:visitor))
     assert canoes(:canoe1).request_to_join?(users(:visitor))

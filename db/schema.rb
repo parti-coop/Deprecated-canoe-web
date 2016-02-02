@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160128154618) do
+ActiveRecord::Schema.define(version: 20160202131804) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id"
@@ -56,16 +56,17 @@ ActiveRecord::Schema.define(version: 20160128154618) do
   add_index "attachments", ["deleted_at"], name: "index_attachments_on_deleted_at"
 
   create_table "canoes", force: :cascade do |t|
-    t.string   "title",             null: false
-    t.integer  "user_id",           null: false
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.string   "title",                                     null: false
+    t.integer  "user_id",                                   null: false
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
     t.text     "theme"
-    t.string   "slug",              null: false
+    t.string   "slug",                                      null: false
     t.string   "logo"
     t.string   "cover"
     t.string   "slack_webhook_url"
     t.datetime "deleted_at"
+    t.string   "how_to_join",       default: "public_join", null: false
   end
 
   add_index "canoes", ["deleted_at"], name: "index_canoes_on_deleted_at"

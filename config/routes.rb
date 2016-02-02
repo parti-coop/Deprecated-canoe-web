@@ -35,6 +35,7 @@ Rails.application.routes.draw do
             end
           end
         end
+        resources :crews
 
         delete 'crews/me', to: 'crews#destory'
         get 'invite', to: 'canoes#new_invitation'

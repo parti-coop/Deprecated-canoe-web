@@ -10,7 +10,7 @@ class RequestToJoinsController < ApplicationController
   end
 
   def ask
-    return if @canoe.crew?(current_user)
+    redirect_to @canoe and return if @canoe.crew?(current_user) or @canoe.private_join?
     @request_to_join = @canoe.request_to_joins.build
     @request_to_join.user = current_user
     if @request_to_join.save
@@ -21,6 +21,7 @@ class RequestToJoinsController < ApplicationController
   end
 
   def accept
+    redirect_to @canoe and return if @canoe.private_join?
     @request_to_join = RequestToJoin.find(params[:id])
     @crew = @canoe.crews.find_or_initialize_by(user: @request_to_join.user)
     @crew.inviter = current_user

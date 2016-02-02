@@ -20,6 +20,15 @@
     = f.label :cover
     = f.file_field :cover, class: 'form-control'
   .form-group
+    = f.label :how_to_join
+    %div
+      %label.radio-inline
+        = f.radio_button :how_to_join, 'public_join'
+        선원의 승선 요청을 받습니다
+      %label.radio-inline
+        = f.radio_button :how_to_join, 'private_join'
+        선원의 승선 요청을 받지 않습니다
+  .form-group
     = f.label :slack_webhook_url
     = f.text_field :slack_webhook_url, class: 'form-control'
   = f.submit '저장', class: 'btn btn-default'

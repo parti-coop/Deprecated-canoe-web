@@ -70,10 +70,10 @@ class CanoesController < ApplicationController
   private
 
   def create_params
-    params.require(:canoe).permit(:title, :theme, :slug, :cover, :logo, :slack_webhook_url)
+    params.require(:canoe).permit(:title, :theme, :slug, :cover, :logo, :how_to_join, :slack_webhook_url)
   end
 
   def update_params
-    params.require(:canoe).permit(:title, :theme, :slug, :cover, :logo, :slack_webhook_url)
+    params.require(:canoe).permit(:title, :theme, :slug, :cover, :logo, :how_to_join, :slack_webhook_url)
   end
 end
