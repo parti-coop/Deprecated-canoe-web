@@ -1,30 +1,35 @@
 .bs-component
   .container
     .panel.panel-default
-      .panel-heading
-        %h4.text-muted
-          %i.fa.fa-inbox
-          최근
-          - if @unread_count > 0
-            %strong= @unread_count
-            개의 읽지 않은 알림이 있습니다.
-          - else
-            모든 알림을 다 읽었습니다!
-      - if @notifications.any?
-        %table.table.table-bordered
-          %tbody
-            - @notifications.each do |notification|
-              - tr_class = notification.is_read?(current_user) ? '' : 'alert-unread'
-              %tr[notification]{ class: tr_class }
-                %td
-                  %p.text-muted
-                    %i.fa.fa-clock-o
-                    = date_f notification.created_at
-                  %p= simple_format notification.body
-                %td.text-center(style='width: 40px;')
-                  = link_to mark_as_unread_message_path(notification), method: :patch, remote: true, style: "#{'display: none' if notification.is_unread?(current_user)}", class: 'read-check' do
-                    %i.fa.fa-square-o(data-toggle='tooltip' data-placement='bottom' title='읽지않은 것으로 표시합니다')
-                  = link_to mark_as_read_message_path(notification), method: :patch, remote: true, style: "#{'display: none' if notification.is_read?(current_user)}", class: 'unread-check' do
-                    %i.fa.fa-check-square-o(data-toggle='tooltip' data-placement='bottom' title='읽은 것으로 표시합니')
+      %table.table.table-bordered
+        %tbody
+          %tr.active
+            %td
+              %h4.text-muted
+                %i.fa.fa-inbox
+                최근
+                - if @unread_count > 0
+                  %strong= @unread_count
+                  개의 읽지 않은 알림이 있습니다.
+                - else
+                  모든 알림을 다 읽었습니다!
+            %td.text-center(style='width: 40px; vertical-align: middle')
+              %span.read-check-all(style="#{'display: none' if @unread_count > 0}")
+                %i.fa.fa-square-o(data-toggle='tooltip' data-placement='bottom' title='모두 읽었습니다')
+              = link_to mark_all_as_read_messages_path, method: :patch, remote: true, style: "#{'display: none' if @unread_count <= 0}", class: 'unread-check-all' do
+                %i.fa.fa-check-square-o(data-toggle='tooltip' data-placement='bottom' title='모두 읽은 것으로 표시합니다')
+          - @notifications.each do |notification|
+            - tr_class = notification.is_read?(current_user) ? '' : 'alert-unread'
+            %tr[notification]{ class: tr_class }
+              %td
+                %p.text-muted
+                  %i.fa.fa-clock-o
+                  = date_f notification.created_at
+                %p= simple_format notification.body
+              %td.text-center(style='width: 40px;')
+                = link_to mark_as_unread_message_path(notification), method: :patch, remote: true, style: "#{'display: none' if notification.is_unread?(current_user)}", class: 'read-check' do
+                  %i.fa.fa-square-o(data-toggle='tooltip' data-placement='bottom' title='읽지않은 것으로 표시합니다')
+                = link_to mark_as_read_message_path(notification), method: :patch, remote: true, style: "#{'display: none' if notification.is_read?(current_user)}", class: 'unread-check' do
+                  %i.fa.fa-check-square-o(data-toggle='tooltip' data-placement='bottom' title='읽은 것으로 표시합니다')
 
     .text-center= paginate @notifications, theme: 'twitter-bootstrap-3'

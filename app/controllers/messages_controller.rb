@@ -14,6 +14,15 @@ class MessagesController < ApplicationController
     mark_as(:unread)
   end
 
+  def mark_all_as_read
+    Mailboxer::Receipt.notifications_receipts.recipient(current_user).mark_as_read
+
+    respond_to do |format|
+      format.html { redirect_to :index }
+      format.js
+    end
+  end
+
   def mark_as(read_or_unread)
     @notification = current_user.mailbox.notifications.find params[:id]
     if read_or_unread == :read
@@ -21,6 +30,7 @@ class MessagesController < ApplicationController
     else
       @notification.mark_as_unread(current_user)
     end
+    @has_unread = current_user.mailbox.notifications.unread.any?
     respond_to do |format|
       format.html { redirect_to :index }
       format.js { render(template: "messages/mark_as") }

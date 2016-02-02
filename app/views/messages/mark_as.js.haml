@@ -6,3 +6,12 @@
   $('##{dom_id(@notification)} .read-check').hide();
   $('##{dom_id(@notification)} .unread-check').show();
   $('##{dom_id(@notification)}').addClass('alert-unread');
+
+- if @has_unread
+  $('.read-check-all').hide();
+  $('.unread-check-all').show();
+- else
+  $('.read-check-all').show();
+  $('.unread-check-all').hide();
+
+"#{current_user.mailbox.notifications.unread.inspect}";

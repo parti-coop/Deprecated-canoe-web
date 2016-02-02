@@ -11,6 +11,9 @@ Rails.application.routes.draw do
         patch :mark_as_read
         patch :mark_as_unread
       end
+      collection do
+        patch :mark_all_as_read
+      end
     end
     resources :reactions
     resources :attachments
