@@ -27,7 +27,7 @@
               = link_to canoe_invite_path(@canoe), class: 'btn btn-xs btn-success' do
                 %i.fa.fa-envelope-o
                 초대메일 보내기
-            - if can?(:accept_crew, @canoe)
+            - if can?(:accept_public_crew, @canoe)
               - if @canoe.request_to_joins.any?
                 = link_to canoe_request_to_joins_path(@canoe), class: 'btn btn-xs btn-danger' do
                   %i.fa.fa-sign-in
@@ -36,6 +36,10 @@
                 = link_to canoe_crews_me_path(@canoe), method: :delete,  data: { confirm: '정말 하선하시겠습니까?'}, class: 'btn btn-primary btn-xs' do
                   %i.fa.fa-sign-out
                   하선하기
+            - if can?(:create_private_crew, @canoe)
+              = link_to new_canoe_crew_path(@canoe), class: 'btn btn-success btn-xs' do
+                %i.fa.fa-user-plus
+                승선시키기
       .panel-body
         .row
           .col-sm-3.col-xs-4

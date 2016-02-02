@@ -8,7 +8,7 @@
           - if @canoe.public_join?
             - if @canoe.request_to_join?(current_user)
               의견을 내거나 제안하려면 먼저 승선요청이 수락될 때까지 기다려 주세요.
-            - elsif can?(:ask_crew, @canoe)
+            - elsif can?(:ask_public_crew, @canoe)
               의견을 내거나 제안하려면 먼저
               #{link_to '승선요청', ask_canoe_request_to_joins_path(canoe_id: @canoe), method: :post}을
               해주세요.
@@ -19,11 +19,11 @@
               %button.btn.btn-xs.btn-danger.disabled
                 %i.fa.fa-sign-in
                 승선요청 중
-            - elsif can?(:ask_crew, @canoe)
+            - elsif can?(:ask_public_crew, @canoe)
               = link_to ask_canoe_request_to_joins_path(canoe_id: @canoe), method: :post, class: 'btn btn-xs btn-danger' do
                 %i.fa.fa-sign-in
                 승선요청하기
-    - if can?(:accept_crew, @canoe) and @canoe.request_to_joins.any?
+    - if can?(:accept_public_crew, @canoe) and @canoe.request_to_joins.any?
       .alert.alert-warning.clearfix(style='position: relative; top: 22px;')
         %p
           %strong 승선요청이 #{@canoe.request_to_joins.count}건 있습니다.

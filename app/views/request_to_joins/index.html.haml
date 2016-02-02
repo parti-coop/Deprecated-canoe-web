@@ -13,5 +13,5 @@
           - @canoe.request_to_joins.each do |req|
             %li
               = user_byline req.user
-              - if can?(:accept_crew, @canoe)
+              - if can?(:accept_public_crew, @canoe)
                 = link_to '승락', accept_canoe_request_to_join_path(canoe_id: @canoe, id: req), method: :post, class: 'btn btn-xs btn-primary'

@@ -13,6 +13,21 @@ class RequestToJoinsTest < ActionDispatch::IntegrationTest
     assert canoes(:canoe1).request_to_join?(users(:two))
   end
 
+  test 'no duplicated ask' do
+    refute canoes(:canoe1).crew?(users(:two))
+    refute canoes(:canoe1).request_to_join?(users(:two))
+
+    sign_in users(:two)
+
+    post ask_canoe_request_to_joins_path(canoe_id: canoes(:canoe1))
+
+    previous = canoes(:canoe1).request_to_joins.count
+
+    post ask_canoe_request_to_joins_path(canoe_id: canoes(:canoe1))
+
+    assert_equal previous, canoes(:canoe1).reload.request_to_joins.count
+  end
+
   test 'should not ask to private_join canoe' do
     canoes(:canoe1).how_to_join = 'private_join'
     canoes(:canoe1).save!

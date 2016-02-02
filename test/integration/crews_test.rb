@@ -27,24 +27,41 @@ class CrewsTest < ActionDispatch::IntegrationTest
     assert canoes(:canoe1).crew? users(:one)
 
     sign_in users(:one)
-    refute canoes(:canoe1).crews.exists? user: users(:two)
+    refute canoes(:canoe1).crew? users(:two)
 
     user_key = users(:two).nickname
     post canoe_crews_path(canoe_id: canoes(:canoe1), crew: { user_key: user_key})
 
-    assert canoes(:canoe1).crews.exists? user: users(:two)
+    assert canoes(:canoe1).crew? users(:two)
   end
 
   test 'should not create crew of public_join canoe' do
     assert canoes(:canoe1).crew? users(:one)
 
     sign_in users(:one)
-    refute canoes(:canoe1).crews.exists? user: users(:two)
+    refute canoes(:canoe1).crew? users(:two)
 
     user_key = users(:two).nickname
     post canoe_crews_path(canoe_id: canoes(:canoe1), crew: { user_key: user_key})
 
     refute canoes(:canoe1).crew? users(:two)
+  end
+
+  test 'remove request_to_join of new crew' do
+    canoes(:canoe1).how_to_join = 'private_join'
+    canoes(:canoe1).save!
+
+    assert canoes(:canoe1).request_to_join?(users(:visitor))
+
+    assert canoes(:canoe1).crew? users(:one)
+
+    sign_in users(:one)
+    refute canoes(:canoe1).crew? users(:visitor)
+
+    user_key = users(:visitor).nickname
+    post canoe_crews_path(canoe_id: canoes(:canoe1), crew: { user_key: user_key})
+
+    refute canoes(:canoe1).request_to_join?(users(:visitor))
   end
 
   test 'should not add owner' do
@@ -68,7 +85,7 @@ class CrewsTest < ActionDispatch::IntegrationTest
     assert users(:one), canoes(:canoe1).user
 
     sign_in users(:one)
-    refute canoes(:canoe1).crews.exists? user: users(:two)
+    refute canoes(:canoe1).crew? users(:two)
 
     user_key = users(:two).nickname
     post canoe_crews_path(canoe_id: canoes(:canoe1), crew: { user_key: user_key})

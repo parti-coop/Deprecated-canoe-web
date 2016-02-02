@@ -15,6 +15,7 @@ class CrewsController < ApplicationController
     @crew.user = fetch_user
     @crew.inviter = current_user
     if @crew.user.present? and @crew.save
+      @canoe.request_to_joins.where(user: @crew.user).destroy_all
       redirect_to @canoe
     else
       render 'new'
