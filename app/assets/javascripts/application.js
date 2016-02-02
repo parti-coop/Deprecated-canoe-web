@@ -6,7 +6,6 @@
 //= require zenscroll/zenscroll
 //= require iamphill-bootstrap-offcanvas/js/bootstrap.offcanvas
 //= require jquery-oembed-all/jquery.oembed
-//= require uservoice
 
 $(document).on('change', '.btn-file :file', function() {
   var input = $(this),
