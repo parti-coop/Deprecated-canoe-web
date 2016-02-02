@@ -34,7 +34,10 @@ class Ability
       end
 
       can :accept_crew, Canoe do |canoe|
-        canoe.public_join? and canoe.crew? user
+        canoe.crew?(user)
+      end
+      cannot :accept_crew, Canoe do |canoe|
+        canoe.private_join?
       end
       can :ask_crew, Canoe do |canoe|
         canoe.public_join? and !canoe.crew?(user) and !canoe.request_to_join?(user)
@@ -45,6 +48,9 @@ class Ability
       end
       can :manage, Crew do |crew|
         crew.canoe.crew?(user)
+      end
+      cannot :create, Crew do |crew|
+        canoe.public_join?
       end
 
       can :in_favor, Proposal do |proposal|

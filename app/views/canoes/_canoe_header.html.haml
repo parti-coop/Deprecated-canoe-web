@@ -23,6 +23,13 @@
               = link_to ask_canoe_request_to_joins_path(canoe_id: @canoe), method: :post, class: 'btn btn-xs btn-danger' do
                 %i.fa.fa-sign-in
                 승선요청하기
+    - if can?(:accept_crew, @canoe) and @canoe.request_to_joins.any?
+      .alert.alert-warning.clearfix(style='position: relative; top: 22px;')
+        %p
+          %strong 승선요청이 #{@canoe.request_to_joins.count}건 있습니다.
+          = link_to canoe_request_to_joins_path(@canoe), class: 'btn btn-xs btn-danger' do
+            %i.fa.fa-sign-in
+            승선요청 확인하기
     .jumbotron.jumbotron-transparent{ style: 'margin: 0' }
       %div.clearfix
         .pull-left
