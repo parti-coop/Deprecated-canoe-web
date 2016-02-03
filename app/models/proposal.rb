@@ -7,7 +7,6 @@ class Proposal < ActiveRecord::Base
   belongs_to :user
   has_one :canoe, through: :discussion
   has_many :attachments, as: :attachable
-
   has_many :votes do
     def by_crews
       self.where(user: proxy_association.owner.canoe.crews_as_user)

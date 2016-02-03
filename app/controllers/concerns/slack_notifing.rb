@@ -14,7 +14,7 @@ module SlackNotifing
 
     message = make_message(object)
     if message.present?
-      notifier.ping("[Canoe!!:[#{@canoe.title}](#{canoe_url @canoe})] #{message[:title]}", attachments: [{ text: message[:body], color: "#36a64f" }])
+      notifier.ping("[Canoe!!:[#{@canoe.title}](#{view_context.canoe_home_url @canoe})] #{message[:title]}", attachments: [{ text: message[:body], color: "#36a64f" }])
     end
   end
 
@@ -36,11 +36,11 @@ module SlackNotifing
     when "canoes#create"
       canoe = object
       title = "@#{current_user.nickname}님이 카누를 만들었습니다."
-      body = "[#{canoe.title}](#{canoe_url canoe}) >>> #{canoe.theme}"
+      body = "[#{canoe.title}](#{view_context.canoe_home_url canoe}) >>> #{canoe.theme}"
     when "canoes#update"
       canoe = object
       title = "@#{current_user.nickname}님이 카누를 고쳤습니다."
-      body = "[#{canoe.title}](#{canoe_url canoe}) >>> #{canoe.theme}"
+      body = "[#{canoe.title}](#{view_context.canoe_home_url canoe}) >>> #{canoe.theme}"
     when "canoes#destroy"
       canoe = object
       title = "@#{current_user.nickname}님이 카누를 지웠습니다."
@@ -48,11 +48,11 @@ module SlackNotifing
     when "discussions#create"
       discussion = object
       title = "@#{current_user.nickname}님이 논의를 만들었습니다."
-      body = "논의: [#{discussion.subject}](#{discussion_url discussion})"
+      body = "논의: [#{discussion.subject}](#{view_context.discussion_home_url discussion})"
     when "discussions#update"
       discussion = object
       title = "@#{current_user.nickname}님이 논의를 고쳤습니다."
-      body = "논의: [#{discussion.subject}](#{discussion_url discussion})"
+      body = "논의: [#{discussion.subject}](#{view_context.discussion_home_url discussion})"
     when "discussions#destroy"
       discussion = object
       title = "@#{current_user.nickname}님이 논의를 지웠습니다."
@@ -61,54 +61,54 @@ module SlackNotifing
       proposal = object
       discussion = proposal.discussion
       title = "@#{current_user.nickname}님이 제안을 만들었습니다."
-      body = "#{proposal.body}\n논의: [#{discussion.subject}](#{discussion_url discussion})"
+      body = "#{proposal.body}\n논의: [#{discussion.subject}](#{view_context.discussion_home_url discussion})"
     when "proposals#update"
       proposal = object
       discussion = proposal.discussion
       title = "@#{current_user.nickname}님이 제안을 고쳤습니다."
-      body = "#{proposal.body}\n논의: [#{discussion.subject}](#{discussion_url discussion})"
+      body = "#{proposal.body}\n논의: [#{discussion.subject}](#{view_context.discussion_home_url discussion})"
     when "proposals#destroy"
       proposal = object
       discussion = proposal.discussion
       title = "@#{current_user.nickname}님이 제안을 지웠습니다."
-      body = "#{proposal.body}\n논의: [#{discussion.subject}](#{discussion_url discussion})"
+      body = "#{proposal.body}\n논의: [#{discussion.subject}](#{view_context.discussion_home_url discussion})"
     when "opinions#create"
       opinion = object
       discussion = opinion.discussion
       title = "@#{current_user.nickname}님이 의견을 올렸습니다."
-      body = "#{opinion.body}\n논의: [#{discussion.subject}](#{discussion_url discussion})"
+      body = "#{opinion.body}\n논의: [#{discussion.subject}](#{view_context.discussion_home_url discussion})"
     when "opinions#update"
       opinion = object
       discussion = opinion.discussion
       title = "@#{current_user.nickname}님이 의견을 고쳤습니다."
-      body = "#{opinion.body}\n논의: [#{discussion.subject}](#{discussion_url discussion})"
+      body = "#{opinion.body}\n논의: [#{discussion.subject}](#{view_context.discussion_home_url discussion})"
     when "opinions#destroy"
       opinion = object
       discussion = opinion.discussion
       title = "@#{current_user.nickname}님이 의견을 지웠습니다."
-      body = "#{opinion.body}\n논의: [#{discussion.subject}](#{discussion_url discussion})"
+      body = "#{opinion.body}\n논의: [#{discussion.subject}](#{view_context.discussion_home_url discussion})"
     when "votes#in_favor", "votes#opposed"
       vote = object
       proposal = vote.proposal
       discussion = proposal.discussion
       title = "@#{current_user.nickname}님이 #{proposal.body} 제안에 투표합니다."
-      body = "논의: [#{discussion.subject}](#{discussion_url discussion})"
+      body = "논의: [#{discussion.subject}](#{view_context.discussion_home_url discussion})"
     when "votes#unvote"
       vote = object
       proposal = vote.proposal
       discussion = proposal.discussion
       title = "@#{current_user.nickname}님이 #{proposal.body} 제안에 투표철회합니다."
-      body = "논의: [#{discussion.subject}](#{discussion_url discussion})"
+      body = "논의: [#{discussion.subject}](#{view_context.discussion_home_url discussion})"
     when "request_to_joins#ask"
       request_to_join = object
       canoe = request_to_join.canoe
       title = "@#{current_user.nickname}님이 '#{canoe.title}' 카누에 승선을 요청합니다."
-      body = "[#{canoe.title}](#{canoe_url canoe}) >>> #{canoe.theme}"
+      body = "[#{canoe.title}](#{view_context.canoe_home_url canoe}) >>> #{canoe.theme}"
     when "request_to_joins#accept"
       request_to_join = object
       canoe = request_to_join.canoe
       title = "@#{current_user.nickname}님이 '#{canoe.title}' 카누에 @#{request_to_join.user.nickname}님의 승선을 허가합니다."
-      body = "[#{canoe.title}](#{canoe_url canoe}) >>> #{canoe.theme}"
+      body = "[#{canoe.title}](#{view_context.canoe_home_url canoe}) >>> #{canoe.theme}"
     else
       nil
     end

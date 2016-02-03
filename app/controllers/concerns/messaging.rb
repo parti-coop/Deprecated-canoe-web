@@ -34,7 +34,7 @@ module Messaging
     },
     discussions: {
       create: "@<%= current_user.nickname %>이 '<%= link_to_canoe_title(object.canoe) %>' 카누에 새로운 '<%= link_to_discussion_subject object %>'논의를 열었습니다.",
-      destroy: "@<%= current_user.nickname %>이 '<%= link_to_canoe_title(object.canoe) %>' 카누의 '<%= object.subject %>' 논의를 지웠습니다."
+      destroy: "@<%= current_user.nickname %>이 '<%= link_to_canoe_title(object.canoe) %>' 카누의 '<%= object.subject %>'논의를 지웠습니다."
     },
     request_to_joins: {
       ask: "@<%= current_user.nickname %>이 '<%= link_to_canoe_title(object.canoe) %>' 카누에 승선요청을 했습니다.",
@@ -78,10 +78,10 @@ module Messaging
   end
 
   def link_to_canoe_title(canoe)
-    view_context.link_to(canoe.title, canoe)
+    view_context.link_to(canoe.title, view_context.canoe_home_path(canoe))
   end
 
   def link_to_discussion_subject(discussion)
-    view_context.link_to(discussion.subject, discussion)
+    view_context.content_tag('span', discussion.sequential_id, class: %w(label label-default)) + view_context.link_to(discussion.subject, view_context.discussion_home_path(discussion))
   end
 end

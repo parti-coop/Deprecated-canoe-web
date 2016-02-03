@@ -8,8 +8,10 @@ class ApplicationController < ActionController::Base
   after_action :allow_iframe
 
   def redirect_to(*args)
-    if args[0].class == Canoe and args[0].persisted?
+    if args[0].class == Canoe and args[0].try(:persisted?)
       super short_canoe_path(args[0].slug), *args[1..-1]
+    elsif args[0].class == Discussion and args[0].try(:persisted?) and args[0].canoe.try(:persisted?)
+      super short_discussion_path(args[0].canoe.slug, args[0].sequential_id), *args[1..-1]
     else
       super *args
     end

@@ -142,4 +142,20 @@ class DiscussionsTest < ActionDispatch::IntegrationTest
 
     assert_equal previous_count, assigns(:discussion).reload.activities_merged.count
   end
+
+  test 'sequential_id' do
+    sign_in users(:one)
+    opinions_attributes = { body: 'test1 body' }
+    post canoe_discussions_path(canoe_id: canoes(:canoe1).id, discussion: { subject: 'test1', opinions_attributes: {'0': opinions_attributes}} )
+    previous_sequential_id = assigns(:discussion).sequential_id
+
+    opinions_attributes = { body: 'test2 body' }
+    post canoe_discussions_path(canoe_id: canoes(:canoe1).id, discussion: { subject: 'test2', opinions_attributes: {'0': opinions_attributes}} )
+    assert_equal previous_sequential_id + 1, assigns(:discussion).sequential_id
+
+    delete discussion_path(id: assigns(:discussion).id)
+    opinions_attributes = { body: 'test3 body' }
+    post canoe_discussions_path(canoe_id: canoes(:canoe1).id, discussion: { subject: 'test3', opinions_attributes: {'0': opinions_attributes}} )
+    assert_equal previous_sequential_id + 2, assigns(:discussion).sequential_id
+  end
 end

@@ -13,6 +13,9 @@
         - if can? :destroy, @discussion
           = link_to @discussion, method: :delete, data: { confirm: '정말 삭제하시겠습니까?'} do
             %i.fa.fa-trash
+      .text-muted
+        논의
+        %span.label.label-default(style='background-color:rgba(153, 153, 153, 0.4);')= @discussion.sequential_id
     %h2.text-center(style='margin-bottom:50px;')
       #{@discussion.subject}
 

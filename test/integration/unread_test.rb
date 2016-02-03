@@ -8,7 +8,7 @@ class UnreadTest < ActionDispatch::IntegrationTest
     assert discussions(:discussion1).unread?(users(:one))
     assert discussions(:discussion1).unread?(users(:crew))
 
-    get discussion_path(discussions(:discussion1))
+    get_via_redirect discussion_path(discussions(:discussion1))
 
     refute discussions(:discussion1).unread?(users(:one))
     assert discussions(:discussion1).unread?(users(:crew))

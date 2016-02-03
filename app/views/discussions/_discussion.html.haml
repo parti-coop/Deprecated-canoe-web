@@ -3,7 +3,8 @@
 %tr[discussion]{ class: tr_class }
   %td
     %h4
-      = link_to discussion.subject, discussion
+      %span.label.label-default(style='padding: 0 0.3em; background-color:rgba(153, 153, 153, 0.4);')= discussion.sequential_id
+      = link_to discussion.subject, discussion_home_path(discussion)
       %small
         (
         %span

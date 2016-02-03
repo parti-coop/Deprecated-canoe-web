@@ -3,7 +3,7 @@ class DiscussionsController < ApplicationController
   include Messaging
   include DiscussionActivityTraking
 
-  before_filter :authenticate_user!, except: [:show]
+  before_filter :authenticate_user!, except: [:show, :short]
   load_and_authorize_resource :canoe
   load_and_authorize_resource :discussion, through: :canoe, shallow: true
 
@@ -22,11 +22,20 @@ class DiscussionsController < ApplicationController
   end
 
   def show
+    redirect_to short_discussion_path(@discussion.canoe.slug, @discussion.sequential_id)
+  end
+
+  def short
+    @canoe = Canoe.find_by slug: params[:slug]
+    @discussion = @canoe.discussions.find_by sequential_id: params[:sequential_id]
+
     if user_signed_in?
       @discussion.mark_as_read! :for => current_user
     end
     @canoe = @discussion.canoe
     render_404 and return if @canoe.nil?
+
+    render template: 'discussions/show'
   end
 
   def new

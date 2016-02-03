@@ -1,9 +1,10 @@
 class Discussion < ActiveRecord::Base
-  acts_as_paranoid
   include PublicActivity::Model
   include DiscussionActivityTraking
 
-  acts_as_readable :on => :discussed_at
+  acts_as_paranoid
+  acts_as_sequenced scope: :canoe_id
+  acts_as_readable on: :discussed_at
 
   belongs_to :user
   belongs_to :canoe
@@ -30,7 +31,8 @@ class Discussion < ActiveRecord::Base
   has_many :attachments, as: :attachable
 
   validates :canoe, presence: true
-  before_save :set_discussed_at
+  cattr_accessor :skip_callbacks
+  before_save :set_discussed_at, unless: :skip_callbacks
   scope :valid_parent, -> { joins(:canoe) }
   scoped_search on: %w(subject decision)
   scoped_search in: :opinions, on: %w(body)

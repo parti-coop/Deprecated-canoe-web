@@ -2,7 +2,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    can :read, :all
+    can [:read, :short], :all
     if user
       can :create, Canoe
       can :update, Canoe do |canoe|

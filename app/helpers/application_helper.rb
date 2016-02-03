@@ -15,6 +15,16 @@ module ApplicationHelper
     short_canoe_url(canoe.slug, options)
   end
 
+  def discussion_home_path(discussion, options = {})
+    options.update(slug: discussion.canoe.slug, sequential_id: discussion.sequential_id)
+    short_discussion_path(options)
+  end
+
+  def discussion_home_url(discussion, options = {})
+    options.update(slug: discussion.canoe.slug, sequential_id: discussion.sequential_id)
+    short_discussion_url(options)
+  end
+
   def link_to_if_with_block condition, options, html_options={}, &block
     if condition
       link_to options, html_options, &block
