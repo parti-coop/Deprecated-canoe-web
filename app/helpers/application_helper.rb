@@ -46,8 +46,9 @@ module ApplicationHelper
 
     parsed_text.gsub!(Mention::PATTERN_WITH_AT) do |m|
       at_nickname = $1
-      user = User.find_by nickname: at_nickname[1..-1]
-      if user.present?
+      nickname = at_nickname[1..-1]
+      user = User.find_by nickname: nickname
+      if user.present? or nickname == 'crew'
         m.gsub($1, "<span class='text-success'>#{$1}</span>")
       else
         m
