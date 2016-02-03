@@ -1,13 +1,15 @@
 %li.media.timeline.timeline-opinion.opinion[opinion](onmouseover="$('.reaction_button').addClass('hidden'); $('##{dom_id(opinion)} .reaction_button').removeClass('hidden');")
+  %a.anchor{id: dom_id(opinion).dasherize}
   .media-left
     %a{:href => "#"}
       = image_tag opinion.user.image_url, class: 'media-object img-circle', style: 'width:64px;height:64px;'
   .media-body
     %h5.media-heading
       %strong= opinion.user.nickname
-      %span.text-muted(style='margin-left: 10px;')
-        %i.fa.fa-clock-o
-        = date_f opinion.created_at
+      %span
+        = link_to "##{dom_id(opinion).dasherize}", style: 'margin-left: 10px; color:#999999 !important;' do
+          %i.fa.fa-clock-o
+          = date_f opinion.created_at
       %span.text-muted.text-nowrap(style='margin-left: 10px;')
         - if can? :update, opinion
           = link_to [:edit, opinion] do
