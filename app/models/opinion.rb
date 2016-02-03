@@ -18,6 +18,8 @@ class Opinion < ActiveRecord::Base
 
   def set_mentions
     self.mentions.destroy_all
-    Mention.scan_users_from(self).each { |user| self.mentions.build(user: user) }
+    Mention.scan_users_from(self).each do |user|
+      self.mentions.build(user: user)
+    end
   end
 end

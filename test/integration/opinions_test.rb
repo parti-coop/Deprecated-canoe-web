@@ -88,4 +88,11 @@ class OpinionsTest < ActionDispatch::IntegrationTest
     put opinion_path(id: opinions(:opinion1).id, opinion: { body: body})
     assert assigns(:opinion).mentions.empty?
   end
+
+  test 'crew mention' do
+    sign_in users(:one)
+    post discussion_opinions_path(discussion_id: discussions(:discussion1).id, opinion: { body: "test @crew" } )
+
+    assert_equal users(:crew), assigns(:opinion).mentions.first.user
+  end
 end

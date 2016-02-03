@@ -10,6 +10,11 @@ class Mention < ActiveRecord::Base
     result = begin
       opinion.body.scan(PATTERN).flatten
     end
-    result.uniq.map { |nickname| User.find_or_sync_by_nickname(nickname) }.compact
+
+    users = result.uniq.map { |nickname| User.find_or_sync_by_nickname(nickname) }.compact
+    if result.include? 'crew'
+      users += opinion.canoe.crews.map(&:user)
+    end
+    users.reject{ |u| u == opinion.user }.uniq
   end
 end
