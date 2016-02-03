@@ -1,4 +1,5 @@
 %li.list-group-item[proposal]
+  %a.anchor(id="proposal-#{proposal.sequential_id}")
   .row
     .col-xs-9
       %p
@@ -19,8 +20,9 @@
       %p.text-muted
         %small
           = user_byline proposal.user
-          %i.fa.fa-clock-o
-          = date_f proposal.created_at
+          = link_to "#proposal-#{proposal.sequential_id}", style: 'margin-left: 10px; color:#999999 !important;' do
+            %i.fa.fa-clock-o
+            = date_f proposal.created_at
           - if can? :update, proposal
             = link_to [:edit, proposal] do
               %i.fa.fa-edit
