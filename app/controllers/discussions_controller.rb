@@ -12,13 +12,9 @@ class DiscussionsController < ApplicationController
     crewing_discussions = current_user.crewing_discussions
 
     @unread_count = current_user.crewing_discussions.unread_by(current_user).count
-    if(params[:list] == 'all')
-      fetch_other_discussions(limit)
-    else
-      authenticate_user!
-      fetch_unread_discussions
-      fetch_read_discussions(limit)
-    end
+    fetch_unread_discussions
+    fetch_read_discussions(limit)
+    fetch_other_discussions(limit)
   end
 
   def show
@@ -93,8 +89,9 @@ class DiscussionsController < ApplicationController
   end
 
   def fetch_other_discussions(limit)
-    @discussions = Discussion.joins(:canoe).where.not(canoe: current_user.crewing_canoes).order(discussed_at: :desc).first(limit)
+    @other_discussions = Discussion.joins(:canoe).where.not(canoe: current_user.crewing_canoes).order(discussed_at: :desc).first(limit)
   end
+
   def create_params
     params.require(:discussion).permit(:subject, :canoe_id, opinions_attributes: [ :body ])
   end

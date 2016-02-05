@@ -1,27 +1,25 @@
-.bs-component
+%section.bs-component.pattern-trianglify{ style: 'background-size: cover; margin-top:-25px;'}
   .container
-    .page-header
-      %h3
-        - if params[:list] == 'all'
-          %i.fa.fa-comments
-          다른 카누 논의
-          %small
-            = link_to discussions_path do
-              내 카누 논의
-              - if @unread_count > 0
-                %span.badge= @unread_count
-        - else
-          %i.fa.fa-comments
-          내 카누 논의
-          - if @unread_count > 0
-            %span.badge.bg-danger(style='font-size: 50%; background-color: black;')= @unread_count
-          %small
-            = link_to discussions_path({list: 'all'}) do
-              다른 카누 논의
+    .jumbotron.jumbotron-transparent
+      %h2
+        %strong 카누
+      %p
+        %strong{ style: 'border-bottom: 2px solid #666'} #{Canoe.count}
+        개의 카누를,
+        %strong{ style: 'border-bottom: 2px solid #666'} #{User.count}
+        명이 나눠 타고 산으로 갑니다.
+      %p
+        = link_to '카누는 왜 만들었을까요?', 'https://github.com/parti-xyz/canoe-web/wiki', target: '_blank', class: 'btn btn-danger btn-lg'
+        = link_to new_canoe_path, class: 'btn btn-primary' do
+          %i.fa.fa-cube
+          카누 바로 만들기
 
+
+%section.bs-component
+  .container
     - if @unread_discussions.try(:any?)
-      %h4
-        %i.fa.fa-comment
+      %h3
+        %i.fa.fa-comments
         읽지 않은 논의
         %strong= @unread_count
         개
@@ -37,8 +35,8 @@
 
 
     - if @discussions.any?
-      %h4
-        %i.fa.fa-comment
+      %h3
+        %i.fa.fa-comments
         최근 진행된 논의
       - @discussions.group_by(&:canoe).each do |canoe, discussions|
         .panel.panel-default
@@ -49,8 +47,17 @@
           %table.table
             %tbody
               = render discussions
-    - else
-      .panel.panel-default
-        .panel-body
-          %p.lead.text-muted.text-center
-            최근 진행된 논의가 없습니다.
+
+    - if @other_discussions.any?
+      %h3
+        %i.fa.fa-comments
+        다른 카누에서 진행 중인 논의
+      - @other_discussions.group_by(&:canoe).each do |canoe, discussions|
+        .panel.panel-default
+          .panel-heading
+            = link_to canoe_home_path(canoe) do
+              = image_tag canoe.logo_url, class: 'img-thumbnail', style: 'width: 23px; height: 23px; margin-right: 1px;'
+              = canoe.title
+          %table.table
+            %tbody
+              = render discussions
