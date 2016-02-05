@@ -38,15 +38,19 @@
       %h3
         %i.fa.fa-comments
         최근 진행된 논의
-      - @discussions.group_by(&:canoe).each do |canoe, discussions|
-        .panel.panel-default
-          .panel-heading
-            = link_to canoe_home_path(canoe) do
-              = image_tag canoe.logo_url, class: 'img-thumbnail', style: 'width: 23px; height: 23px; margin-right: 1px;'
-              = canoe.title
-          %table.table
-            %tbody
-              = render discussions
+      - @discussions.group_by{|d| d.discussed_at.to_date}.each do |date, discussions_by_date|
+        %h4
+          %i.fa.fa-clock-o
+          = date
+        - discussions_by_date.group_by(&:canoe).each do |canoe, discussions|
+          .panel.panel-default
+            .panel-heading
+              = link_to canoe_home_path(canoe) do
+                = image_tag canoe.logo_url, class: 'img-thumbnail', style: 'width: 23px; height: 23px; margin-right: 1px;'
+                = canoe.title
+            %table.table
+              %tbody
+                = render discussions
 
     - if @other_discussions.any?
       %h3
