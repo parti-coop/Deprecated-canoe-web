@@ -44,22 +44,23 @@ module ApplicationHelper
 
   def opinion_body(opinion)
     text = opinion.body
-    parsed_text = text.gsub(/(?:^|\s)제안(\d+)/u) do |m|
-      sequential_id = $1
-      proposal = opinion.discussion.proposals.find_by sequential_id: sequential_id
-      if proposal.present?
-        m.gsub($1, "<span class='label label-danger' data-toggle='tooltip' data-placement='bottom' title='#{strip_tags proposal.body.squish}' data-anchor='proposal' data-proposal-id='#{proposal.id}' style='cursor: pointer;'>#{$1}</span>")
-      else
-        m
-      end
-    end
 
-    parsed_text.gsub!(Mention::PATTERN_WITH_AT) do |m|
+    parsed_text = text.gsub(Mention::PATTERN_WITH_AT) do |m|
       at_nickname = $1
       nickname = at_nickname[1..-1]
       user = User.find_by nickname: nickname
       if user.present? or nickname == 'crew'
         m.gsub($1, "<span class='text-success'>#{$1}</span>")
+      else
+        m
+      end
+    end
+
+    parsed_text.gsub!(/(?:^|\s)제안(\d+)/u) do |m|
+      sequential_id = $1
+      proposal = opinion.discussion.proposals.find_by sequential_id: sequential_id
+      if proposal.present?
+        m.gsub($1, "<span class='label label-danger' data-toggle='tooltip' data-placement='bottom' title='#{strip_tags proposal.body.squish}' data-anchor='proposal' data-proposal-id='#{proposal.id}' style='cursor: pointer;'>#{$1}</span>")
       else
         m
       end
