@@ -7,10 +7,13 @@
           .form-group(style='display: inline-block')
             = text_field_tag :q, params[:q], class: 'form-control'
           = submit_tag '찾기', class: 'btn btn-default'
-          .form-group(style='display: inline-block')
-            %label
-              = check_box_tag :all, 'true', @all, class: 'form-control'
-              %small 다른 카누에서도 검색합니다.
+          - if user_signed_in?
+            .form-group(style='display: inline-block')
+              %label
+                = check_box_tag :all, 'true', @all, class: 'form-control'
+                %small 다른 카누에서도 검색합니다.
+          - else
+            = hidden_field_tag :all, 'true'
 
     - if params[:q].present?
       %p.text-muted #{@discussions_count}건의 논의를 찾았습니다.

@@ -2,6 +2,7 @@ class SearchController < ApplicationController
   def index
     query = params[:q]
     @all = (params[:all] || 'false') == 'true'
+    @all = true unless user_signed_in?
     if query.present?
       if @all
         @discussions = Discussion.valid_parent.order(discussed_at: :desc).search_for(query)
