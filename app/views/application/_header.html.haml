@@ -64,7 +64,7 @@
             = link_to new_discussion_path do
               %i.fa.fa-flag
               새 논의 만들기
-          %li.dropdown.active
+          %li.nav-item.dropdown.active
             %a.dropdown-toggle{:href => "#"}
               = user_byline current_user
               %span.caret
@@ -90,6 +90,10 @@
           %li= link_to '회원가입', sign_up_path
           %li= link_to '로그인', new_user_session_path
         %li
-          %a(href='http://parti-xyz.uservoice.com/')
-            %i.fa.fa-support
-            고객센터
+          %a(href='http://canoe.parti.xyz/better-canoe')
+            %i.fa.fa-bullhorn
+            제안이 있으세요?
+          %div(style='padding: 0 15px; font-size: 80%;')
+            %a(href="http://canoe.parti.xyz/better-canoe")<
+              better-canoe
+            에 제안해 주세요.
