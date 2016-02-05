@@ -20,23 +20,37 @@
               다른 카누 논의
 
     - if @unread_discussions.try(:any?)
-      .panel.panel-default
-        .panel-heading
-          읽지 않은 논의
-          %strong= @unread_count
-          개
-        %table.table
-          %tbody
-            = render @unread_discussions
+      %h4
+        %i.fa.fa-comment
+        읽지 않은 논의
+        %strong= @unread_count
+        개
+      - @unread_discussions.group_by(&:canoe).each do |canoe, discussions|
+        .panel.panel-default
+          .panel-heading
+            = link_to canoe_home_path(canoe) do
+              = image_tag canoe.logo_url, class: 'img-thumbnail', style: 'width: 23px; height: 23px; margin-right: 1px;'
+              = canoe.title
+          %table.table
+            %tbody
+              = render discussions
 
-    .panel.panel-default
-      - if @discussions.any?
-        .panel-heading
-          최근 진행된 논의
-        %table.table
-          %tbody
-            = render @discussions
-      - else
+
+    - if @discussions.any?
+      %h4
+        %i.fa.fa-comment
+        최근 진행된 논의
+      - @discussions.group_by(&:canoe).each do |canoe, discussions|
+        .panel.panel-default
+          .panel-heading
+            = link_to canoe_home_path(canoe) do
+              = image_tag canoe.logo_url, class: 'img-thumbnail', style: 'width: 23px; height: 23px; margin-right: 1px;'
+              = canoe.title
+          %table.table
+            %tbody
+              = render discussions
+    - else
+      .panel.panel-default
         .panel-body
           %p.lead.text-muted.text-center
             최근 진행된 논의가 없습니다.

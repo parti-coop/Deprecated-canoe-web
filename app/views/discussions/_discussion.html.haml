@@ -24,8 +24,3 @@
     %div.text-muted
       %i.fa.fa-clock-o
       = date_f discussion.discussed_at
-    - if params[:controller] == 'discussions'
-      %div
-        = link_to canoe_home_path(discussion.canoe) do
-          %i.fa.fa-cube
-          = discussion.canoe.title

@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
   def home
-    session[SSO_RETURN_TO_KEY] = canoes_url
+    session[SSO_RETURN_TO_KEY] = root_url
 
     @canoes = Canoe.latest.all
   end

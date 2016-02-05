@@ -3,6 +3,8 @@
     .navbar-header.navbar-left.pull-left
       %a.navbar-brand{ href: root_path }
         %strong canoe
+        - if user_signed_in? and current_user.crewing_discussions.unread.any?
+          %span.badge.badge-default= current_user.crewing_discussions.unread.count
       %ul.nav.navbar-nav.pull-right(style="margin-left: 5px")
         - unless user_signed_in?
           %li
@@ -62,12 +64,6 @@
             = link_to new_discussion_path do
               %i.fa.fa-flag
               새 논의 만들기
-          %li
-            = link_to discussions_path do
-              %i.fa.fa-comments
-              논의
-              - if current_user.crewing_discussions.unread.any?
-                %span.badge.badge-default= current_user.crewing_discussions.unread.count
           %li.dropdown.active
             %a.dropdown-toggle{:href => "#"}
               = user_byline current_user
