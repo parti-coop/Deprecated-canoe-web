@@ -7,7 +7,12 @@ class CanoesController < ApplicationController
 
   def index
     if params[:list] == 'all'
-      @canoes = Canoe.all
+      query = params[:q]
+      if query.present?
+        @canoes = Canoe.search_for(query)
+      else
+        @canoes = Canoe.all
+      end
     else
       authenticate_user!
       @canoes = current_user.crewing_canoes

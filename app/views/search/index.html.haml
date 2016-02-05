@@ -7,34 +7,22 @@
           .form-group(style='display: inline-block')
             = text_field_tag :q, params[:q], class: 'form-control'
           = submit_tag '찾기', class: 'btn btn-default'
+          .form-group(style='display: inline-block')
+            %label
+              = check_box_tag :all, 'true', @all, class: 'form-control'
+              %small 다른 카누에서도 검색합니다.
 
     - if params[:q].present?
-      %p.lead #{@canoes_count}건의 카누와 #{@discussions_count}건의 논의를 찾았습니다.
+      %p.text-muted #{@discussions_count}건의 논의를 찾았습니다.
 
-      - if @canoes_on_current_page.any?
-        %h4
-          %i.fa.fa-cubes
-          카누
-        .row
-          - @canoes_on_current_page.each do |canoe|
-            .col-sm-4.col-xs-6
-              = render canoe
-        - if @canoes_on_current_page.count < @canoes_count
-          .row
-            .col-xs-12.text-right
-              = link_to search_path(q: params[:q], model: Canoe.to_s.underscore), class: 'btn btn-default' do
-                더보기
       - if @discussions_on_current_page.any?
-        %h4
-          %i.fa.fa-flag
-          논의
         .row
           .col-xs-12
             - @discussions_on_current_page.group_by(&:canoe).each do |canoe, discussions|
               - discussions.each do |discussion|
                 .panel.panel-default
                   .panel-heading.text-muted
-                    %i.fa.fa-cubes
+                    = image_tag canoe.logo_url, class: 'img-thumbnail', style: 'width: 23px; height: 23px; margin-right: 1px;'
                     = link_to canoe.title, canoe_home_path(canoe)
                   %table.table
                     = render discussion
@@ -64,9 +52,7 @@
                               %i.fa.fa-rocket
                               #{discussion.proposals.search_for(params[:q]).count}건이
                           검색되었습니다.
-        - if @discussions_on_current_page.count < @discussions_count
-          .row
-            .col-xs-12.text-right
-              = link_to search_path(q: params[:q], model: Discussion.to_s.underscore), class: 'btn btn-default' do
-                더보기
+        .row
+          .col-xs-12.text-center
+            = paginate @discussions_on_current_page, theme: 'twitter-bootstrap-3'
 
