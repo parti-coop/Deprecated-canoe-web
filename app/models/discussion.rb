@@ -10,14 +10,6 @@ class Discussion < ActiveRecord::Base
   belongs_to :canoe
   has_many :opinions
   has_many :proposals do
-    def top_of(choice)
-      self.where("#{choice}_votes_count": top_of_votes_count(choice))
-    end
-
-    def exclude_top_of(choice)
-      self.where.not("#{choice}_votes_count": top_of_votes_count(choice))
-    end
-
     def top_of_votes_count(choice)
       top_of_count = self.max_votes_count(choice)
       top_of_count = -1 if top_of_count == 0

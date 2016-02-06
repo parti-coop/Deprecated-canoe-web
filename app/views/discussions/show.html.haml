@@ -36,7 +36,7 @@
     #proposals.clearfix(style='margin: 20px 0;')
       - if @discussion.proposals.any?
         %ul.list-group
-          - [@discussion.proposals.top_of(:in_favor).latest, @discussion.proposals.exclude_top_of(:in_favor).latest].flatten.each do |proposals|
+          - @discussion.proposals.order_by_in_favor_votes_count.latest.each do |proposals|
             = render proposals
       - else
         .canoe-toggle-item

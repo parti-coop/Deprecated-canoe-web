@@ -20,6 +20,7 @@ class Proposal < ActiveRecord::Base
 
   validates :body, presence: true
   scope :latest, -> { order(id: :desc) }
+  scope :order_by_in_favor_votes_count, -> { order(in_favor_votes_count: :desc) }
   scoped_search on: %w(body)
 
   accepts_nested_attributes_for :attachments
