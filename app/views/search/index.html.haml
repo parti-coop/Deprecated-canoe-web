@@ -1,19 +1,21 @@
 .bs-component
   .container
     .page-header
-      %h3
-        검색
-        = form_tag search_path, method: :get, class: 'form-inline', style: 'display: inline-block; margin-left: 15px;' do
+      %h3(style='margin-right: 15px;')
+        %i.fa.fa-search
+        논의검색
+    %div(style='margin: 10px 0')
+      = form_tag search_path, method: :get, class: 'form-inline', style: 'display: inline-block;' do
+        .form-group(style='display: inline-block')
+          = text_field_tag :q, params[:q], class: 'form-control'
+        = submit_tag '찾기', class: 'btn btn-default', style: 'margin-right: 2em;'
+        - if user_signed_in?
           .form-group(style='display: inline-block')
-            = text_field_tag :q, params[:q], class: 'form-control'
-          = submit_tag '찾기', class: 'btn btn-default'
-          - if user_signed_in?
-            .form-group(style='display: inline-block')
-              %label
-                = check_box_tag :all, 'true', @all, class: 'form-control'
-                %small 다른 카누에서도 검색합니다.
-          - else
-            = hidden_field_tag :all, 'true'
+            %label
+              = check_box_tag :all, 'true', @all
+              %small 모든 카누에서 검색합니다.
+        - else
+          = hidden_field_tag :all, 'true'
 
     - if params[:q].present?
       %p.text-muted #{@discussions_count}건의 논의를 찾았습니다.

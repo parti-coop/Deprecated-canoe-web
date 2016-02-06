@@ -27,12 +27,16 @@
                   = link_to canoe_home_path(canoe) do
                     = image_tag canoe.logo_url, class: 'img-thumbnail', style: 'width: 23px; height: 23px; margin-right: 1px;'
                     = canoe.title
-              - unless current_user.crewing_canoes.empty?
+              - if current_user.crewing_canoes.any?
                 %li(role="separator" class="divider")
+                %li
+                  = link_to canoes_path do
+                    %i.fa.fa-cubes
+                    내 카누
               %li
-                = link_to canoes_path do
-                  %i.fa.fa-list
-                  내 카누 목록
+                = link_to canoes_path({list: :all}) do
+                  %i.fa.fa-cubes
+                  모든 카누
               %li
                 = link_to new_canoe_path do
                   %i.fa.fa-edit
@@ -55,15 +59,16 @@
                 .form-group
                   = text_field_tag :q, nil, class: 'form-control', style: 'width: 250px;'
                 .form-group
-                  = submit_tag "찾기", :class => "btn btn-primary pull-right"
+                  = submit_tag "논의찾기", :class => "btn btn-primary pull-right"
 
     #navbar.navbar-offcanvas.navbar-offcanvas-right
       %ul.nav.navbar-nav
         - if user_signed_in?
-          %li
-            = link_to new_discussion_path do
-              %i.fa.fa-flag
-              새 논의 만들기
+          - if current_user.crewing_canoes.any?
+            %li
+              = link_to new_discussion_path do
+                %i.fa.fa-flag
+                새 논의 만들기
           %li.nav-item.dropdown.active
             %a.dropdown-toggle{:href => "#"}
               = user_byline current_user

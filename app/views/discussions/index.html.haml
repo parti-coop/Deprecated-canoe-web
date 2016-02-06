@@ -17,6 +17,18 @@
 
 %section.bs-component
   .container
+    - if current_user.crewing_canoes.empty?
+      %h3
+        %i.fa.fa-cubes
+        내가 승선할 카누
+      %p
+        @#{current_user.nickname}님이 승선할 카누를 찾아 보세요.
+      = form_tag canoes_path, method: :get, class: 'form-inline', style: 'display: inline-block; margin-bottom: 20px' do
+        = hidden_field_tag :list, 'all'
+        .form-group(style='display: inline-block')
+          = text_field_tag :q, params[:q], class: 'form-control'
+        = submit_tag '찾기', class: 'btn btn-default'
+
     - if @unread_discussions.try(:any?)
       %h3
         %i.fa.fa-comments
