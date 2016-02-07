@@ -20,11 +20,8 @@ class Ability
       can :ask_public_crew, Canoe do |canoe|
         canoe.public_join? and !canoe.crew?(user) and !canoe.request_to_join?(user)
       end
-      can :create_private_crew, Canoe do |canoe|
-        canoe.crew?(user)
-      end
-      cannot :create_private_crew, Canoe do |canoe|
-        canoe.public_join?
+      can :manage, Invitation do |invitation|
+        invitation.canoe.crew?(user)
       end
 
       can [:create, :update], Discussion do |discussion|

@@ -28,6 +28,20 @@ class RequestToJoinsTest < ActionDispatch::IntegrationTest
     assert_equal previous, canoes(:canoe1).reload.request_to_joins.count
   end
 
+  test 'guest should not request to join' do
+    refute canoes(:canoe1).crew?(users(:guest))
+    refute canoes(:canoe1).request_to_join?(users(:guest))
+    assert canoes(:canoe1).invited?(users(:guest))
+
+    sign_in users(:guest)
+
+    previous = canoes(:canoe1).request_to_joins.count
+
+    post ask_canoe_request_to_joins_path(canoe_id: canoes(:canoe1))
+
+    assert_equal previous, canoes(:canoe1).reload.request_to_joins.count
+  end
+
   test 'should not ask to private_join canoe' do
     canoes(:canoe1).how_to_join = 'private_join'
     canoes(:canoe1).save!
@@ -56,23 +70,15 @@ class RequestToJoinsTest < ActionDispatch::IntegrationTest
     refute canoes(:canoe1).request_to_join?(users(:visitor))
   end
 
-  test 'should not duplicated crew even if she is already crew' do
+  test 'destroy a request to join after being crew' do
     assert_equal users(:one), canoes(:canoe1).user
     assert canoes(:canoe1).request_to_join?(users(:visitor))
-    sign_in users(:one)
 
     crew = canoes(:canoe1).crews.build
     crew.user = users(:visitor)
     crew.inviter = canoes(:canoe1).user
     crew.save
 
-    assert canoes(:canoe1).crew?(users(:visitor))
-
-    sign_in users(:one)
-
-    post accept_canoe_request_to_join_path(canoe_id: canoes(:canoe1), id: request_to_joins(:req1))
-
-    canoes(:canoe1).reload
     assert canoes(:canoe1).crew?(users(:visitor))
     refute canoes(:canoe1).request_to_join?(users(:visitor))
   end

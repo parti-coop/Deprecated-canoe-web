@@ -1,0 +1,5 @@
+guest_invitation:
+  user: guest
+  email: 'guest@gmail.com'
+  host: one
+  canoe: canoe1

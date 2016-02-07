@@ -15,5 +15,16 @@ Rails.application.config.to_prepare do
       end
     end
     has_many :crewing_proposals, class_name: Proposal, through: :crewing_canoes, source: :proposals
+
+    after_create :set_invitation
+
+    private
+
+    def set_invitation
+      Invitation.where(email: email, user: nil).each do |invitation|
+        invitation.user = self
+        invitation.save
+      end
+    end
   end
 end

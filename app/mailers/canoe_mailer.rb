@@ -6,6 +6,6 @@ class CanoeMailer < ApplicationMailer
     @coller = coller
     mail(from: @coller.email,
       to: to_email,
-      subject: "'#{@canoe.title}' 카누에 초대합니다.")
+      subject: "'#{@canoe.title}' 카누를 소개합니다.")
   end
 end

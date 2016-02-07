@@ -6,23 +6,7 @@ class CrewsController < ApplicationController
   load_and_authorize_resource :canoe
   load_and_authorize_resource :crew, through: :canoe, shallow: true
 
-  def new
-  end
-
-  def create
-    redirect_to @canoe and return if @canoe.crew?(fetch_user) or @canoe.public_join?
-
-    @crew.user = fetch_user
-    @crew.inviter = current_user
-    if @crew.user.present? and @crew.save
-      @canoe.request_to_joins.where(user: @crew.user).destroy_all
-      redirect_to @canoe
-    else
-      render 'new'
-    end
-  end
-
-  def destory
+  def destroy
     if @canoe.crew?(current_user) and !@canoe.captain?(current_user)
       @crew = @canoe.crews.find_by user: current_user
       if @crew.try(:destroy)

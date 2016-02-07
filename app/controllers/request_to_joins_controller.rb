@@ -10,7 +10,9 @@ class RequestToJoinsController < ApplicationController
   end
 
   def ask
-    redirect_to @canoe and return if @canoe.crew?(current_user) or @canoe.private_join?
+    if @canoe.crew?(current_user) or @canoe.private_join? or @canoe.invited?(current_user)
+      redirect_to @canoe and return
+    end
     @request_to_join = @canoe.request_to_joins.build
     @request_to_join.user = current_user
     if @request_to_join.save
@@ -25,7 +27,7 @@ class RequestToJoinsController < ApplicationController
     @request_to_join = RequestToJoin.find(params[:id])
     @crew = @canoe.crews.find_or_initialize_by(user: @request_to_join.user)
     @crew.inviter = current_user
-    if @crew.save and @request_to_join.delete
+    if @crew.save
       notify_to_crews(@request_to_join)
       slack(@request_to_join)
     end

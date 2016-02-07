@@ -48,7 +48,7 @@ class CanoesTest < ActionDispatch::IntegrationTest
     assert_redirected_to canoes_path
   end
 
-  test 'should not destory a canoe by the other' do
+  test 'should not destroy a canoe by the other' do
     sign_in users(:two)
     delete canoe_path(id: canoes(:canoe1).id)
 
@@ -60,7 +60,7 @@ class CanoesTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test 'to notify when a canoe is destoryed' do
+  test 'to notify when a canoe is destroyed' do
     assert canoes(:canoe1).crew?(users(:crew))
 
     sign_in users(:one)

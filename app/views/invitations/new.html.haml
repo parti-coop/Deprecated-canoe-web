@@ -1,0 +1,34 @@
+= render 'canoes/canoe_header'
+
+%section.bs-component
+  .container
+    %h3 초대하기
+    = render 'form'
+
+%section.bs-component
+  .container
+    .panel.panel-default(style='margin-top: 20px;')
+      .panel-heading
+        %h4.text-muted
+          %i.fa.fa-users
+          초대 중인 선원
+          %span.badge= @canoe.invitations.persisted.count
+      .panel-body
+        .row
+          - @canoe.invitations.persisted.each do |invitation|
+            .col-sm-3.col-xs-4
+              .thumbnail.crew
+                .crew__image(style="background-image: url(#{invitation.guest_image_url || asset_url('anonymous.png')});")
+                  = invitation.guest_nickname
+                .caption
+                  #{invitation.guest_nickname}
+              .popover.bottom(style='font-family: normal; position: relative; display: block;')
+                .arrow
+                .popover-content
+                  %div.text-nowrap
+                    %i.fa.fa-clock-o
+                    #{date_f invitation.created_at}
+                  @#{invitation.host.nickname}님이
+                  초대하였습니다.
+                  = link_to invitation_path(invitation), method: :delete do
+                    취소

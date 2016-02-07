@@ -10,3 +10,6 @@ crew:
 visitor:
   email: 'visitor@gmail.com'
   nickname: 'visitor_nick'
+guest:
+  email: 'guest@gmail.com'
+  nickname: 'guest_nick'

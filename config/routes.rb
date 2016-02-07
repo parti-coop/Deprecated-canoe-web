@@ -39,8 +39,13 @@ Rails.application.routes.draw do
           end
         end
         resources :crews
+        resources :invitations do
+          collection do
+            post :accept, to: 'invitations#accept'
+          end
+        end
 
-        delete 'crews/me', to: 'crews#destory'
+        delete 'crews/me', to: 'crews#destroy'
         get 'invite', to: 'canoes#new_invitation'
         post 'invite', to: 'canoes#create_invitation'
       end

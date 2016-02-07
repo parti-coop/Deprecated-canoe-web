@@ -14,6 +14,7 @@ class Canoe < ActiveRecord::Base
   end
   has_many :crews_as_user, through: :crews, class_name: User, source: :user
   has_many :request_to_joins
+  has_many :invitations
   enumerize :how_to_join, in: [:public_join, :private_join], predicates: true, scope: true
 
   mount_uploader :logo, ImageUploader
@@ -50,6 +51,10 @@ class Canoe < ActiveRecord::Base
     unless crews.exists?(user: self.user)
       add_captain_to_crew
     end
+  end
+
+  def invited?(someone)
+    invitations.exists?(user: someone) or invitations.exists?(email: someone.email)
   end
 
   private
