@@ -1,5 +1,5 @@
 class ProposalsController < ApplicationController
-  include SlackNotifing
+  include SlackPushing
   include DiscussionActivityTraking
 
   before_filter :authenticate_user!, except: [:show]
@@ -23,14 +23,14 @@ class ProposalsController < ApplicationController
     end
     if @proposal.save
       create_porposals_create_activty(@proposal)
-      slack(@proposal)
+      push_to_slack(@proposal)
     end
     redirect_to @discussion
   end
 
   def update
     if @proposal.update_attributes(proposal_params)
-      slack(@proposal)
+      push_to_slack(@proposal)
       create_porposals_update_activty(@proposal)
     end
     redirect_to @proposal.discussion
@@ -39,7 +39,7 @@ class ProposalsController < ApplicationController
   def destroy
     if @proposal.destroy
       create_porposals_destroy_activty(@proposal)
-      slack(@proposal)
+      push_to_slack(@proposal)
     end
     redirect_to @proposal.discussion
   end

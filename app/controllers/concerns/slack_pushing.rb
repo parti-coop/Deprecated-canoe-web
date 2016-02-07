@@ -1,9 +1,9 @@
 # TEST web hook url : "https://hooks.slack.com/services/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"
 
-module SlackNotifing
+module SlackPushing
   extend ActiveSupport::Concern
 
-  def slack(object)
+  def push_to_slack(object)
     return if ApplicationController::skip_slack
     return unless user_signed_in?
 
@@ -109,13 +109,28 @@ module SlackNotifing
       canoe = request_to_join.canoe
       title = "@#{current_user.nickname}님이 '#{canoe.title}' 카누에 @#{request_to_join.user.nickname}님의 승선을 허가합니다."
       body = "[#{canoe.title}](#{view_context.canoe_home_url canoe}) >>> #{canoe.theme}"
+    when "invitations#create"
+      invitation = object
+      canoe = invitation.canoe
+      title = "@#{current_user.nickname}님이 '#{canoe.title}' 카누에 #{invitation.guest_name}님을 초대합니다."
+      body = "[#{canoe.title}](#{view_context.canoe_home_url canoe}) >>> #{canoe.theme}"
+    when "invitations#destroy"
+      invitation = object
+      canoe = invitation.canoe
+      title = "@#{current_user.nickname}님이 '#{canoe.title}' 카누의 #{invitation.guest_name}님 초대를 취소합니다."
+      body = "[#{canoe.title}](#{view_context.canoe_home_url canoe}) >>> #{canoe.theme}"
+    when "invitations#accept"
+      invitation = object
+      canoe = invitation.canoe
+      title = "@#{current_user.nickname}님이 '#{canoe.title}' 카누에 초대를 수락합니다."
+      body = "[#{canoe.title}](#{view_context.canoe_home_url canoe}) >>> #{canoe.theme}"
     when "crews#destroy"
       crew = object
       canoe = crew.canoe
       title = "@#{current_user.nickname}님이 '#{canoe.title}' 카누에서 하선합니다."
       body = "[#{canoe.title}](#{view_context.canoe_home_url canoe}) >>> #{canoe.theme}"
     else
-      nil
+      return nil
     end
     return { title: title, body: body }
   end

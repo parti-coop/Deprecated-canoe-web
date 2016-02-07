@@ -1,5 +1,5 @@
 class OpinionsController < ApplicationController
-  include SlackNotifing
+  include SlackPushing
   include Messaging
   include DiscussionActivityTraking
 
@@ -22,14 +22,14 @@ class OpinionsController < ApplicationController
     end
     if @opinion.save
       create_opinions_create_activty @opinion
-      slack(@opinion)
+      push_to_slack(@opinion)
     end
     redirect_to @discussion
   end
 
   def update
     if @opinion.update_attributes(opinion_params)
-      slack(@opinion)
+      push_to_slack(@opinion)
     end
     redirect_to @opinion.discussion
   end
@@ -37,7 +37,7 @@ class OpinionsController < ApplicationController
   def destroy
     if @opinion.destroy
       destroy_opinions_activty @opinion
-      slack(@opinion)
+      push_to_slack(@opinion)
     end
     redirect_to @opinion.discussion
   end

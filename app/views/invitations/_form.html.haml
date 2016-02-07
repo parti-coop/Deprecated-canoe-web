@@ -1,4 +1,4 @@
-= form_for [@canoe, @invitation] do |f|
+= form_for [@canoe, @canoe.invitations.build] do |f|
   .form-group
     = f.label :user_key
     = f.text_field :user_key, class: 'form-control'

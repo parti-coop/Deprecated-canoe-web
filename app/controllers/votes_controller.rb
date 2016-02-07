@@ -1,5 +1,5 @@
 class VotesController < ApplicationController
-  include SlackNotifing
+  include SlackPushing
   include DiscussionActivityTraking
 
   before_filter :authenticate_user!
@@ -8,7 +8,7 @@ class VotesController < ApplicationController
   def in_favor
     @vote = setup_vote(:in_favor)
     if(@vote.save)
-      slack(@vote)
+      push_to_slack(@vote)
       create_votes_in_favor_activty(@vote)
     end
     redirect_to @proposal.discussion
@@ -17,7 +17,7 @@ class VotesController < ApplicationController
   def opposed
     @vote = setup_vote(:opposed)
     if(@vote.save)
-      slack(@vote)
+      push_to_slack(@vote)
       create_votes_opposed_activty(@vote)
     end
     redirect_to @proposal.discussion
@@ -26,7 +26,7 @@ class VotesController < ApplicationController
   def unvote
     @vote = @proposal.votes.find_by user: current_user
     if @vote.present? and @vote.destroy
-      slack(@vote)
+      push_to_slack(@vote)
       create_votes_unvote_activty(@vote)
     end
     redirect_to @proposal.discussion

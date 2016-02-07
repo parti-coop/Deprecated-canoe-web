@@ -15,8 +15,12 @@ class Invitation < ActiveRecord::Base
     user.try(:image_url)
   end
 
-  def guest_nickname
-    user.try(:nickname) || email
+  def guest_name
+    user.try(:nickname).try(:dup).try(:prepend, '@') || email
+  end
+
+  def the_concerned_for_messaging
+    user
   end
 
   def self.of_guest(someone)

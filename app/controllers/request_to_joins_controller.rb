@@ -1,5 +1,5 @@
 class RequestToJoinsController < ApplicationController
-  include SlackNotifing
+  include SlackPushing
   include Messaging
 
   before_filter :authenticate_user!
@@ -17,7 +17,7 @@ class RequestToJoinsController < ApplicationController
     @request_to_join.user = current_user
     if @request_to_join.save
       notify_to_crews(@request_to_join)
-      slack(@request_to_join)
+      push_to_slack(@request_to_join)
     end
     redirect_to @canoe
   end
@@ -29,7 +29,7 @@ class RequestToJoinsController < ApplicationController
     @crew.inviter = current_user
     if @crew.save
       notify_to_crews(@request_to_join)
-      slack(@request_to_join)
+      push_to_slack(@request_to_join)
     end
     redirect_to @canoe
   end

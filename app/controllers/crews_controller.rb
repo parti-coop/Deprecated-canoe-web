@@ -1,5 +1,5 @@
 class CrewsController < ApplicationController
-  include SlackNotifing
+  include SlackPushing
   include Messaging
 
   before_filter :authenticate_user!
@@ -11,7 +11,7 @@ class CrewsController < ApplicationController
       @crew = @canoe.crews.find_by user: current_user
       if @crew.try(:destroy)
         notify_to_crews(@crew)
-        slack(@crew)
+        push_to_slack(@crew)
       end
     end
 

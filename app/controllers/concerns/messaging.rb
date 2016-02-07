@@ -30,27 +30,35 @@ module Messaging
 
   BODY_TEMPLATE = {
     canoes: {
-      destroy: "@<%= current_user.nickname %>님이 '<%= object.title %>'카누를 지웠습니다."
+      destroy: "@<%= current_user.nickname %>님이 '<%= object.title %>' 카누를 지웠습니다."
     },
     discussions: {
-      create: "@<%= current_user.nickname %>님이 '<%= link_to_canoe_title(object.canoe) %>'카누에 새로운 '<%= link_to_discussion_subject object %>'논의를 열었습니다.",
-      destroy: "@<%= current_user.nickname %>님이 '<%= link_to_canoe_title(object.canoe) %>'카누의 '<%= object.subject %>'논의를 지웠습니다."
+      destroy: "@<%= current_user.nickname %>님이 '<%= link_to_canoe_title(object.canoe) %>' 카누의 '<%= object.subject %>'논의를 지웠습니다."
     },
     request_to_joins: {
-      ask: "@<%= current_user.nickname %>님이 '<%= link_to_canoe_title(object.canoe) %>'카누에 승선요청을 했습니다.",
-      accept: "@<%= current_user.nickname %>님이 '<%= link_to_canoe_title(object.canoe) %>'카누에 @<%= object.user.nickname %>의 승선요청을 수락했습니다."
+      ask: "@<%= current_user.nickname %>님이 '<%= link_to_canoe_title(object.canoe) %>' 카누에 승선요청을 했습니다.",
+      accept: "@<%= current_user.nickname %>님이 '<%= link_to_canoe_title(object.canoe) %>' 카누에 @<%= object.user.nickname %>의 승선요청을 수락했습니다."
+    },
+    invitations: {
+      create: "@<%= current_user.nickname %>님이 '<%= link_to_canoe_title(object.canoe) %>' 카누에 <%= object.guest_name %>님을 초대했습니다.",
+      destroy: "@<%= current_user.nickname %>님이 '<%= link_to_canoe_title(object.canoe) %>' 카누에 <%= object.guest_name %>님의 초대를 취소했습니다.",
+      accept: "@<%= current_user.nickname %>님이 '<%= link_to_canoe_title(object.canoe) %>' 카누 초대를 승락했습니다.",
     },
     crews: {
-      destroy: "@<%= current_user.nickname %>님이 '<%= link_to_canoe_title(object.canoe) %>'카누에서 하선했습니다.",
+      destroy: "@<%= current_user.nickname %>님이 '<%= link_to_canoe_title(object.canoe) %>' 카누에서 하선했습니다.",
     }
   }
   BODY_TEMPLATE_FOR_THE_CONCERNED = {
     request_to_joins: {
-      accept: "'<%= link_to_canoe_title(object.canoe) %>'카누 승선요청을 @<%= current_user.nickname %>님이 수락해 주었습니다."
+      accept: "'<%= link_to_canoe_title(object.canoe) %>' 카누 승선요청을 @<%= current_user.nickname %>님이 수락해 주었습니다."
+    },
+    invitations: {
+      create: "'<%= link_to_canoe_title(object.canoe) %>' 카누에 초대받았습니다.",
+      destroy: "'<%= link_to_canoe_title(object.canoe) %>' 카누에 초대가 취소되었습니다.",
     },
     opinions: {
-      create: "'<%= link_to_canoe_title(object.opinion.canoe) %>'카누 '<%= link_to_discussion_subject object.opinion.discussion %>'논의에서 @<%= current_user.nickname %>님이 아래 의견을 올렸습니다.\n<blockquote class='message-box message-box__mention'><%= view_context.truncate(object.opinion.body) %></blockquote>",
-      update: "'<%= link_to_canoe_title(object.opinion.canoe) %>'카누 '<%= link_to_discussion_subject object.opinion.discussion %>'논의에서 @<%= current_user.nickname %>님이 아래 의견을 올렸습니다.\n<blockquote class='message-box message-box__mention'><%= view_context.truncate(object.opinion.body) %></blockquote>"
+      create: "'<%= link_to_canoe_title(object.opinion.canoe) %>' 카누 '<%= link_to_discussion_subject object.opinion.discussion %>'논의에서 @<%= current_user.nickname %>님이 아래 의견을 올렸습니다.\n<blockquote class='message-box message-box__mention'><%= view_context.truncate(object.opinion.body) %></blockquote>",
+      update: "'<%= link_to_canoe_title(object.opinion.canoe) %>' 카누 '<%= link_to_discussion_subject object.opinion.discussion %>'논의에서 @<%= current_user.nickname %>님이 아래 의견을 올렸습니다.\n<blockquote class='message-box message-box__mention'><%= view_context.truncate(object.opinion.body) %></blockquote>"
     }
   }
 

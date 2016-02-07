@@ -24,7 +24,7 @@
           %span.badge= @canoe.crews.count
           %small.pull-right
             - if can?(:create, @canoe.invitations.build)
-              = link_to new_canoe_invitation_path(@canoe), class: 'btn btn-xs btn-success' do
+              = link_to canoe_invitations_path(@canoe), class: 'btn btn-xs btn-success' do
                 %i.fa.fa-user-plus
                 초대하기
             - if can?(:accept_public_crew, @canoe) and @canoe.request_to_joins.any?

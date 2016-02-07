@@ -94,7 +94,6 @@ class DiscussionsTest < ActionDispatch::IntegrationTest
 
     sign_in users(:one)
     post canoe_discussions_path(canoe_id: canoes(:canoe1).id, discussion: { subject: 'test' } )
-    assert_equal users(:crew).mailbox.notifications.first.notified_object, assigns(:discussion)
     assert users(:one).mailbox.notifications.empty?
   end
 

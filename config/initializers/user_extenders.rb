@@ -5,6 +5,8 @@ Rails.application.config.to_prepare do
 
     has_many :crews
     has_many :canoes
+    has_many :invitations
+    has_many :invited_canoes, class_name: Canoe, through: :invitations, source: :canoe
     has_many :crewing_canoes, class_name: Canoe, through: :crews, source: :canoe
     has_many :crewing_discussions, class_name: Discussion, through: :crewing_canoes, source: :discussions do
       def read

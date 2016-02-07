@@ -1,4 +1,7 @@
 class InvitationsController < ApplicationController
+  include SlackPushing
+  include Messaging
+
   before_filter :authenticate_user!
   load_and_authorize_resource :canoe
   load_and_authorize_resource :invitation, through: :canoe, shallow: true, except: :accept
@@ -10,15 +13,21 @@ class InvitationsController < ApplicationController
     @invitation.host = current_user
 
     unless (@canoe.crew?(@invitation.user) or @canoe.request_to_join?(@invitation.user))
-      @invitation.save
+      if @invitation.save
+        notify_to_crews(@invitation)
+        push_to_slack(@invitation)
+      end
     end
 
-    redirect_to new_canoe_invitation_path(@canoe)
+    redirect_to canoe_invitations_path(@canoe)
   end
 
   def destroy
-    @invitation.destroy
-    redirect_to new_canoe_invitation_path(@invitation.canoe)
+    if @invitation.destroy
+      notify_to_crews(@invitation)
+      push_to_slack(@invitation)
+    end
+    redirect_to canoe_invitations_path(@invitation.canoe)
   end
 
   def accept
@@ -27,7 +36,14 @@ class InvitationsController < ApplicationController
     @crew = @invitation.canoe.crews.build(
       user: @invitation.user,
       inviter: @invitation.host)
-    @crew.save
+
+    if @crew.save
+      notify_to_crews(@invitation)
+      push_to_slack(@invitation)
+      current_user.mailbox.notifications.where(notified_object: @invitation).each do |notification|
+        notification.mark_as_read(current_user)
+      end
+    end
 
     redirect_to @invitation.canoe
   end

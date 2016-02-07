@@ -1,5 +1,5 @@
 class DiscussionsController < ApplicationController
-  include SlackNotifing
+  include SlackPushing
   include Messaging
   include DiscussionActivityTraking
 
@@ -52,8 +52,7 @@ class DiscussionsController < ApplicationController
       end
     end
     if @discussion.save
-      notify_to_crews(@discussion)
-      slack(@discussion)
+      push_to_slack(@discussion)
       create_opinions_create_activty(@discussion.opinions.first) if @discussion.opinions.first.present?
       redirect_to @discussion
     else
@@ -63,7 +62,7 @@ class DiscussionsController < ApplicationController
 
   def update
     if @discussion.update_attributes(update_params)
-      slack(@discussion)
+      push_to_slack(@discussion)
       create_discussions_update_decision_activty(@discussion) if @discussion.previous_changes['decision'].present?
       redirect_to @discussion
     else
@@ -74,7 +73,7 @@ class DiscussionsController < ApplicationController
   def destroy
     @discussion.destroy
     notify_to_crews(@discussion)
-    slack(@discussion)
+    push_to_slack(@discussion)
     redirect_to @discussion.canoe
   end
 

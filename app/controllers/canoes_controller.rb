@@ -1,5 +1,5 @@
 class CanoesController < ApplicationController
-  include SlackNotifing
+  include SlackPushing
   include Messaging
 
   before_filter :authenticate_user!, except: [:index, :show, :short]
@@ -38,7 +38,7 @@ class CanoesController < ApplicationController
   def create
     @canoe.user = current_user
     if @canoe.save
-      slack(@canoe)
+      push_to_slack(@canoe)
       redirect_to @canoe
     else
       render 'new'
@@ -47,7 +47,7 @@ class CanoesController < ApplicationController
 
   def update
     if @canoe.update_attributes(update_params)
-      slack(@canoe)
+      push_to_slack(@canoe)
       redirect_to @canoe
     else
       render 'edit'
@@ -57,7 +57,7 @@ class CanoesController < ApplicationController
   def destroy
     @canoe.destroy
     notify_to_crews(@canoe)
-    slack(@canoe)
+    push_to_slack(@canoe)
     redirect_to canoes_path
   end
 
