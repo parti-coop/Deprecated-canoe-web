@@ -76,7 +76,7 @@ class RequestToJoinsTest < ActionDispatch::IntegrationTest
 
     crew = canoes(:canoe1).crews.build
     crew.user = users(:visitor)
-    crew.inviter = canoes(:canoe1).user
+    crew.host = canoes(:canoe1).user
     crew.save
 
     assert canoes(:canoe1).crew?(users(:visitor))

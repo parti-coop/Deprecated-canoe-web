@@ -26,7 +26,7 @@ class RequestToJoinsController < ApplicationController
     redirect_to @canoe and return if @canoe.private_join?
     @request_to_join = RequestToJoin.find(params[:id])
     @crew = @canoe.crews.find_or_initialize_by(user: @request_to_join.user)
-    @crew.inviter = current_user
+    @crew.host = current_user
     if @crew.save
       notify_to_crews(@request_to_join)
       push_to_slack(@request_to_join)

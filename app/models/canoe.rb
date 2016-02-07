@@ -60,6 +60,6 @@ class Canoe < ActiveRecord::Base
   private
 
   def add_captain_to_crew
-    self.crews.build(user: self.user, inviter: self.user)
+    self.crews.build(user: self.user, host: self.user)
   end
 end

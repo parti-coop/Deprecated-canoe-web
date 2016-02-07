@@ -35,7 +35,7 @@ class InvitationsController < ApplicationController
     @invitation = @canoe.invitations.of_guest(current_user).first
     @crew = @invitation.canoe.crews.build(
       user: @invitation.user,
-      inviter: @invitation.host)
+      host: @invitation.host)
 
     if @crew.save
       notify_to_crews(@invitation)

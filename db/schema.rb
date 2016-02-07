@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160206062025) do
+ActiveRecord::Schema.define(version: 20160207151659) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id"
@@ -75,14 +75,14 @@ ActiveRecord::Schema.define(version: 20160206062025) do
 
   create_table "crews", force: :cascade do |t|
     t.integer  "user_id",    null: false
-    t.integer  "inviter_id", null: false
+    t.integer  "host_id",    null: false
     t.integer  "canoe_id",   null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   add_index "crews", ["canoe_id"], name: "index_crews_on_canoe_id"
-  add_index "crews", ["inviter_id"], name: "index_crews_on_inviter_id"
+  add_index "crews", ["host_id"], name: "index_crews_on_host_id"
   add_index "crews", ["user_id", "canoe_id"], name: "index_crews_on_user_id_and_canoe_id", unique: true
 
   create_table "discussions", force: :cascade do |t|

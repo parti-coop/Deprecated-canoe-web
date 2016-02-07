@@ -1,8 +1,8 @@
 crew_captain:
   user: one
-  inviter: one
+  host: one
   canoe: canoe1
 crew1:
   user: crew
-  inviter: one
+  host: one
   canoe: canoe1
