@@ -61,6 +61,8 @@ Rails.application.routes.draw do
     end
 
     get '/search', to: "search#index"
+    get '/search/discussions', to: "search#discussions"
+    get '/search/canoes', to: "search#canoes"
   end
 
   get '/:slug/discussions/:sequential_id', to: "discussions#short", as: 'short_discussion'

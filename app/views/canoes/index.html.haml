@@ -17,7 +17,7 @@
     .row
       .col-xs-12.clearfix
         - if params[:list] == 'all'
-          = form_tag canoes_path, method: :get, class: 'form-inline', style: 'display: inline-block; margin-bottom: 20px' do
+          = form_tag search_canoes_path, method: :get, class: 'form-inline', style: 'display: inline-block; margin-bottom: 20px' do
             = hidden_field_tag :list, 'all'
             .form-group(style='display: inline-block')
               = text_field_tag :q, params[:q], class: 'form-control'
@@ -31,3 +31,7 @@
       - if @canoes.empty?
         .col-xs-12
           해당 카누가 없습니다.
+
+    .row
+      .col-xs-12.text-center
+        = paginate @canoes, theme: 'twitter-bootstrap-3'

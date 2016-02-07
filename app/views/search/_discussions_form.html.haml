@@ -1,0 +1,16 @@
+.page-header
+  %h3(style='margin-right: 15px;')
+    %i.fa.fa-comments
+    논의검색
+%div(style='margin: 10px 0')
+  = form_tag search_discussions_path, method: :get, class: 'form-inline', style: 'display: inline-block;' do
+    .form-group(style='display: inline-block')
+      = text_field_tag :q, params[:q], class: 'form-control'
+    = submit_tag '찾기', class: 'btn btn-default', style: 'margin-right: 2em;'
+    - if user_signed_in?
+      .form-group(style='display: inline-block')
+        %label
+          = check_box_tag :all, 'true', @all
+          %small 모든 카누에서 검색합니다.
+    - else
+      = hidden_field_tag :all, 'true'

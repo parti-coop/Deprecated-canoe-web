@@ -1,0 +1,10 @@
+.page-header
+  %h3(style='margin-right: 15px;')
+    %i.fa.fa-cubes
+    카누검색
+%div(style='margin: 10px 0')
+  = form_tag search_canoes_path, method: :get, class: 'form-inline', style: 'display: inline-block;' do
+    .form-group(style='display: inline-block')
+      = text_field_tag :q, params[:q], class: 'form-control'
+    = submit_tag '찾기', class: 'btn btn-default', style: 'margin-right: 2em;'
+

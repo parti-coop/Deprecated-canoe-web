@@ -1,5 +1,5 @@
 class SearchController < ApplicationController
-  def index
+  def discussions
     query = params[:q]
     @all = (params[:all] || 'false') == 'true'
     @all = true unless user_signed_in?
@@ -11,6 +11,15 @@ class SearchController < ApplicationController
       end
       @discussions_count = @discussions.count
       @discussions_on_current_page = @discussions.page(params[:page])
+    end
+  end
+
+  def canoes
+    query = params[:q]
+    if query.present?
+      @canoes = Canoe.search_for(query)
+      @canoes_count = @canoes.count
+      @canoes_on_current_page = @canoes.page(params[:page])
     end
   end
 end
