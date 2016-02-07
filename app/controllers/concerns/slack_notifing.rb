@@ -109,6 +109,11 @@ module SlackNotifing
       canoe = request_to_join.canoe
       title = "@#{current_user.nickname}님이 '#{canoe.title}' 카누에 @#{request_to_join.user.nickname}님의 승선을 허가합니다."
       body = "[#{canoe.title}](#{view_context.canoe_home_url canoe}) >>> #{canoe.theme}"
+    when "crews#destroy"
+      crew = object
+      canoe = crew.canoe
+      title = "@#{current_user.nickname}님이 '#{canoe.title}' 카누에서 하선합니다."
+      body = "[#{canoe.title}](#{view_context.canoe_home_url canoe}) >>> #{canoe.theme}"
     else
       nil
     end

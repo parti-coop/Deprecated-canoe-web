@@ -7,8 +7,8 @@ module Messaging
     return unless user_signed_in?
 
     mentions.each do |mention|
-      not_used, body = render_bodies(mention)
-      Mailboxer::Notification.notify_all(mention.user, "#{controller_name}##{action_name}", body, mention)
+      not_used, body_for_the_concerned = render_bodies(mention)
+      Mailboxer::Notification.notify_all(mention.user, "#{controller_name}##{action_name}", body_for_the_concerned, mention)
     end
   end
 
@@ -30,24 +30,27 @@ module Messaging
 
   BODY_TEMPLATE = {
     canoes: {
-      destroy: "@<%= current_user.nickname %>이 '<%= object.title %>' 카누를 지웠습니다."
+      destroy: "@<%= current_user.nickname %>님이 '<%= object.title %>'카누를 지웠습니다."
     },
     discussions: {
-      create: "@<%= current_user.nickname %>이 '<%= link_to_canoe_title(object.canoe) %>' 카누에 새로운 '<%= link_to_discussion_subject object %>'논의를 열었습니다.",
-      destroy: "@<%= current_user.nickname %>이 '<%= link_to_canoe_title(object.canoe) %>' 카누의 '<%= object.subject %>'논의를 지웠습니다."
+      create: "@<%= current_user.nickname %>님이 '<%= link_to_canoe_title(object.canoe) %>'카누에 새로운 '<%= link_to_discussion_subject object %>'논의를 열었습니다.",
+      destroy: "@<%= current_user.nickname %>님이 '<%= link_to_canoe_title(object.canoe) %>'카누의 '<%= object.subject %>'논의를 지웠습니다."
     },
     request_to_joins: {
-      ask: "@<%= current_user.nickname %>이 '<%= link_to_canoe_title(object.canoe) %>' 카누에 승선요청을 했습니다.",
-      accept: "@<%= current_user.nickname %>이 '<%= link_to_canoe_title(object.canoe) %>' 카누에 @<%= object.user.nickname %>의 승선요청을 수락했습니다."
+      ask: "@<%= current_user.nickname %>님이 '<%= link_to_canoe_title(object.canoe) %>'카누에 승선요청을 했습니다.",
+      accept: "@<%= current_user.nickname %>님이 '<%= link_to_canoe_title(object.canoe) %>'카누에 @<%= object.user.nickname %>의 승선요청을 수락했습니다."
+    },
+    crews: {
+      destroy: "@<%= current_user.nickname %>님이 '<%= link_to_canoe_title(object.canoe) %>'카누에서 하선했습니다.",
     }
   }
   BODY_TEMPLATE_FOR_THE_CONCERNED = {
     request_to_joins: {
-      accept: "'<%= link_to_canoe_title(object.canoe) %>' 카누 승선요청을 @<%= current_user.nickname %>이 수락해 주었습니다."
+      accept: "'<%= link_to_canoe_title(object.canoe) %>'카누 승선요청을 @<%= current_user.nickname %>님이 수락해 주었습니다."
     },
     opinions: {
-      create: "'<%= link_to_canoe_title(object.opinion.canoe) %>' 카누 '<%= link_to_discussion_subject object.opinion.discussion %>'논의에서 @<%= current_user.nickname %>님이 아래 의견을 올렸습니다.\n<blockquote><%= view_context.truncate(object.opinion.body) %></blockquote>",
-      update: "'<%= link_to_canoe_title(object.opinion.canoe) %>' 카누 '<%= link_to_discussion_subject object.opinion.discussion %>'논의에서 @<%= current_user.nickname %>님이 아래 의견을 올렸습니다.\n<blockquote><%= view_context.truncate(object.opinion.body) %></blockquote>"
+      create: "'<%= link_to_canoe_title(object.opinion.canoe) %>'카누 '<%= link_to_discussion_subject object.opinion.discussion %>'논의에서 @<%= current_user.nickname %>님이 아래 의견을 올렸습니다.\n<blockquote class='message-box message-box__mention'><%= view_context.truncate(object.opinion.body) %></blockquote>",
+      update: "'<%= link_to_canoe_title(object.opinion.canoe) %>'카누 '<%= link_to_discussion_subject object.opinion.discussion %>'논의에서 @<%= current_user.nickname %>님이 아래 의견을 올렸습니다.\n<blockquote class='message-box message-box__mention'><%= view_context.truncate(object.opinion.body) %></blockquote>"
     }
   }
 
