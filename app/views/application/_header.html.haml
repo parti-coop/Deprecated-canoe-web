@@ -1,18 +1,20 @@
 %nav.navbar.navbar-default.navbar-fixed-top
   .container
     .navbar-header.navbar-left.pull-left
-      %a.navbar-brand{ href: root_path }
-        %strong canoe
-        - if user_signed_in? and current_user.crewing_discussions.unread.any?
-          %span.badge.badge-default= current_user.crewing_discussions.unread.count
-      %ul.nav.navbar-nav.pull-right(style="margin-left: 5px")
-        - unless user_signed_in?
-          %li
-            = link_to canoes_path({list: 'all'}) do
-              %i.fa.fa-cubes
-              모든 카누
-        - else
-          %li.dropdown.pull-right
+      - unless user_signed_in?
+        %a.navbar-brand{ href: root_path }
+          %strong
+            canoe
+          - if user_signed_in? and current_user.crewing_discussions.unread.any?
+            %span.badge.badge-default= current_user.crewing_discussions.unread.count
+      - if user_signed_in?
+        %ul.nav.navbar-nav(style="margin-left: 5px")
+          %li.pull-left
+            = link_to root_path do
+              %i.fa.fa-home(style='font-size: 120%;')
+              - if user_signed_in? and ( current_user.crewing_discussions.unread.any? or current_user.invited_canoes.any? )
+                %i.fa.fa-circle.text-danger(style='font-size: 70%; position: absolute; top: 0.7em; left: 2.7em;')
+          %li.dropdown.pull-left
             %a.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button" }
               - if current_canoe.try(:crew?, current_user)
                 = image_tag current_canoe.logo_url, class: 'img-thumbnail', style: 'width: 23px; height: 23px; margin-right: 1px;'
@@ -44,13 +46,18 @@
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
-        - if user_signed_in? and (current_user.mailbox.notifications.unread.any? or current_user.crewing_discussions.unread.any?)
-          %i.fa.fa-circle.text-danger(style='position: absolute; top: -7px; left: 35px;')
       %ul.nav.navbar-nav
         %li.pull-right
           = link_to search_path do
             %i.fa.fa-search
-
+        - if user_signed_in?
+          %li.pull-right
+            = link_to messages_path do
+              - if current_user.mailbox.notifications.unread.any?
+                %i.fa.fa-bell.text-danger
+                %i.fa.fa-circle.text-danger(style='font-size: 70%; position: absolute; top: 0.7em; left: 2.7em;')
+              - else
+                %i.fa.fa-bell-o.text-mute
     #navbar.navbar-offcanvas.navbar-offcanvas-right
       %ul.nav.navbar-nav
         - if user_signed_in?
@@ -64,15 +71,6 @@
               = user_byline current_user
               %span.caret
             %ul.dropdown-menu.shown
-              %li
-                = link_to messages_path do
-                  - if current_user.mailbox.notifications.unread.any?
-                    %i.fa.fa-bell.text-danger
-                    알림
-                    %span.badge= current_user.mailbox.notifications.unread.count
-                  - else
-                    %i.fa.fa-bell-o.text-mute
-                    알림
               %li
                 = link_to edit_user_path do
                   %i.fa.fa-pencil-square-o
