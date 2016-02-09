@@ -41,6 +41,15 @@ class Discussion < ActiveRecord::Base
       .map { |chunk| [chunk.first, zip_activities(chunk)] }]
   end
 
+  def newest_proposal_or_opinion
+    newest_proposal = proposals.newest
+    newest_opinion = opinions.newest
+
+    return newest_opinion if newest_proposal.nil?
+    return newest_proposal if newest_opinion.nil?
+    (newest_proposal.created_at > newest_opinion.created_at) ? newest_proposal : newest_opinion
+  end
+
   private
 
   def zip_activities(chunk)
