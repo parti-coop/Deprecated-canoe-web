@@ -1,16 +1,29 @@
 .bs-component
   .container
-    = render 'canoes_form'
+    %h4
+      %ul.nav.nav-tabs
+        %li.text-center(role="presentation" style='width: 50%')
+          = link_to search_discussions_path(q: params[:q]) do
+            %i.fa.fa-flag
+            - if user_signed_in?
+              내
+            - else
+              모든
+            논의
+        %li.text-center(role="presentation" class="active" style='width: 50%')
+          %a(href='#')
+            %i.fa.fa-cubes
+            카누
 
     - if params[:q].present?
-      %p.text-muted #{@canoes_count}건의 카누를 찾았습니다.
+      %p.text-muted 검색 결과  #{@canoes_count}건
 
-    - if @canoes_on_current_page.any?
-      .row
-        - @canoes_on_current_page.each do |canoe|
-          .col-sm-4.col-xs-6
-            = render canoe
-      .row
-        .col-xs-12.text-center
-          = paginate @canoes_on_current_page, theme: 'twitter-bootstrap-3'
+      - if @canoes_on_current_page.any?
+        .row
+          - @canoes_on_current_page.each do |canoe|
+            .col-sm-4.col-xs-6
+              = render canoe
+        .row
+          .col-xs-12.text-center
+            = paginate @canoes_on_current_page, theme: 'twitter-bootstrap-3'
 

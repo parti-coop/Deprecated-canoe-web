@@ -1,48 +1,72 @@
 .bs-component
   .container
-    = render 'discussions_form'
+    %h4
+      %ul.nav.nav-tabs
+        %li.text-center(role="presentation" class="active" style='width: 50%')
+          %a(href='#')
+            %i.fa.fa-flag
+            - if @all
+              모든
+            - else
+              내
+            논의
+        %li.text-center(role="presentation" style='width: 50%')
+          = link_to search_canoes_path(q: params[:q]) do
+            %i.fa.fa-cubes
+            카누
 
     - if params[:q].present?
-      %p.text-muted #{@discussions_count}건의 논의를 찾았습니다.
+      %p
+        - if @all
+          - if user_signed_in?
+            .pull-right
+              = link_to search_discussions_path(q: params[:q], all: 'false') do
+                내 카누 논의에서만
+                %i.fa.fa-arrow-right
+        - else
+          .pull-right
+            = link_to search_discussions_path(q: params[:q], all: 'true') do
+              모든 카누 논의에서
+              %i.fa.fa-arrow-right
+        %span.text-muted 검색 결과 #{@discussions_count}건
+      - if @discussions_on_current_page.any?
+        .row
+          .col-xs-12
+            - @discussions_on_current_page.group_by(&:canoe).each do |canoe, discussions|
+              - discussions.each do |discussion|
+                .panel.panel-default
+                  .panel-heading.text-muted
+                    = image_tag canoe.logo_url, class: 'img-thumbnail', style: 'width: 23px; height: 23px; margin-right: 1px;'
+                    = link_to canoe.title, canoe_home_path(canoe)
+                  %table.table
+                    = render discussion
 
-    - if @discussions_on_current_page.any?
-      .row
-        .col-xs-12
-          - @discussions_on_current_page.group_by(&:canoe).each do |canoe, discussions|
-            - discussions.each do |discussion|
-              .panel.panel-default
-                .panel-heading.text-muted
-                  = image_tag canoe.logo_url, class: 'img-thumbnail', style: 'width: 23px; height: 23px; margin-right: 1px;'
-                  = link_to canoe.title, canoe_home_path(canoe)
-                %table.table
-                  = render discussion
+                  - opinions_count = discussion.opinions.search_for(params[:q]).count
+                  - proposals_count = discussion.proposals.search_for(params[:q]).count
+                  - if opinions_count > 0 or proposals_count > 0
+                    .panel-footer
+                      - opinions_count = discussion.opinions.search_for(params[:q]).count
+                      - proposals_count = discussion.proposals.search_for(params[:q]).count
+                      %tr
+                        %td.bg-warning(colspan=2)
+                          - opinions_count = discussion.opinions.search_for(params[:q]).count
+                          - proposals_count = discussion.proposals.search_for(params[:q]).count
 
-                - opinions_count = discussion.opinions.search_for(params[:q]).count
-                - proposals_count = discussion.proposals.search_for(params[:q]).count
-                - if opinions_count > 0 or proposals_count > 0
-                  .panel-footer
-                    - opinions_count = discussion.opinions.search_for(params[:q]).count
-                    - proposals_count = discussion.proposals.search_for(params[:q]).count
-                    %tr
-                      %td.bg-warning(colspan=2)
-                        - opinions_count = discussion.opinions.search_for(params[:q]).count
-                        - proposals_count = discussion.proposals.search_for(params[:q]).count
-
-                        이 논의에서
-                        - if opinions_count > 0
-                          %i.fa.fa-comments
-                          의견
-                          %strong
-                            #{discussion.opinions.search_for(params[:q]).count}건
-                        - if opinions_count > 0 and proposals_count > 0
-                          과
-                        - if proposals_count > 0
-                          제안
-                          %strong
-                            %i.fa.fa-rocket
-                            #{discussion.proposals.search_for(params[:q]).count}건이
-                        검색되었습니다.
-      .row
-        .col-xs-12.text-center
-          = paginate @discussions_on_current_page, theme: 'twitter-bootstrap-3'
+                          이 논의에서
+                          - if opinions_count > 0
+                            %i.fa.fa-comments
+                            의견
+                            %strong
+                              #{discussion.opinions.search_for(params[:q]).count}건
+                          - if opinions_count > 0 and proposals_count > 0
+                            과
+                          - if proposals_count > 0
+                            제안
+                            %strong
+                              %i.fa.fa-rocket
+                              #{discussion.proposals.search_for(params[:q]).count}건이
+                          검색되었습니다.
+        .row
+          .col-xs-12.text-center
+            = paginate @discussions_on_current_page, theme: 'twitter-bootstrap-3'
 

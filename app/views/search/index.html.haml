@@ -1,4 +1,16 @@
 .bs-component
   .container
-    = render 'discussions_form'
-    = render 'canoes_form'
+    %h4
+      %ul.nav.nav-tabs
+        %li.text-center(role="presentation" class="active" style='width: 50%')
+          %a(href='#')
+            %i.fa.fa-flag
+            - if user_signed_in?
+              내
+            - else
+              모든
+            논의
+        %li.text-center(role="presentation" style='width: 50%')
+          = link_to search_canoes_path(q: params[:q]) do
+            %i.fa.fa-cubes
+            카누

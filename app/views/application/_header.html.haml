@@ -1,92 +1,107 @@
-%nav.navbar.navbar-default.navbar-fixed-top
-  .container
-    .navbar-header.navbar-left.pull-left
-      - unless user_signed_in?
-        %a.navbar-brand{ href: root_path }
-          %strong
-            canoe
-          - if user_signed_in? and current_user.crewing_discussions.unread.any?
-            %span.badge.badge-default= current_user.crewing_discussions.unread.count
-      - if user_signed_in?
-        %ul.nav.navbar-nav(style="margin-left: 5px")
-          %li.pull-left
-            = link_to root_path do
-              %i.fa.fa-home(style='font-size: 120%;')
-              - if user_signed_in? and ( current_user.crewing_discussions.unread.any? or current_user.invited_canoes.any? )
-                %i.fa.fa-circle.text-danger(style='font-size: 70%; position: absolute; top: 0.7em; left: 2.7em;')
-          %li.dropdown.pull-left
-            %a.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button" }
-              - if current_canoe.try(:crew?, current_user)
-                = image_tag current_canoe.logo_url, class: 'img-thumbnail', style: 'width: 23px; height: 23px; margin-right: 1px;'
-                = current_canoe.title
-              - else
-                %i.fa.fa-cubes
-                내 카누
-              %span.caret
-            %ul.dropdown-menu.dropdown-menu-canoe
-              - current_user.crewing_canoes.each do |canoe|
-                %li(class="#{'bg-danger' if current_canoe == canoe}")
-                  = link_to canoe_home_path(canoe) do
-                    = image_tag canoe.logo_url, class: 'img-thumbnail', style: 'width: 23px; height: 23px; margin-right: 1px;'
-                    = canoe.title
-              - if current_user.crewing_canoes.any?
-                %li(role="separator" class="divider")
-              %li
-                = link_to new_canoe_path do
-                  %i.fa.fa-edit
-                  카누 만들기
-              %li
-                = link_to canoes_path({list: :all}) do
+- if params[:controller] == 'search'
+  %nav.navbar.navbar-default.navbar-fixed-top
+    .container
+      = form_tag search_discussions_path, method: :get, role: 'search', class: 'navbar-form', style: 'border: none; margin: 6px -15px;' do
+        .form-group(style='width: 100%; display: table;')
+          .pull-right
+            = link_to root_path, class: 'btn btn-link' do
+              %i.fa.fa-close
+          .input-group(style='width: 90%;')
+            .input-group-btn(style='width: 1%;')
+              %button.btn.btn-default
+                %i.fa.fa-search
+            = text_field_tag :q, params[:q], placeholder: '논의나 카누 찾아보기...', class: 'form-control'
+        = hidden_field_tag :all, user_signed_in? ? "false" : "true"
+- else
+  %nav.navbar.navbar-default.navbar-fixed-top
+    .container
+      .navbar-header.navbar-left.pull-left
+        - unless user_signed_in?
+          %a.navbar-brand{ href: root_path }
+            %strong
+              canoe
+            - if user_signed_in? and current_user.crewing_discussions.unread.any?
+              %span.badge.badge-default= current_user.crewing_discussions.unread.count
+        - if user_signed_in?
+          %ul.nav.navbar-nav(style="margin-left: 5px")
+            %li.pull-left
+              = link_to root_path do
+                %i.fa.fa-home(style='font-size: 120%;')
+                - if user_signed_in? and ( current_user.crewing_discussions.unread.any? or current_user.invited_canoes.any? )
+                  %i.fa.fa-circle.text-danger(style='font-size: 70%; position: absolute; top: 0.7em; left: 2.7em;')
+            %li.dropdown.pull-left
+              %a.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button" }
+                - if current_canoe.try(:crew?, current_user)
+                  = image_tag current_canoe.logo_url, class: 'img-thumbnail', style: 'width: 23px; height: 23px; margin-right: 1px;'
+                  = current_canoe.title
+                - else
                   %i.fa.fa-cubes
-                  모든 카누
+                  내 카누
+                %span.caret
+              %ul.dropdown-menu.dropdown-menu-canoe
+                - current_user.crewing_canoes.each do |canoe|
+                  %li(class="#{'bg-danger' if current_canoe == canoe}")
+                    = link_to canoe_home_path(canoe) do
+                      = image_tag canoe.logo_url, class: 'img-thumbnail', style: 'width: 23px; height: 23px; margin-right: 1px;'
+                      = canoe.title
+                - if current_user.crewing_canoes.any?
+                  %li(role="separator" class="divider")
+                %li
+                  = link_to new_canoe_path do
+                    %i.fa.fa-edit
+                    카누 만들기
+                %li
+                  = link_to canoes_path({list: :all}) do
+                    %i.fa.fa-cubes
+                    모든 카누
 
-    .navbar-header
-      %button.navbar-toggle.navbar-right.offcanvas-toggle{"aria-controls" => "navbar", "aria-expanded" => "false", "data-target" => "#navbar", "data-toggle" => "offcanvas", :type => "button"}
-        %span.sr-only Toggle navigation
-        %span.icon-bar
-        %span.icon-bar
-        %span.icon-bar
-      %ul.nav.navbar-nav
-        %li.pull-right
-          = link_to search_path do
-            %i.fa.fa-search
-        - if user_signed_in?
+      .navbar-header
+        %button.navbar-toggle.navbar-right.offcanvas-toggle{"aria-controls" => "navbar", "aria-expanded" => "false", "data-target" => "#navbar", "data-toggle" => "offcanvas", :type => "button"}
+          %span.sr-only Toggle navigation
+          %span.icon-bar
+          %span.icon-bar
+          %span.icon-bar
+        %ul.nav.navbar-nav
           %li.pull-right
-            = link_to messages_path do
-              - if current_user.mailbox.notifications.unread.any?
-                %i.fa.fa-bell.text-danger
-                %i.fa.fa-circle.text-danger(style='font-size: 70%; position: absolute; top: 0.7em; left: 2.7em;')
-              - else
-                %i.fa.fa-bell-o.text-mute
-    #navbar.navbar-offcanvas.navbar-offcanvas-right
-      %ul.nav.navbar-nav
-        - if user_signed_in?
-          - if current_user.crewing_canoes.any?
-            %li
-              = link_to new_discussion_path do
-                %i.fa.fa-flag
-                새 논의 만들기
-          %li.nav-item.dropdown.active
-            %a.dropdown-toggle{:href => "#"}
-              = user_byline current_user
-              %span.caret
-            %ul.dropdown-menu.shown
+            = link_to search_path do
+              %i.fa.fa-search
+          - if user_signed_in?
+            %li.pull-right
+              = link_to messages_path do
+                - if current_user.mailbox.notifications.unread.any?
+                  %i.fa.fa-bell.text-danger
+                  %i.fa.fa-circle.text-danger(style='font-size: 70%; position: absolute; top: 0.7em; left: 2.7em;')
+                - else
+                  %i.fa.fa-bell-o.text-mute
+      #navbar.navbar-offcanvas.navbar-offcanvas-right
+        %ul.nav.navbar-nav
+          - if user_signed_in?
+            - if current_user.crewing_canoes.any?
               %li
-                = link_to edit_user_path do
-                  %i.fa.fa-pencil-square-o
-                  프로필
-              %li
-                = link_to destroy_user_session_path, method: :delete do
-                  %i.fa.fa-sign-out
-                  로그아웃
-        - else
-          %li= link_to '회원가입', sign_up_path
-          %li= link_to '로그인', new_user_session_path
-        %li
-          %a(href='http://canoe.parti.xyz/better-canoe')
-            %i.fa.fa-bullhorn
-            제안이 있으세요?
-          %div(style='padding: 0 15px; font-size: 80%;')
-            %a(href="http://canoe.parti.xyz/better-canoe")<
-              better-canoe
-            에 제안해 주세요.
+                = link_to new_discussion_path do
+                  %i.fa.fa-flag
+                  새 논의 만들기
+            %li.nav-item.dropdown.active
+              %a.dropdown-toggle{:href => "#"}
+                = user_byline current_user
+                %span.caret
+              %ul.dropdown-menu.shown
+                %li
+                  = link_to edit_user_path do
+                    %i.fa.fa-pencil-square-o
+                    프로필
+                %li
+                  = link_to destroy_user_session_path, method: :delete do
+                    %i.fa.fa-sign-out
+                    로그아웃
+          - else
+            %li= link_to '회원가입', sign_up_path
+            %li= link_to '로그인', new_user_session_path
+          %li
+            %a(href='http://canoe.parti.xyz/better-canoe')
+              %i.fa.fa-bullhorn
+              제안이 있으세요?
+            %div(style='padding: 0 15px; font-size: 80%;')
+              %a(href="http://canoe.parti.xyz/better-canoe")<
+                better-canoe
+              에 제안해 주세요.
