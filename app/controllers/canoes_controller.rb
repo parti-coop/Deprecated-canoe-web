@@ -2,7 +2,7 @@ class CanoesController < ApplicationController
   include SlackPushing
   include Messaging
 
-  before_filter :authenticate_user!, except: [:index, :show, :short]
+  before_filter :authenticate_user!, except: [:index, :show, :short, :history]
   load_and_authorize_resource except: [:index, :short]
 
   def index
@@ -67,6 +67,9 @@ class CanoesController < ApplicationController
     @canoe = Canoe.find params[:canoe_id]
     CanoeMailer.invite(@canoe, current_user, params[:email]).deliver_later
     redirect_to @canoe
+  end
+
+  def history
   end
 
   private

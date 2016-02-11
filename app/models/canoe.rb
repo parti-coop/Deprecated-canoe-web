@@ -2,6 +2,7 @@ class Canoe < ActiveRecord::Base
   extend Enumerize
 
   acts_as_paranoid
+  has_paper_trail on: :update, only: [:title, :theme, :logo, :cover, :slack_webhook_url, :is_able_to_request_to_join]
 
   belongs_to :user
   has_many :discussions
@@ -15,7 +16,6 @@ class Canoe < ActiveRecord::Base
   has_many :crews_as_user, through: :crews, class_name: User, source: :user
   has_many :request_to_joins
   has_many :invitations
-  #enumerize :how_to_join, in: [:public_join, :private_join], predicates: true, scope: true
 
   mount_uploader :logo, ImageUploader
   mount_uploader :cover, ImageUploader

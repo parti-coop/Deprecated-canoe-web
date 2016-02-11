@@ -3,8 +3,9 @@ class Ability
 
   def initialize(user)
     can [:read, :short], :all
+    can :history, Canoe
     if user
-      can :create, Canoe
+      can [:create], Canoe
       can :update, Canoe do |canoe|
         canoe.crew? user
       end

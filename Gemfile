@@ -25,6 +25,7 @@ gem 'public_activity', '~> 1.4', '>= 1.4.2'
 gem 'scoped_search', '~> 3.2', '>= 3.2.2'
 gem 'activerecord_any_of', '~> 1.3'
 gem 'by_star', '~> 2.2', '>= 2.2.1'
+gem 'paper_trail', '~> 4.1.0'
 
 # ui
 gem 'sass-rails', '~> 5.0'

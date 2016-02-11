@@ -21,6 +21,9 @@ Rails.application.routes.draw do
     resources :reactions
     resources :attachments
     resources :canoes do
+      member do
+        get :history, to: 'canoes#history'
+      end
       shallow do
         resources :discussions, except: :index do
           resources :opinions do
