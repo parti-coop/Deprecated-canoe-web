@@ -60,7 +60,7 @@ module ApplicationHelper
       sequential_id = $1
       proposal = opinion.discussion.proposals.find_by sequential_id: sequential_id
       if proposal.present?
-        m.gsub($1, "<span class='label label-danger' data-toggle='tooltip' data-placement='bottom' title='#{strip_tags proposal.body.squish}' data-anchor='proposal' data-proposal-id='#{proposal.id}' style='cursor: pointer;'>#{$1}</span>")
+        m.gsub($1, "<a href='#proposal-#{proposal.sequential_id}' style='color: inherit; text-decoration: none;'><span class='label label-default'>#{$1}</span> <strong>\"#{truncate strip_tags proposal.body}\"</strong></a>")
       else
         m
       end

@@ -3,7 +3,6 @@
 //= require bootstrap
 //= require trianglify
 //= require webui-popover
-//= require zenscroll/zenscroll
 //= require iamphill-bootstrap-offcanvas/js/bootstrap.offcanvas
 //= require jquery-oembed-all/jquery.oembed
 
@@ -33,16 +32,6 @@ $(document).on('ready', function(e) {
     var focus_id = $(e.target).data('focus');
     $focus = $(focus_id)
     $focus.focus()
-  });
-  zenscroll.setup(null, 60)
-  zenscroll.setup(null, 60)
-  $('[data-anchor="proposal"]').on('click', function(e) {
-    var proposal_id = $(e.target).data('proposal-id');
-    $('.proposal').removeClass('proposal--highlight');
-
-    var $the_proposal = $('#proposal_' + proposal_id);
-    zenscroll.intoView($the_proposal.get(0));
-    $the_proposal.addClass('proposal--highlight');
   });
   $('[data-toggle="preview"]').each(function(k, body) {
     var $body = $(body);

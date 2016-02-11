@@ -5,7 +5,8 @@ module DiscussionActivityTraking
     discussion.create_activity(key: 'discussion.decision',
       task: 'update',
       subject: discussion,
-      owner: current_user)
+      owner: current_user,
+      parameters: {discussion_decision: discussion.decision})
   end
 
   def create_opinions_create_activty(opinion)
@@ -28,7 +29,8 @@ module DiscussionActivityTraking
       task: 'vote.in_favor',
       subject: vote.proposal,
       measure: vote,
-      owner: current_user)
+      owner: current_user,
+      parameters: {proposal_body: vote.proposal.body})
   end
 
   def create_votes_opposed_activty(vote)
@@ -37,7 +39,8 @@ module DiscussionActivityTraking
       task: 'vote.opposed',
       subject: vote.proposal,
       measure: vote,
-      owner: current_user)
+      owner: current_user,
+      parameters: {proposal_body: vote.proposal.body})
   end
 
   def create_votes_unvote_activty(vote)
@@ -46,7 +49,8 @@ module DiscussionActivityTraking
       task: 'vote.unvote',
       subject: vote.proposal,
       measure: vote,
-      owner: current_user)
+      owner: current_user,
+      parameters: {proposal_body: vote.proposal.body})
   end
 
   def create_porposals_create_activty(proposal)
@@ -54,7 +58,8 @@ module DiscussionActivityTraking
     discussion.create_activity(key: 'proposal',
       task: 'create',
       subject: proposal,
-      owner: current_user)
+      owner: current_user,
+      parameters: {proposal_body: proposal.body})
   end
 
   def create_porposals_update_activty(proposal)
@@ -62,7 +67,8 @@ module DiscussionActivityTraking
     discussion.create_activity(key: 'proposal',
       task: 'update',
       subject: proposal,
-      owner: current_user)
+      owner: current_user,
+      parameters: {proposal_body: proposal.body})
   end
 
   def create_porposals_destroy_activty(proposal)
@@ -70,7 +76,8 @@ module DiscussionActivityTraking
     discussion.create_activity(key: 'proposal',
       task: 'destroy',
       subject: proposal,
-      owner: current_user)
+      owner: current_user,
+      parameters: {proposal_body: proposal.body})
   end
 
   def create_attachments_create_activty(attachment)

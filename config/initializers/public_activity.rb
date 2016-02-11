@@ -13,19 +13,5 @@ Rails.application.config.to_prepare do
       model = recipient_type.classify.constantize.with_deleted
       model.find_by id: recipient_id
     end
-
-    def meargable_in_timeline?(other)
-      return false if (self.key == 'opinion' or other.key == 'opinion')
-      return false if self.owner != other.owner
-
-      if TimeDifference.between(self.created_at, other.created_at).in_minutes.abs <= 5
-        return true
-      end
-      if !self.created_at.today? and self.created_at.to_date == other.created_at.to_date
-        return true
-      end
-
-      return false
-    end
   end
 end

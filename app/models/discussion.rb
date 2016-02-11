@@ -37,7 +37,7 @@ class Discussion < ActiveRecord::Base
 
   def activities_merged
     Hash[activities.order(created_at: :desc)
-      .slice_when{ |a, b| !a.meargable_in_timeline?(b) }
+      .slice_when{ |a, b| !meargable_in_timeline?(a, b) }
       .map { |chunk| [chunk.first, zip_activities(chunk)] }]
   end
 
@@ -52,8 +52,22 @@ class Discussion < ActiveRecord::Base
 
   private
 
+  def meargable_in_timeline?(m, n)
+    return false if (m.key == 'opinion' or n.key == 'opinion')
+    return false if m.owner != n.owner
+
+    if TimeDifference.between(m.created_at, n.created_at).in_minutes.abs <= 5
+      return true
+    end
+    if !m.created_at.today? and m.created_at.to_date == n.created_at.to_date
+      return true
+    end
+
+    return false
+  end
+
   def zip_activities(chunk)
-    groups_by_subject = chunk.group_by(&:subject).map do |subject, activities|
+    chunk.group_by(&:subject).map do |subject, activities|
       result = activities.sort_by(&:created_at)
 
       vote_activities = result.select{ |a| a.measure_type == Vote.to_s }
@@ -73,15 +87,5 @@ class Discussion < ActiveRecord::Base
 
       {subject: subject, activities: result}
     end
-
-    groups_by_subject.slice_when{ |a, b| !meargable_in_timeline_status? a, b }
-  end
-
-  def meargable_in_timeline_status?(m, n)
-    return false unless m[:subject].class.to_s == n[:subject].class.to_s
-    return false unless m[:subject].class.to_s == Proposal.to_s
-    return false if m[:activities].any? { |a| a.measure_type == Attachment.to_s }
-    return false if n[:activities].any? { |a| a.measure_type == Attachment.to_s }
-    return m[:activities].map(&:key) == n[:activities].map(&:key)
   end
 end
