@@ -27,7 +27,7 @@
               = link_to canoe_invitations_path(@canoe), class: 'btn btn-xs btn-success' do
                 %i.fa.fa-user-plus
                 초대하기
-            - if can?(:accept_public_crew, @canoe) and @canoe.request_to_joins.any?
+            - if can?(:permit_to_join, @canoe) and @canoe.request_to_joins.any?
               = link_to canoe_request_to_joins_path(@canoe), class: 'btn btn-xs btn-success' do
                 %i.fa.fa-sign-in
                 승선요청

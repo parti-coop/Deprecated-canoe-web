@@ -15,7 +15,7 @@ class Canoe < ActiveRecord::Base
   has_many :crews_as_user, through: :crews, class_name: User, source: :user
   has_many :request_to_joins
   has_many :invitations
-  enumerize :how_to_join, in: [:public_join, :private_join], predicates: true, scope: true
+  #enumerize :how_to_join, in: [:public_join, :private_join], predicates: true, scope: true
 
   mount_uploader :logo, ImageUploader
   mount_uploader :cover, ImageUploader
@@ -55,6 +55,10 @@ class Canoe < ActiveRecord::Base
 
   def invited?(someone)
     invitations.exists?(user: someone) or invitations.exists?(email: someone.email)
+  end
+
+  def is_able_to_request_to_join?
+    is_able_to_request_to_join
   end
 
   private

@@ -42,8 +42,8 @@ class RequestToJoinsTest < ActionDispatch::IntegrationTest
     assert_equal previous, canoes(:canoe1).reload.request_to_joins.count
   end
 
-  test 'should not ask to private_join canoe' do
-    canoes(:canoe1).how_to_join = 'private_join'
+  test 'should not ask to !is_able_to_request_to_join canoe' do
+    canoes(:canoe1).is_able_to_request_to_join = false
     canoes(:canoe1).save!
 
     refute canoes(:canoe1).crew?(users(:two))

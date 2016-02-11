@@ -3,4 +3,4 @@ canoe1:
   user: one
   theme: 'canoe1 theme'
   slug: canoe1
-  how_to_join: 'public_join'
+  is_able_to_request_to_join: true

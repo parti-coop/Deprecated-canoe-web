@@ -11,14 +11,14 @@ class Ability
       can :manage, Canoe do |canoe|
         canoe.user == user
       end
-      can :accept_public_crew, Canoe do |canoe|
+      can :permit_to_join, Canoe do |canoe|
         canoe.crew?(user)
       end
-      cannot :accept_public_crew, Canoe do |canoe|
-        canoe.private_join?
+      cannot :permit_to_join, Canoe do |canoe|
+        !canoe.is_able_to_request_to_join?
       end
       can :ask_public_crew, Canoe do |canoe|
-        canoe.public_join? and !canoe.crew?(user) and !canoe.request_to_join?(user)
+        canoe.is_able_to_request_to_join? and !canoe.crew?(user) and !canoe.request_to_join?(user)
       end
       can :manage, Invitation do |invitation|
         invitation.canoe.crew?(user)
