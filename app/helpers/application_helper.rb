@@ -33,9 +33,9 @@ module ApplicationHelper
     end
   end
 
-  def user_byline(user)
+  def user_byline(user, only_image = false)
     return if user.nil?
-    raw render(partial: 'users/byline', locals: { user: user })
+    raw render(partial: 'users/byline', locals: { user: user, only_image: only_image })
   end
 
   def reaction_label(opinion, token, count)

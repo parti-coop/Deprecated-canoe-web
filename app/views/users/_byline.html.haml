@@ -1,3 +1,4 @@
 %span
   = image_tag user.image_url, class: 'user-image img-circle'
-  = user.nickname
+  - unless only_image
+    = user.nickname

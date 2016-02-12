@@ -13,23 +13,31 @@
         %span
           %i.fa.fa-rocket
           = discussion.proposals.count
-        %span
-          %i.fa.fa-clock-o
-          = date_f discussion.discussed_at
         )
-    - if discussion.decision.present?
-      %p
-        .text-success.discussion__decision__body
-          %i.fa.fa-thumb-tack
-          = smart_body(discussion.decision, nil, wrapper_tag: 'span')
-    - if discussion.newest_proposal_or_opinion.present?
-      %p
-        .discussion__newest_proposal_or_opinion__body
-          - if discussion.newest_proposal_or_opinion.is_a?(Proposal)
-            %i.fa.fa-rocket
-          - if discussion.newest_proposal_or_opinion.is_a?(Opinion)
-            %i.fa.fa-comment
-          = smart_body(discussion.newest_proposal_or_opinion.body, nil, wrapper_tag: 'span')
-          %span(style='margin-left: 1em;')
-          = user_byline discussion.newest_proposal_or_opinion.user
+    - unless params[:controller] == 'search'
+      - if discussion.decision.present?
+        %p
+          .text-success.discussion__decision__body
+            %i.fa.fa-thumb-tack
+            = smart_body(discussion.decision, nil, wrapper_tag: 'span')
+      - if discussion.newest_proposal_or_opinion.present?
+        %hr
+        %p
+          .media
+            .media-left.media-top
+              = user_byline discussion.newest_proposal_or_opinion.user, true
+            .media-body
+              .media-head.text-muted
+                = discussion.newest_proposal_or_opinion.user.nickname
+                %i.fa.fa-clock-o
+                = date_f discussion.newest_proposal_or_opinion.created_at
+              .discussion__newest_proposal_or_opinion__body
+                - if discussion.newest_proposal_or_opinion.is_a?(Proposal)
+                  %strong(style='margin-right: 5px')
+                    제안
+                    %span.label.label-default>
+                      = discussion.newest_proposal_or_opinion.sequential_id
+                = smart_body(discussion.newest_proposal_or_opinion.body, nil, wrapper_tag: 'span')
+                %span(style='margin-left: 1em;')
+
 

@@ -10,9 +10,9 @@
     %ul.list-group
       - @canoe.versions.reverse.each do |version|
         %li.list-group-item
+          = user_byline(User.find_by id: version.whodunnit)
           %i.fa.fa-clock-o
           = date_f version.created_at
-          = user_byline(User.find_by id: version.whodunnit)
           %p
             - version.changeset.each do |attribute, (from, to)|
               - if attribute == 'is_able_to_request_to_join'

@@ -42,8 +42,8 @@ class Discussion < ActiveRecord::Base
   end
 
   def newest_proposal_or_opinion
-    newest_proposal = proposals.newest
-    newest_opinion = opinions.newest
+    newest_proposal = proposals.by_day(discussed_at).newest
+    newest_opinion = opinions.by_day(discussed_at).newest
 
     return newest_opinion if newest_proposal.nil?
     return newest_proposal if newest_opinion.nil?
