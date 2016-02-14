@@ -1,5 +1,7 @@
 Rails.application.config.to_prepare do
   User.class_eval do
+    cattr_accessor :skip_callbacks
+
     acts_as_reader
     acts_as_messageable
 
@@ -18,7 +20,7 @@ Rails.application.config.to_prepare do
     end
     has_many :joined_proposals, class_name: Proposal, through: :joined_canoes, source: :proposals
 
-    after_create :set_invitation
+    after_create :set_invitation, unless: :skip_callbacks
 
     def touch_home
       self.home_visited_at = DateTime.now

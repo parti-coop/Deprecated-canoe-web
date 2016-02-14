@@ -1,6 +1,6 @@
 class Discussion < ActiveRecord::Base
   include PublicActivity::Model
-  include DiscussionActivityTraking
+  include CanoeTimestampable
 
   acts_as_paranoid
   acts_as_sequenced scope: :canoe_id
@@ -25,7 +25,7 @@ class Discussion < ActiveRecord::Base
   validates :canoe, presence: true
 
   cattr_accessor :skip_callbacks
-  before_save :set_discussed_at, unless: :skip_callbacks
+  before_create :init_discussed_at, unless: :skip_callbacks
 
   scope :valid_parent, -> { joins(:canoe) }
   scope :persisted, -> { where "id IS NOT NULL" }
@@ -34,8 +34,16 @@ class Discussion < ActiveRecord::Base
   scoped_search in: :proposals, on: %w(body)
   accepts_nested_attributes_for :opinions
 
-  def set_discussed_at
+  def init_discussed_at
     self.discussed_at = DateTime.now
+  end
+
+  def discussion
+    self
+  end
+
+  def last_activity
+    activities.newest
   end
 
   def activities_merged

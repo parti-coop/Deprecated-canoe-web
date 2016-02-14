@@ -3,9 +3,10 @@ class AddSequentialIdToProposals < ActiveRecord::Migration
     add_column :proposals, :sequential_id, :integer
     reversible do |dir|
       dir.up do
+        Discussion.skip_callbacks = true
+        Canoe.skip_callbacks = true
+        User.skip_callbacks = true
         Proposal.order(id: :asc).each do |proposal|
-          proposal.skip_setting_discussed_at = true
-          proposal.skip_setting_sailed_at = true
           proposal.set_sequential_id
           proposal.save!
         end

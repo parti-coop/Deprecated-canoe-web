@@ -1,18 +1,21 @@
 class Opinion < ActiveRecord::Base
   acts_as_paranoid
-  include DiscussionComponent
+  include CanoeTimestampable
 
   belongs_to :user
+  belongs_to :discussion
+  has_one :canoe, through: :discussion
   has_many :mentions
   has_many :reactions
-  before_save :set_mentions
   has_many :attachments, as: :attachable
-
-  default_scope { order("created_at DESC") }
   accepts_nested_attributes_for :attachments
 
-  validates :body, presence: true
+  before_save :set_mentions
+
+  default_scope { order("created_at DESC") }
   scoped_search on: %w(body)
+
+  validates :body, presence: true
 
   private
 
