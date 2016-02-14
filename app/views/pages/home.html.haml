@@ -23,10 +23,11 @@
 
 %section.bs-component(style='margin-top: 25px;')
   .container
-    .swiper-container(style='padding: 0 80px;')
-      .swiper-wrapper
-        - @canoes.each do |canoe|
-          .swiper-slide= render canoe
+    %div(style='position: relative; padding: 0 4em;')
+      .swiper-container
+        .swiper-wrapper
+          - @canoes.each do |canoe|
+            .swiper-slide= render canoe
       .swiper-button-prev
       .swiper-button-next
     - if @discussions.try(:any?)

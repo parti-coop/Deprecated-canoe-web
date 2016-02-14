@@ -16,11 +16,17 @@ $(document).on('change', '.btn-file :file', function() {
 
 $(document).on('ready', function(e) {
   var mySwiper = new Swiper ('.swiper-container', {
-    slidesPerView: 2,
-    spaceBetween: 80,
-    paginationClickable: true,
+    spaceBetween: 40,
+    slidesPerView: 3,
     nextButton: '.swiper-button-next',
     prevButton: '.swiper-button-prev',
+    breakpoints: {
+      // when window width is <= 480px
+      480: {
+        slidesPerView: 1,
+        spaceBetweenSlides: 20
+      }
+    },
     loop: true
   });
   $('[data-toggle="tooltip"]').tooltip();

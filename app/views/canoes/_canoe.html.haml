@@ -2,7 +2,7 @@
   = link_to canoe_home_path(canoe), class: 'canoe__logo', style: "background-image: url(#{canoe.logo_url});" do
     = canoe.title
   .caption
-    %h3= link_to canoe.title, canoe_home_path(canoe)
+    %strong= link_to canoe.title, canoe_home_path(canoe)
     %hr
     %ul.canoe__count.list-inline.text-muted
       %li

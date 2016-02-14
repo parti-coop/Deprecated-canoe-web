@@ -7,29 +7,28 @@
         %div(style='position: absolute; right: 0')
           = link_to new_canoe_discussion_path(@canoe), class: 'btn btn-primary' do
             %i.fa.fa-edit
-            논의 열기
+            논의열기
       - if !@canoe.crew?(current_user) and !@canoe.invited?(current_user)
         - if @canoe.is_able_to_request_to_join?
           - if @canoe.request_to_join?(current_user)
             %div(style='position: absolute; right: 0')
               %button.btn.btn-danger.disabled
                 %i.fa.fa-sign-in
-                가입요청 중
+                가입대기
           - else
             %div(style='position: absolute; right: 0')
               = link_to ask_canoe_request_to_joins_path(canoe_id: @canoe), method: :post, class: 'btn btn-danger' do
                 %i.fa.fa-sign-in
                 가입하기
       %ul.nav.nav-tabs
-        %li.text-center(role="presentation" class="active" style="width: 30%")
+        %li.text-center(role="presentation" class="active" style="min-width: 30%")
           %a(href="#discussions" role="tab" data-toggle="tab")
             %i.fa.fa-flag
             논의
-        %li.text-center(role="presentation" style="width: 30%")
+        %li.text-center(role="presentation" style="min-width: 30%")
           %a(href="#crews" role="tab" data-toggle="tab")
             %i.fa.fa-users
             회원
-            %span.badge= @canoe.crews.count
     .tab-content(style='margin-top: 20px;')
       .tab-pane.active#discussions(role="tabpanel")
         .panel.panel-default
