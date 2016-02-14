@@ -5,6 +5,7 @@
 //= require webui-popover
 //= require iamphill-bootstrap-offcanvas/js/bootstrap.offcanvas
 //= require jquery-oembed-all/jquery.oembed
+//= require swiper/swiper.jquery
 
 $(document).on('change', '.btn-file :file', function() {
   var input = $(this),
@@ -14,6 +15,14 @@ $(document).on('change', '.btn-file :file', function() {
 });
 
 $(document).on('ready', function(e) {
+  var mySwiper = new Swiper ('.swiper-container', {
+    slidesPerView: 2,
+    spaceBetween: 80,
+    paginationClickable: true,
+    nextButton: '.swiper-button-next',
+    prevButton: '.swiper-button-prev',
+    loop: true
+  });
   $('[data-toggle="tooltip"]').tooltip();
   $('[data-toggle="webui-popover"]').webuiPopover();
   $('[data-toggle="canoe-toggle"]').on('click', function(e) {

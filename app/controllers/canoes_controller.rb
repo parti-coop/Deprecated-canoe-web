@@ -10,7 +10,7 @@ class CanoesController < ApplicationController
       @canoes = Canoe.all
     else
       authenticate_user!
-      @canoes = current_user.crewing_canoes
+      @canoes = current_user.joined_canoes
     end
 
     @canoes = @canoes.page(params[:page])

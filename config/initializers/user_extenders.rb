@@ -7,8 +7,8 @@ Rails.application.config.to_prepare do
     has_many :canoes
     has_many :invitations
     has_many :invited_canoes, class_name: Canoe, through: :invitations, source: :canoe
-    has_many :crewing_canoes, class_name: Canoe, through: :crews, source: :canoe
-    has_many :crewing_discussions, class_name: Discussion, through: :crewing_canoes, source: :discussions do
+    has_many :joined_canoes, class_name: Canoe, through: :crews, source: :canoe
+    has_many :joined_discussions, class_name: Discussion, through: :joined_canoes, source: :discussions do
       def read
         self.read_by(proxy_association.owner)
       end
@@ -16,7 +16,7 @@ Rails.application.config.to_prepare do
         self.unread_by(proxy_association.owner)
       end
     end
-    has_many :crewing_proposals, class_name: Proposal, through: :crewing_canoes, source: :proposals
+    has_many :joined_proposals, class_name: Proposal, through: :joined_canoes, source: :proposals
 
     after_create :set_invitation
 

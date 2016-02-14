@@ -2,7 +2,7 @@
   - if @discussion.canoe.nil?
     .form-group
       = f.label :canoe_id
-      = f.collection_select :canoe_id, current_user.crewing_canoes, :id, :title, {prompt: '카누를 선택해 주세요'}, {class: 'form-control'}
+      = f.collection_select :canoe_id, current_user.joined_canoes, :id, :title, {prompt: '카누를 선택해 주세요'}, {class: 'form-control'}
   .form-group
     = f.label :subject
     = f.text_field :subject, class: 'form-control'

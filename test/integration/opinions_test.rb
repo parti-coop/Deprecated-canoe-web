@@ -3,12 +3,14 @@ require 'test_helper'
 class OpinionsTest < ActionDispatch::IntegrationTest
   test 'create' do
     previous_discussed_at = discussions(:discussion1).discussed_at
+    previous_sailed_at = discussions(:discussion1).canoe.sailed_at
     sign_in users(:one)
     post discussion_opinions_path(discussion_id: discussions(:discussion1).id, opinion: { body: 'test' } )
 
     assert_equal users(:one), assigns(:opinion).user
     assert_equal 'test', assigns(:opinion).body
     refute_equal previous_discussed_at, discussions(:discussion1).reload.discussed_at
+    refute_equal previous_sailed_at, discussions(:discussion1).canoe.reload.sailed_at
   end
 
   test 'activity' do

@@ -1,75 +1,42 @@
-= render 'intro'
+- unless user_signed_in?
+  = render 'intro'
 
 %section.bs-component
   .container
-    - if current_user.invited_canoes.any?
-      %h3
-        %i.fa.fa-cubes
-        초대 받은 카누
-      %p
-        @#{current_user.nickname}님을 초대하는 카누입니다.
-      .row
-        - current_user.invited_canoes.each do |canoe|
-          .col-sm-4.col-xs-6
-            = render canoe
-
-    - if current_user.invited_canoes.empty? and current_user.crewing_canoes.empty?
-      %h3
-        %i.fa.fa-cubes
-        내가 승선할 카누
-      %p
-        @#{current_user.nickname}님이 승선할 카누를 찾아 보세요.
-      = form_tag canoes_path, method: :get, class: 'form-inline', style: 'display: inline-block; margin-bottom: 20px' do
-        = hidden_field_tag :list, 'all'
-        .form-group(style='display: inline-block')
-          = text_field_tag :q, params[:q], class: 'form-control'
-        = submit_tag '찾기', class: 'btn btn-default'
-
-    - if @unread_discussions.try(:any?)
-      %h3
-        %i.fa.fa-comments
-        읽지 않은 논의
-        %strong= @unread_count
-        개
-      - @unread_discussions.group_by(&:canoe).each do |canoe, discussions|
-        .panel.panel-default
-          .panel-heading
-            = link_to canoe_home_path(canoe) do
-              = image_tag canoe.logo_url, class: 'img-thumbnail', style: 'width: 23px; height: 23px; margin-right: 1px;'
-              = canoe.title
-          %table.table
-            %tbody
-              = render discussions
-
-
-    - if @discussions.any?
-      %h3
-        %i.fa.fa-comments
-        최근 진행된 논의
-      - @discussions.group_by{|d| d.discussed_at.to_date}.each do |date, discussions_by_date|
-        %h4
-          %i.fa.fa-clock-o
-          = date
-        - discussions_by_date.group_by(&:canoe).each do |canoe, discussions|
-          .panel.panel-default
-            .panel-heading
-              = link_to canoe_home_path(canoe) do
-                = image_tag canoe.logo_url, class: 'img-thumbnail', style: 'width: 23px; height: 23px; margin-right: 1px;'
-                = canoe.title
-            %table.table
-              %tbody
-                = render discussions
-
-    - if @other_discussions.any?
-      %h3
-        %i.fa.fa-comments
-        다른 카누에서 진행 중인 논의
-      - @other_discussions.group_by(&:canoe).each do |canoe, discussions|
-        .panel.panel-default
-          .panel-heading
-            = link_to canoe_home_path(canoe) do
-              = image_tag canoe.logo_url, class: 'img-thumbnail', style: 'width: 23px; height: 23px; margin-right: 1px;'
-              = canoe.title
-          %table.table
-            %tbody
-              = render discussions
+    - if current_user.joined_canoes.empty?
+      .jumbotron
+        %h2
+          카누를 타고 산으로 갑시다!
+        %p
+          %strong #{Canoe.count}
+          개의 카누를,
+          %strong #{User.count}
+          명이 나눠 타고 산으로 가고 있습니다.
+          %br
+          찾고 싶은 카누가 있으세요?
+        .text-center
+          = form_tag search_canoes_path, method: :get, class: 'form-inline', style: 'margin-top: 20px' do
+            .form-group
+              = text_field_tag :q, params[:q], class: 'form-control', style: 'width: 25em;'
+            = submit_tag '찾기', class: 'btn btn-default'
+    .swiper-container(style='padding: 0 80px;')
+      .swiper-wrapper
+        - @canoes.each do |canoe|
+          .swiper-slide= render canoe
+      .swiper-button-prev
+      .swiper-button-next
+    - if @discussions.try(:any?)
+      %hr
+      .panel.panel-default
+        .panel-heading
+          %h4.text-muted
+            %i.fa.fa-flag
+            최근 논의
+        %ul.list-group
+          - @discussions.each do |discussion|
+            %li.list-group-item
+              %small
+                = link_to canoe_home_path(discussion.canoe) do
+                  = image_tag discussion.canoe.logo_url, style: 'width: 13px; height: 13px; margin-right: 1px; border: 1px solid #efefef;'
+                  = discussion.canoe.title
+              = render discussion

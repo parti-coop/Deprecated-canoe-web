@@ -9,12 +9,13 @@ class DiscussionsController < ApplicationController
 
   def index
     limit = 30
-    crewing_discussions = current_user.crewing_discussions
-
-    @unread_count = current_user.crewing_discussions.unread_by(current_user).count
-    fetch_unread_discussions
-    fetch_read_discussions(limit)
-    fetch_other_discussions(limit)
+    if user_signed_in?
+      @discussions = current_user.joined_discussions.read_by(current_user).order(discussed_at: :desc).first(limit)
+      @canoes = current_user.joined_canoes
+      if @canoes.empty?
+        @canoes = Canoe.limit(20)
+      end
+    end
   end
 
   def show
@@ -78,18 +79,6 @@ class DiscussionsController < ApplicationController
   end
 
   private
-
-  def fetch_read_discussions(limit)
-    @discussions = current_user.crewing_discussions.read_by(current_user).order(discussed_at: :desc).first(limit)
-  end
-
-  def fetch_unread_discussions
-    @unread_discussions = current_user.crewing_discussions.unread_by(current_user).order(discussed_at: :desc)
-  end
-
-  def fetch_other_discussions(limit)
-    @other_discussions = Discussion.joins(:canoe).where.not(canoe: current_user.crewing_canoes).order(discussed_at: :desc).first(limit)
-  end
 
   def create_params
     params.require(:discussion).permit(:subject, :canoe_id, opinions_attributes: [ :body ])

@@ -43,6 +43,7 @@ gem 'haml-rails', '~> 0.9.0'
 source 'https://rails-assets.org' do
   gem 'rails-assets-trianglify'
   gem 'rails-assets-webui-popover'
+  gem 'rails-assets-swiper'
 end
 
 # tools

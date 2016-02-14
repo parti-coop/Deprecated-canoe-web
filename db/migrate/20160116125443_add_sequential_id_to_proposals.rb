@@ -5,6 +5,7 @@ class AddSequentialIdToProposals < ActiveRecord::Migration
       dir.up do
         Proposal.order(id: :asc).each do |proposal|
           proposal.skip_setting_discussed_at = true
+          proposal.skip_setting_sailed_at = true
           proposal.set_sequential_id
           proposal.save!
         end

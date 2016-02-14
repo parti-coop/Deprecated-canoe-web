@@ -32,8 +32,15 @@ class Canoe < ActiveRecord::Base
     uniqueness: { case_sensitive: true },
     length: { maximum: 100 }
 
-  scope :latest, -> { order(id: :desc) }
+  cattr_accessor :skip_callbacks
+  before_save :set_sailed_at, unless: :skip_callbacks
+
+  default_scope -> { order(sailed_at: :desc)}
   scoped_search on: %w(title theme slug)
+
+  def set_sailed_at
+    self.sailed_at = DateTime.now
+  end
 
   def captain?(someone)
     user == someone

@@ -23,8 +23,10 @@ class Discussion < ActiveRecord::Base
   has_many :attachments, as: :attachable
 
   validates :canoe, presence: true
+
   cattr_accessor :skip_callbacks
   before_save :set_discussed_at, unless: :skip_callbacks
+
   scope :valid_parent, -> { joins(:canoe) }
   scoped_search on: %w(subject decision)
   scoped_search in: :opinions, on: %w(body)
@@ -42,12 +44,16 @@ class Discussion < ActiveRecord::Base
   end
 
   def newest_proposal_or_opinion
-    newest_proposal = proposals.by_day(discussed_at).newest
-    newest_opinion = opinions.by_day(discussed_at).newest
+    newest_proposal = proposals.newest
+    newest_opinion = opinions.newest
 
     return newest_opinion if newest_proposal.nil?
     return newest_proposal if newest_opinion.nil?
     (newest_proposal.created_at > newest_opinion.created_at) ? newest_proposal : newest_opinion
+  end
+
+  def updated_decision?
+    activities.today.where(key: 'discussion.decision', task: 'update').any?
   end
 
   private

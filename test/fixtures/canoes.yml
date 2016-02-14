@@ -4,3 +4,5 @@ canoe1:
   theme: 'canoe1 theme'
   slug: canoe1
   is_able_to_request_to_join: true
+  sailed_at: <%= 5.day.ago.to_s(:db) %>
+
