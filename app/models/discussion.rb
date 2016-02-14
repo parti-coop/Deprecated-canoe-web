@@ -39,7 +39,7 @@ class Discussion < ActiveRecord::Base
   end
 
   def activities_merged
-    Hash[activities.order(created_at: :desc)
+    Hash[activities.order(created_at: :asc)
       .slice_when{ |a, b| !meargable_in_timeline?(a, b) }
       .map { |chunk| [chunk.first, zip_activities(chunk)] }]
   end

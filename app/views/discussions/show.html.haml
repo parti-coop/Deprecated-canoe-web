@@ -31,22 +31,49 @@
     = render 'decision'
 
     %h4
-      %i.fa.fa-rocket
-      제안
-    #proposals.clearfix(style='margin: 20px 0;')
-      - if @discussion.proposals.any?
-        %ul.list-group
-          - @discussion.proposals.order_by_in_favor_votes_count.latest.each do |proposals|
-            = render proposals
-      - else
-        .canoe-toggle-item
+      %ul.nav.nav-tabs.nav-justified
+        %li(role="presentation" class="active")
+          %a#opinions-tab(href="#opinions" role="tab" data-toggle="tab")
+            %i.fa.fa-comments
+            의견
+        %li(role="presentation")
+          %a#proposals-tab(href="#proposals" role="tab" data-toggle="tab")
+            %i.fa.fa-rocket
+            제안
+            - if @discussion.proposals.count != 0
+              %span.badge= @discussion.proposals.count
+    .tab-content(style='margin-top: 20px;')
+      .tab-pane.active#opinions(role="tabpanel")
+        %ul.media-list
+          = render partial: 'public_activity/collection', locals: { discussion: @discussion }
+          - if can? :update, @discussion
+            %li.media.timeline.timeline-opinion
+              .media-left
+                %a{:href => "#"}
+                  = image_tag current_user.image_url, class: 'media-object img-circle', style: 'width:64px;height:64px;'
+              .media-body
+                = form_for [@discussion, Opinion.new] do |f|
+                  .form-group
+                    = f.text_area :body, class: 'form-control', style: "width: 100%; height: 100px; border-bottom-right-radius: 0; border-bottom-left-radius: 0;", placeholder: '내 의견은...'
+                    .clearfix(style="background-color: #efefef; border: 1px solid #ccc; border-top: none; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; padding: 10px 0;")
+                      .pull-left.text-center(style='width: 10%')
+                        %button.btn-file.btn-link
+                          = f.fields_for 'attachments_attributes[]', f.object.attachments.build do |f_attachment|
+                            = f_attachment.file_field :source, data: {list: '#opinions__files'}
+                          %i.fa.fa-upload.text-muted
+                      %ul.pull-left.list-inline#opinions__files(style='margin-bottom: 0; margin-left: 0; width: 90%;')
+                  .form-group.pull-right
+                    = f.submit '의견올리기', class: 'btn btn-default'
+
+      .tab-pane#proposals.clearfix(role="tabpanel" style='margin: 20px 0;')
+        - if @discussion.proposals.any?
+          %ul.list-group
+            - @discussion.proposals.order_by_in_favor_votes_count.latest.each do |proposals|
+              = render proposals
+        - else
           %strong
             아직 제안이 없습니다.
-      - if can? :update, @discussion
-        .canoe-toggle-item.pull-right
-          %button.btn.btn-default(role="button" data-toggle="canoe-toggle" data-parent="#proposals" data-focus="#proposal_body")
-            제안 작성하기 >>
-        .canoe-toggle-item.hidden
+        - if can? :update, @discussion
           = form_for [@discussion, @discussion.proposals.build] do |f|
             .form-group
               = f.text_area :body, autofocus: true, class: 'form-control', style: "width: 100%; height: 60px; border-bottom-right-radius: 0; border-bottom-left-radius: 0;", placeholder: '내 제안은...'
@@ -58,48 +85,5 @@
                     %i.fa.fa-upload.text-muted
                 %ul.pull-left.list-inline#proposals__files(style='margin-bottom: 0; margin-left: 0; width: 90%;')
             .form-group.text-right
-              %a.text-muted(role="button" data-toggle="canoe-toggle" href="#" data-parent="#proposals" style="margin-right: 20px;") 취소
-              = f.submit '제안올리기', class: 'btn btn-primary'
+              = f.submit '제안올리기', class: 'btn btn-default'
 
-
-.bs-component(style='background-color: #efefef; padding-top: 50px; padding-bottom: 50px; margin-bottom: 50px; margin-top: 20px;')
-  .container
-    %ul.media-list
-      - if can? :update, @discussion
-        %li.media.timeline.timeline-opinion
-          .media-left
-            %a{:href => "#"}
-              = image_tag current_user.image_url, class: 'media-object img-circle', style: 'width:64px;height:64px;'
-          .media-body
-            = form_for [@discussion, Opinion.new] do |f|
-              .form-group
-                = f.text_area :body, class: 'form-control', style: "width: 100%; height: 100px; border-bottom-right-radius: 0; border-bottom-left-radius: 0;", placeholder: '내 의견은...'
-                .clearfix(style="background-color: #efefef; border: 1px solid #ccc; border-top: none; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; padding: 10px 0;")
-                  .pull-left.text-center(style='width: 10%')
-                    %button.btn-file.btn-link
-                      = f.fields_for 'attachments_attributes[]', f.object.attachments.build do |f_attachment|
-                        = f_attachment.file_field :source, data: {list: '#opinions__files'}
-                      %i.fa.fa-upload.text-muted
-                  %ul.pull-left.list-inline#opinions__files(style='margin-bottom: 0; margin-left: 0; width: 90%;')
-              .form-group.pull-right
-                = f.submit '의견올리기', class: 'btn btn-default'
-
-      = render partial: 'public_activity/collection', locals: { discussion: @discussion }
-
-    %hr
-
-.bs-component
-  .container
-    .panel.panel-default
-      .panel-heading
-        %h4.text-muted
-          %i.fa.fa-flag
-          논의
-          - if can?(:update, @canoe)
-            %small.pull-right
-              = link_to new_canoe_discussion_path(@canoe), class: 'btn btn-xs btn-success' do
-                %i.fa.fa-edit
-                논의 시작하기
-      %table.table
-        %tbody
-          = render @canoe.discussions.order("updated_at DESC")

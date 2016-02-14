@@ -45,7 +45,7 @@ module Messaging
       accept: "@<%= current_user.nickname %>님이 '<%= link_to_canoe_title(object.canoe) %>' 카누 초대를 승락했습니다.",
     },
     crews: {
-      destroy: "@<%= current_user.nickname %>님이 '<%= link_to_canoe_title(object.canoe) %>' 카누에서 하선했습니다.",
+      destroy: "@<%= current_user.nickname %>님이 '<%= link_to_canoe_title(object.canoe) %>' 카누에서 탈퇴했습니다.",
     }
   }
   BODY_TEMPLATE_FOR_THE_CONCERNED = {

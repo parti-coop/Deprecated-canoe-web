@@ -65,7 +65,7 @@ $(document).on('ready', function(e) {
           content += '</div>';
           content += '</div>';
 
-          $(content).appendTo($stage);
+          $(content).appendTo($image_stage);
         });
       }
 
@@ -104,5 +104,10 @@ $(document).on('ready', function(e) {
     $target.hide();
     $target.data('filenum', nums);
   });
+  $("a[data-tab-destination]").on('click', function() {
+    var tab = $(this).attr('data-tab-destination');
+    $("#"+tab).click();
+  });
   $('.pattern-trianglify').css("background-image", "url('" + pattern.png() + "')");
+
 });

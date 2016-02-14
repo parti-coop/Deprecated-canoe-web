@@ -87,17 +87,23 @@ module SlackPushing
       discussion = opinion.discussion
       title = "@#{current_user.nickname}님이 의견을 지웠습니다."
       body = "#{opinion.body}\n논의: [#{discussion.subject}](#{view_context.discussion_home_url discussion})"
-    when "votes#in_favor", "votes#opposed"
+    when "votes#in_favor"
       vote = object
       proposal = vote.proposal
       discussion = proposal.discussion
-      title = "@#{current_user.nickname}님이 #{proposal.body} 제안에 투표합니다."
+      title = "@#{current_user.nickname}님이 #{proposal.body} 제안에 '좋아요'합니다."
+      body = "논의: [#{discussion.subject}](#{view_context.discussion_home_url discussion})"
+    when "votes#opposed"
+      vote = object
+      proposal = vote.proposal
+      discussion = proposal.discussion
+      title = "@#{current_user.nickname}님이 #{proposal.body} 제안에 '안돼요'합니다."
       body = "논의: [#{discussion.subject}](#{view_context.discussion_home_url discussion})"
     when "votes#unvote"
       vote = object
       proposal = vote.proposal
       discussion = proposal.discussion
-      title = "@#{current_user.nickname}님이 #{proposal.body} 제안에 투표철회합니다."
+      title = "@#{current_user.nickname}님이 #{proposal.body} 제안에 입장을 철회합니다."
       body = "논의: [#{discussion.subject}](#{view_context.discussion_home_url discussion})"
     when "request_to_joins#ask"
       request_to_join = object
@@ -127,7 +133,7 @@ module SlackPushing
     when "crews#destroy"
       crew = object
       canoe = crew.canoe
-      title = "@#{current_user.nickname}님이 '#{canoe.title}' 카누에서 하선합니다."
+      title = "@#{current_user.nickname}님이 '#{canoe.title}' 카누에서 탈퇴합니다."
       body = "[#{canoe.title}](#{view_context.canoe_home_url canoe}) >>> #{canoe.theme}"
     else
       return nil

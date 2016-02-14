@@ -68,7 +68,7 @@
                   가입요청
                   %span.badge #{@canoe.request_to_joins.count}
               - if @canoe.crew?(current_user) and !@canoe.captain?(current_user)
-                = link_to canoe_crews_me_path(@canoe), method: :delete,  data: { confirm: '정말 하선하시겠습니까?'}, class: 'btn btn-primary btn-xs' do
+                = link_to canoe_crews_me_path(@canoe), method: :delete,  data: { confirm: '정말 탈퇴하시겠습니까?'}, class: 'btn btn-primary btn-xs' do
                   %i.fa.fa-sign-out
                   탈퇴하기
           .panel-body

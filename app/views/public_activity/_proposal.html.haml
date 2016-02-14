@@ -1,4 +1,4 @@
-= link_to "#proposal-#{subject.sequential_id}", style: 'color: inherit; text-decoration: none' do
+= link_to "#proposal-#{subject.sequential_id}", data: { 'tab-destination': 'proposals-tab'}, style: 'color: inherit; text-decoration: none' do
   %i.fa.fa-rocket
   제안#{subject.sequential_id}
   %strong
@@ -8,9 +8,9 @@
 - has_create_or_update = activities.any? { |activity| %(create update).include? activity.task}
 - [nil, activities].flatten.each_cons(2).to_a.each_with_index do |(previous, activity), index|
   - what = case activity.task
-  - when 'vote.in_favor'      then "#{'곧바로' if previous.try(:measure_type) == Vote.to_s} 좋아요에 투표"
-  - when 'vote.opposed'       then "#{'곧바로' if previous.try(:measure_type) == Vote.to_s} 안돼요에 투표"
-  - when 'vote.unvote'        then "#{'곧바로' if previous.try(:measure_type) == Vote.to_s} 투표 취소"
+  - when 'vote.in_favor'      then "#{'곧바로' if previous.try(:measure_type) == Vote.to_s} 좋아요를 선택"
+  - when 'vote.opposed'       then "#{'곧바로' if previous.try(:measure_type) == Vote.to_s} 안돼요를 선택"
+  - when 'vote.unvote'        then "#{'곧바로' if previous.try(:measure_type) == Vote.to_s} 입장을 취소"
   - when 'create'             then '새로 작성'
   - when 'update'
     - proposal_body = activity.parameters.fetch(:proposal_body, nil)
