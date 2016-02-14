@@ -1,15 +1,20 @@
 one:
   email: 'one@gmail.com'
   nickname: 'nick1'
+  home_visited_at: <%= 5.day.ago.to_s(:db) %>
 two:
   email: 'two@gmail.com'
   nickname: 'nick2'
+  home_visited_at: <%= 5.day.ago.to_s(:db) %>
 crew:
   email: 'crew@gmail.com'
   nickname: 'crew_nick'
+  home_visited_at: <%= 5.day.ago.to_s(:db) %>
 visitor:
   email: 'visitor@gmail.com'
   nickname: 'visitor_nick'
+  home_visited_at: <%= 5.day.ago.to_s(:db) %>
 guest:
   email: 'guest@gmail.com'
   nickname: 'guest_nick'
+  home_visited_at: <%= 5.day.ago.to_s(:db) %>

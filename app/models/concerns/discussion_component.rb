@@ -3,18 +3,28 @@ module DiscussionComponent
 
   attr_accessor(:skip_setting_discussed_at)
   attr_accessor(:skip_setting_sailed_at)
+  attr_accessor(:skip_setting_home_visited_at)
 
   included do
     belongs_to :discussion
     has_one :canoe, through: :discussion
-    after_save :set_discussed_at
-    after_destroy :set_discussed_at
-    after_save :set_sailed_at
-    after_destroy :set_sailed_at
+    after_save :set_canoe_timestamps
+    after_destroy :set_canoe_timestamps
   end
 
 
   private
+
+  def set_canoe_timestamps
+    if self.user.updated_home?
+      set_discussed_at
+    else
+      set_discussed_at
+      set_home_visited_at
+    end
+
+    set_sailed_at
+  end
 
   def set_discussed_at
     return if skip_setting_discussed_at
@@ -28,4 +38,10 @@ module DiscussionComponent
     self.discussion.canoe.save!
   end
 
+  def set_home_visited_at
+    return if skip_setting_home_visited_at
+
+    self.user.touch_home
+    self.user.save!
+  end
 end

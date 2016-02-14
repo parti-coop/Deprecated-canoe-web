@@ -1,7 +1,4 @@
 Rails.application.routes.draw do
-  authenticated :user do
-    root 'discussions#index', as: :authenticated_root
-  end
   root 'pages#home'
 
   scope :app do

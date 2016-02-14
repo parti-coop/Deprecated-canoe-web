@@ -16,18 +16,16 @@
   %nav.navbar.navbar-default.navbar-fixed-top
     .container
       .navbar-header.navbar-left.pull-left
-        - unless user_signed_in?
+        - if !user_signed_in?
           %a.navbar-brand{ href: root_path }
             %strong
               canoe
-            - if user_signed_in? and current_user.joined_discussions.unread.any?
-              %span.badge.badge-default= current_user.joined_discussions.unread.count
-        - if user_signed_in?
+        - else
           %ul.nav.navbar-nav(style="margin-left: 5px")
             %li.pull-left
               = link_to root_path do
                 %i.fa.fa-home(style='font-size: 120%;')
-                - if user_signed_in? and ( current_user.joined_discussions.unread.any? or current_user.invited_canoes.any? )
+                - if current_user.updated_home?
                   %i.fa.fa-circle.text-danger(style='font-size: 70%; position: absolute; top: 0.7em; left: 2.7em;')
             %li.dropdown.pull-left
               %a.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button" }

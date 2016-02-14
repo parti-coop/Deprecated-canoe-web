@@ -7,17 +7,6 @@ class DiscussionsController < ApplicationController
   load_and_authorize_resource :canoe
   load_and_authorize_resource :discussion, through: :canoe, shallow: true
 
-  def index
-    limit = 30
-    if user_signed_in?
-      @discussions = current_user.joined_discussions.read_by(current_user).order(discussed_at: :desc).first(limit)
-      @canoes = current_user.joined_canoes
-      if @canoes.empty?
-        @canoes = Canoe.limit(20)
-      end
-    end
-  end
-
   def show
     redirect_to short_discussion_path(@discussion.canoe.slug, @discussion.sequential_id)
   end

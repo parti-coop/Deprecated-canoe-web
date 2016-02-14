@@ -1,9 +1,46 @@
-= render 'intro'
+- if !user_signed_in? or current_user.joined_canoes.empty?
+  %section.bs-component.pattern-trianglify{ style: 'background-size: cover; margin-top:-25px'}
+    .container
+      .jumbotron.jumbotron-transparent
+        %h2
+          %strong 카누
+        %p
+          %strong{ style: 'border-bottom: 2px solid #666'} #{Canoe.count}
+          개의 카누를,
+          %strong{ style: 'border-bottom: 2px solid #666'} #{User.count}
+          명이 나눠 타고 산으로 갑니다.
+        %p
+          = link_to '카누는 왜 만들었을까요?', 'https://github.com/parti-xyz/canoe-web/wiki', target: '_blank', class: 'btn btn-danger btn-lg'
+          = link_to new_canoe_path, class: 'btn btn-primary' do
+            %i.fa.fa-cube
+            카누 바로 만들기
+        %p
+          찾고 싶은 카누가 있으세요?
+          = form_tag search_canoes_path, method: :get, class: 'form-inline', style: 'margin-top: 20px' do
+            .form-group
+              = text_field_tag :q, params[:q], placeholder: '검색어를 넣어주세요', class: 'form-control', style: 'width: 25em;'
+            = submit_tag '찾기', class: 'btn btn-default'
 
-%section.bs-component
+%section.bs-component(style='margin-top: 25px;')
   .container
-    %h3 모든 카누
-    .row
-      - @canoes.each do |canoe|
-        .col-sm-4
-          = render canoe
+    .swiper-container(style='padding: 0 80px;')
+      .swiper-wrapper
+        - @canoes.each do |canoe|
+          .swiper-slide= render canoe
+      .swiper-button-prev
+      .swiper-button-next
+    - if @discussions.try(:any?)
+      %hr
+      .panel.panel-default
+        .panel-heading
+          %h4.text-muted
+            %i.fa.fa-flag
+            최근 논의
+        %ul.list-group
+          - @discussions.each do |discussion|
+            %li.list-group-item
+              %small
+                = link_to canoe_home_path(discussion.canoe) do
+                  = image_tag discussion.canoe.logo_url, style: 'width: 13px; height: 13px; margin-right: 1px; border: 1px solid #efefef;'
+                  = discussion.canoe.title
+              = render discussion

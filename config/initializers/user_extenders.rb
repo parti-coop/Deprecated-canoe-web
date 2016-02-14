@@ -20,6 +20,15 @@ Rails.application.config.to_prepare do
 
     after_create :set_invitation
 
+    def touch_home
+      self.home_visited_at = DateTime.now
+    end
+
+    def updated_home?
+      return false if joined_discussions.empty?
+      home_visited_at < joined_discussions.maximum(:discussed_at)
+    end
+
     private
 
     def set_invitation

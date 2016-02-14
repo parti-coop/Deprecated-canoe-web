@@ -23,7 +23,7 @@ class InvitationsTest < ActionDispatch::IntegrationTest
     sign_in users(:one)
     post canoe_invitations_path(canoe_id: canoes(:canoe1), invitation: { user_key: 'anonymous@test.com' })
 
-    anonymous = User.create(nickname: 'anonymous', email: 'anonymous@test.com')
+    anonymous = User.create(nickname: 'anonymous', email: 'anonymous@test.com', home_visited_at: DateTime.now)
     refute canoes(:canoe1).crew?(anonymous)
     assert canoes(:canoe1).invited?(anonymous)
   end
