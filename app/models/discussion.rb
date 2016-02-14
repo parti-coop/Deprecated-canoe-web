@@ -43,9 +43,14 @@ class Discussion < ActiveRecord::Base
       .map { |chunk| [chunk.first, zip_activities(chunk)] }]
   end
 
-  def newest_proposal_or_opinion
-    newest_proposal = proposals.newest
-    newest_opinion = opinions.newest
+  def newest_proposal_or_opinion(q = nil)
+    if q.present?
+      newest_proposal = proposals.search_for(q).newest
+      newest_opinion = opinions.search_for(q).newest
+    else
+      newest_proposal = proposals.newest
+      newest_opinion = opinions.newest
+    end
 
     return newest_opinion if newest_proposal.nil?
     return newest_proposal if newest_opinion.nil?

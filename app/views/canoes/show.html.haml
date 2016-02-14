@@ -14,8 +14,7 @@
                 논의 시작하기
       %ul.list-group
         - @canoe.discussions.order(discussed_at: :desc).each do |discussion|
-          %li.list-group-item
-            = render discussion
+          = render discussion
     .panel.panel-default
       .panel-heading
         %h4.text-muted

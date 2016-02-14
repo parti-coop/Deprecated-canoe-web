@@ -38,9 +38,4 @@
             최근 논의
         %ul.list-group
           - @discussions.each do |discussion|
-            %li.list-group-item
-              %small
-                = link_to canoe_home_path(discussion.canoe) do
-                  = image_tag discussion.canoe.logo_url, style: 'width: 13px; height: 13px; margin-right: 1px; border: 1px solid #efefef;'
-                  = discussion.canoe.title
-              = render discussion
+            = render discussion, { show_canoe: true }

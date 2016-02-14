@@ -32,47 +32,10 @@
       - if @discussions_on_current_page.any?
         .row
           .col-xs-12
-            - @discussions_on_current_page.group_by(&:canoe).each do |canoe, discussions|
-              - discussions.each do |discussion|
-                .panel.panel-default
-                  .panel-heading.text-muted
-                    = image_tag canoe.logo_url, class: 'img-thumbnail', style: 'width: 23px; height: 23px; margin-right: 1px;'
-                    = link_to canoe.title, canoe_home_path(canoe)
-                  - opinions = discussion.opinions.search_for(params[:q])
-                  - proposals = discussion.proposals.search_for(params[:q])
-                  %table.table
-                    = render discussion
-                    - if opinions.any? or proposals.any?
-                      %tr(id='#{dom_id(discussion)}_search')
-                        %td
-                          - if proposals.any?
-                            %h5.text-muted
-                              %i.fa.fa-rocket
-                              제안
-                            - proposals.each do |proposal|
-                              .media
-                                .media-left.media-top
-                                  = user_byline proposal.user, true
-                                .media-body
-                                  .media-head.text-muted
-                                    = proposal.user.nickname
-                                    %i.fa.fa-clock-o
-                                    = date_f proposal.created_at
-                                  .proposal__body= proposal.body
-                          - if opinions.any?
-                            %h5.text-muted
-                              %i.fa.fa-comment
-                              의견
-                            - opinions.each do |opinion|
-                              .media
-                                .media-left.media-top
-                                  = user_byline opinion.user, true
-                                .media-body
-                                  .media-head.text-muted
-                                    = opinion.user.nickname
-                                    %i.fa.fa-clock-o
-                                    = date_f opinion.created_at
-                                  .opinion__body= opinion.body
+            .panel.panel-default
+              %ul.list-group
+                - @discussions_on_current_page.each do |discussion|
+                  = render discussion, { show_canoe: true }
         .row
           .col-xs-12.text-center
             = paginate @discussions_on_current_page, theme: 'twitter-bootstrap-3'
