@@ -10,7 +10,7 @@ class PagesController < ApplicationController
       current_user.save
     end
 
-    if @canoes.empty?
+    if @canoes
       @canoes = Canoe.limit(20)
     end
   end
