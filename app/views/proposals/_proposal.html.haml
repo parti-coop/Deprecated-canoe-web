@@ -91,7 +91,7 @@
           .row
             .col-xs-5
               %i.fa.fa-user
-              선원
+              회원
               #{proposal.votes.by_crews.in_favor.count}명
               (#{number_to_percentage proposal.in_favor_percentage_by_crews, precision: 0})
             .col-xs-7
@@ -117,7 +117,7 @@
           .row
             .col-xs-5
               %i.fa.fa-user
-              선원
+              회원
               #{proposal.votes.by_crews.opposed.count}명
             .col-xs-7
               - proposal.votes.by_crews.opposed.map do |v|

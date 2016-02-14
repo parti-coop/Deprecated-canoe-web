@@ -11,12 +11,9 @@ class InvitationsController < ApplicationController
     @invitation.email ||= @invitation.user.email if @invitation.user.present?
     @invitation.email ||= @invitation.user_key if @invitation.user_key =~ /@/
     @invitation.host = current_user
-
-    unless (@canoe.crew?(@invitation.user) or @canoe.request_to_join?(@invitation.user))
-      if @invitation.save
-        notify_to_crews(@invitation)
-        push_to_slack(@invitation)
-      end
+    if invitable? && @invitation.save
+      notify_to_crews(@invitation)
+      push_to_slack(@invitation)
     end
 
     redirect_to canoe_invitations_path(@canoe)
@@ -49,6 +46,14 @@ class InvitationsController < ApplicationController
   end
 
   private
+
+  def invitable?
+    return true if @invitation.user.blank?
+    return false if @canoe.crew?(@invitation.user)
+    return false if @canoe.request_to_join?(@invitation.user)
+
+    true
+  end
 
   def create_params
     params.require(:invitation).permit(:user_key)

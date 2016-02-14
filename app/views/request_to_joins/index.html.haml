@@ -2,15 +2,31 @@
 
 %section.bs-component
   .container
-    .panel.panel-default
+    .panel.panel-default(style='margin-top: 20px;')
       .panel-heading
         %h4.text-muted
-          %i.fa.fa-sign-in
-          승선 요청
-      .panel-body
-        %ul
+          %i.fa.fa-users
+          가입요청
+          %span.badge= @canoe.request_to_joins.count
+      - if @canoe.request_to_joins.any?
+        %ul.list-group
           - @canoe.request_to_joins.each do |req|
-            %li
-              = user_byline req.user
+            %li.list-group-item
               - if can?(:permit_to_join, @canoe)
-                = link_to '승락', accept_canoe_request_to_join_path(canoe_id: @canoe, id: req), method: :post, class: 'btn btn-xs btn-primary'
+                .pull-right
+                  = link_to '승락', accept_canoe_request_to_join_path(canoe_id: @canoe, id: req), method: :post, class: 'btn btn-primary'
+              %strong
+                = user_byline req.user
+              .text-muted(style='margin-top: 5px; width: 85%;')
+                %div
+                  %i.fa.fa-cubes
+                  참여 중인 카누
+                %div
+                  - current_user.joined_canoes.limit(5).each do |canoe|
+                    %span.text-nowrap(style='margin-right: 10px;')
+                      = link_to canoe_home_path(canoe) do
+                        = image_tag canoe.logo_url, style: 'width: 13px; height: 13px; margin-right: 1px; border: 1px solid #efefef;'
+                        = canoe.title
+      - else
+        %p 가입요청이 없습니다.
+

@@ -36,8 +36,8 @@ module Messaging
       destroy: "@<%= current_user.nickname %>님이 '<%= link_to_canoe_title(object.canoe) %>' 카누의 '<%= object.subject %>'논의를 지웠습니다."
     },
     request_to_joins: {
-      ask: "@<%= current_user.nickname %>님이 '<%= link_to_canoe_title(object.canoe) %>' 카누에 승선요청을 했습니다.",
-      accept: "@<%= current_user.nickname %>님이 '<%= link_to_canoe_title(object.canoe) %>' 카누에 @<%= object.user.nickname %>의 승선요청을 수락했습니다."
+      ask: "@<%= current_user.nickname %>님이 '<%= link_to_canoe_title(object.canoe) %>' 카누에 가입요청을 했습니다.",
+      accept: "@<%= current_user.nickname %>님이 '<%= link_to_canoe_title(object.canoe) %>' 카누에 @<%= object.user.nickname %>의 가입요청을 수락했습니다."
     },
     invitations: {
       create: "@<%= current_user.nickname %>님이 '<%= link_to_canoe_title(object.canoe) %>' 카누에 <%= object.guest_name %>님을 초대했습니다.",
@@ -50,7 +50,7 @@ module Messaging
   }
   BODY_TEMPLATE_FOR_THE_CONCERNED = {
     request_to_joins: {
-      accept: "'<%= link_to_canoe_title(object.canoe) %>' 카누 승선요청을 @<%= current_user.nickname %>님이 수락해 주었습니다."
+      accept: "'<%= link_to_canoe_title(object.canoe) %>' 카누 가입요청을 @<%= current_user.nickname %>님이 수락해 주었습니다."
     },
     invitations: {
       create: "'<%= link_to_canoe_title(object.canoe) %>' 카누에 초대받았습니다.",

@@ -28,6 +28,7 @@ class Discussion < ActiveRecord::Base
   before_save :set_discussed_at, unless: :skip_callbacks
 
   scope :valid_parent, -> { joins(:canoe) }
+  scope :persisted, -> { where "id IS NOT NULL" }
   scoped_search on: %w(subject decision)
   scoped_search in: :opinions, on: %w(body)
   scoped_search in: :proposals, on: %w(body)

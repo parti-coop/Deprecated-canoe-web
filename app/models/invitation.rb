@@ -5,8 +5,8 @@ class Invitation < ActiveRecord::Base
   belongs_to :host, class_name: User
   belongs_to :canoe
 
-  validates :user, uniqueness: {scope: [:canoe]}
-  validates :email, presence: true
+  validates :user, uniqueness: {scope: [:canoe], allow_nil: true}
+  validates :email, presence: true, uniqueness: {scope: [:canoe]}
 
   default_scope { order("created_at DESC") }
   scope :persisted, -> { where "id IS NOT NULL" }

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160213163307) do
+ActiveRecord::Schema.define(version: 20160214090615) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id"
@@ -36,6 +36,9 @@ ActiveRecord::Schema.define(version: 20160213163307) do
   add_index "activities", ["recipient_id", "recipient_type"], name: "index_activities_on_recipient_id_and_recipient_type"
   add_index "activities", ["subject_type", "subject_id"], name: "index_activities_on_subject_type_and_subject_id"
   add_index "activities", ["trackable_id", "trackable_type"], name: "index_activities_on_trackable_id_and_trackable_type"
+
+# Could not dump table "activities_backup" because of following NoMethodError
+#   undefined method `[]' for nil:NilClass
 
   create_table "attachments", force: :cascade do |t|
     t.string   "source",            null: false
@@ -110,6 +113,7 @@ ActiveRecord::Schema.define(version: 20160213163307) do
   end
 
   add_index "invitations", ["canoe_id"], name: "index_invitations_on_canoe_id"
+  add_index "invitations", ["email", "canoe_id"], name: "index_invitations_on_email_and_canoe_id", unique: true
   add_index "invitations", ["user_id", "canoe_id"], name: "index_invitations_on_user_id_and_canoe_id", unique: true
 
   create_table "mailboxer_conversation_opt_outs", force: :cascade do |t|

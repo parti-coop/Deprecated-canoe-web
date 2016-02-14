@@ -102,12 +102,12 @@ module SlackPushing
     when "request_to_joins#ask"
       request_to_join = object
       canoe = request_to_join.canoe
-      title = "@#{current_user.nickname}님이 '#{canoe.title}' 카누에 승선을 요청합니다."
+      title = "@#{current_user.nickname}님이 '#{canoe.title}' 카누에 가입을 요청합니다."
       body = "[#{canoe.title}](#{view_context.canoe_home_url canoe}) >>> #{canoe.theme}"
     when "request_to_joins#accept"
       request_to_join = object
       canoe = request_to_join.canoe
-      title = "@#{current_user.nickname}님이 '#{canoe.title}' 카누에 @#{request_to_join.user.nickname}님의 승선을 허가합니다."
+      title = "@#{current_user.nickname}님이 '#{canoe.title}' 카누에 @#{request_to_join.user.nickname}님의 가입을 허가합니다."
       body = "[#{canoe.title}](#{view_context.canoe_home_url canoe}) >>> #{canoe.theme}"
     when "invitations#create"
       invitation = object

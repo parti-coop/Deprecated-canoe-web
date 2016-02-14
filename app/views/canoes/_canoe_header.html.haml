@@ -1,4 +1,4 @@
-%section(class="#{'pattern-trianglify' if @canoe.cover.blank?}" style="background-size: cover; background-image: url('#{@canoe.cover_url}'); margin-top: -30px; margin-bottom: 30px;")
+%section(class="#{'pattern-trianglify' if @canoe.cover.blank?}" style="background-size: cover; background-image: url('#{@canoe.cover_url}'); margin-top: -8px; margin-bottom: 30px;")
   .container
     - if user_signed_in?
       - if @canoe.invited?(current_user)
@@ -7,7 +7,7 @@
             %strong 초대받은 카누입니다.
           %p
             의견을 내거나 제안하려면 먼저 초대를 수락해 주세요.
-            승선하지 않아도 의견을 보거나 제안에 투표할 수는 있습니다.
+            가입하지 않아도 의견을 보거나 제안에 투표할 수는 있습니다.
           %p.pull-right
             = link_to accept_canoe_invitations_path(@canoe), method: :post, class: 'btn btn-xs btn-danger' do
               %i.fa.fa-sign-in
@@ -15,33 +15,33 @@
       - elsif !@canoe.crew?(current_user)
         .alert.alert-warning.clearfix(style='position: relative; top: 22px;')
           %p
-            %strong @#{current_user.nickname}님께서 승선하지 않은 카누입니다.
+            %strong @#{current_user.nickname}님께서 가입하지 않은 카누입니다.
           %p
             - if @canoe.is_able_to_request_to_join?
               - if @canoe.request_to_join?(current_user)
-                의견을 내거나 제안하려면 먼저 승선요청이 수락될 때까지 기다려 주세요.
+                의견을 내거나 제안하려면 먼저 가입요청이 수락될 때까지 기다려 주세요.
               - elsif can?(:ask_public_crew, @canoe)
                 의견을 내거나 제안하려면 먼저
-                #{link_to '승선요청', ask_canoe_request_to_joins_path(canoe_id: @canoe), method: :post}을
+                #{link_to '가입요청', ask_canoe_request_to_joins_path(canoe_id: @canoe), method: :post}을
                 해주세요.
-            승선하지 않아도 의견을 보거나 제안에 투표할 수는 있습니다.
+            가입하지 않아도 의견을 보거나 제안에 투표할 수는 있습니다.
           - if @canoe.is_able_to_request_to_join?
             %p.pull-right
               - if @canoe.request_to_join?(current_user)
                 %button.btn.btn-xs.btn-danger.disabled
                   %i.fa.fa-sign-in
-                  승선요청 중
+                  가입요청 중
               - elsif can?(:ask_public_crew, @canoe)
                 = link_to ask_canoe_request_to_joins_path(canoe_id: @canoe), method: :post, class: 'btn btn-xs btn-danger' do
                   %i.fa.fa-sign-in
-                  승선요청하기
+                  가입요청하기
     - if can?(:permit_to_join, @canoe) and @canoe.request_to_joins.any? and params[:controller] != 'request_to_joins'
       .alert.alert-warning.clearfix(style='position: relative; top: 22px;')
         %p
-          %strong 승선요청이 #{@canoe.request_to_joins.count}건 있습니다.
+          %strong 가입요청이 #{@canoe.request_to_joins.count}건 있습니다.
           = link_to canoe_request_to_joins_path(@canoe), class: 'btn btn-xs btn-danger' do
             %i.fa.fa-sign-in
-            승선요청 확인하기
+            확인하기
     .jumbotron.jumbotron-transparent{ style: 'margin: 0' }
       %div.clearfix
         .pull-left

@@ -61,6 +61,7 @@ class Canoe < ActiveRecord::Base
   end
 
   def invited?(someone)
+    return false unless someone.present?
     invitations.exists?(user: someone) or invitations.exists?(email: someone.email)
   end
 
