@@ -8,12 +8,8 @@ module CanoeTimestampable
 
   private
 
-  def current_user
-    self.discussion.last_activity.owner
-  end
-
   def touch_canoe_timestamps
-    if current_user.try(:updated_home?)
+    if timestamp_user.try(:updated_home?)
       touch_discussed_at
     else
       touch_discussed_at
@@ -37,8 +33,8 @@ module CanoeTimestampable
   def touch_home_visited_at
     return if User.skip_callbacks
 
-    if current_user.present?
-      current_user.touch(:home_visited_at)
+    if timestamp_user.present?
+      timestamp_user.touch(:home_visited_at)
     end
   end
 end

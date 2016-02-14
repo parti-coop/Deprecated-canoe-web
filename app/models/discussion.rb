@@ -24,6 +24,7 @@ class Discussion < ActiveRecord::Base
 
   validates :canoe, presence: true
 
+  attr_accessor :current_activity_user
   cattr_accessor :skip_callbacks
   before_create :init_discussed_at, unless: :skip_callbacks
 
@@ -36,14 +37,11 @@ class Discussion < ActiveRecord::Base
 
   def init_discussed_at
     self.discussed_at = DateTime.now
+    user.touch(:home_visited_at)
   end
 
   def discussion
     self
-  end
-
-  def last_activity
-    activities.newest
   end
 
   def activities_merged
@@ -68,6 +66,10 @@ class Discussion < ActiveRecord::Base
 
   def updated_decision?
     activities.today.where(key: 'discussion.decision', task: 'update').any?
+  end
+
+  def timestamp_user
+    current_activity_user
   end
 
   private

@@ -32,6 +32,7 @@ class DiscussionsController < ApplicationController
 
   def create
     @discussion.user = current_user
+    @discussion.current_activity_user = current_user
 
     @opinion = @discussion.opinions.first
     if @opinion.present?
@@ -51,6 +52,8 @@ class DiscussionsController < ApplicationController
   end
 
   def update
+    @discussion.current_activity_user = current_user
+
     if @discussion.update_attributes(update_params)
       push_to_slack(@discussion)
       create_discussions_update_decision_activty(@discussion) if @discussion.previous_changes['decision'].present?

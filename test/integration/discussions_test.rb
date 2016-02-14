@@ -3,6 +3,7 @@ require 'test_helper'
 class DiscussionsTest < ActionDispatch::IntegrationTest
   test 'create' do
     sign_in users(:one)
+    previous_home_visited_at = users(:one).home_visited_at
     opinions_attributes = { body: 'test body' }
     post canoe_discussions_path(canoe_id: canoes(:canoe1).id, discussion: { subject: 'test', opinions_attributes: {'0': opinions_attributes}} )
 
@@ -10,6 +11,7 @@ class DiscussionsTest < ActionDispatch::IntegrationTest
     assert_equal 'test', assigns(:discussion).subject
     assert_equal users(:one), assigns(:discussion).opinions.first.user
     assert_equal 'test body', assigns(:discussion).opinions.first.body
+    refute_equal previous_home_visited_at.to_s, users(:one).reload.home_visited_at.to_s
   end
 
   test 'create with blank opinion' do
@@ -50,12 +52,16 @@ class DiscussionsTest < ActionDispatch::IntegrationTest
 
   test 'can edit by crew' do
     assert canoes(:canoe1).crew?(users(:crew))
+    owner_previous_home_visited_at = users(:one).home_visited_at
+    crew_previous_home_visited_at = users(:crew).home_visited_at
     sign_in users(:crew)
 
     subject = discussions(:discussion1).subject + 'xx'
     put discussion_path(id: discussions(:discussion1).id, discussion: { subject: subject })
 
     assert_equal subject, assigns(:discussion).subject
+    assert_equal owner_previous_home_visited_at.to_s, users(:one).reload.home_visited_at.to_s
+    refute_equal crew_previous_home_visited_at.to_s, users(:crew).reload.home_visited_at.to_s
   end
 
   test 'should not edit by the other' do

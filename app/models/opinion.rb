@@ -17,6 +17,10 @@ class Opinion < ActiveRecord::Base
 
   validates :body, presence: true
 
+  def timestamp_user
+    self.user
+  end
+
   private
 
   def set_mentions

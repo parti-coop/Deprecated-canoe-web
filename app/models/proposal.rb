@@ -50,4 +50,7 @@ class Proposal < ActiveRecord::Base
     votes.in_favor.by_crews.count.to_f / canoe.crews.count * 100
   end
 
+  def timestamp_user
+    self.user
+  end
 end

@@ -38,18 +38,20 @@
               - active_filter = :all
               - active_filter = :decided if params[:discussions] == 'decided'
               - active_filter = :undecided if params[:discussions] == 'undecided'
-              %li{ style: "#{'font-weight: bold;' if active_filter == :all}" }
-                = link_to canoe_home_path(@canoe, discussions: :all) do
-                  %i.fa{ class: "fa-#{'check-' if active_filter == :all}square-o" }
+              %li
+                = link_to canoe_home_path(@canoe, discussions: :all), style: "#{active_filter == :all ? 'font-weight: bold; color: #999999;' : 'color: #c1c1c1;' }" do
+                  %i.fa.fa-inbox
                   모든
-              %li{ style: "#{'font-weight: bold;' if active_filter == :decided}" }
-                = link_to canoe_home_path(@canoe, discussions: :decided) do
-                  %i.fa{ class: "fa-#{'check-' if active_filter == :decided}square-o" }
+              %li
+                = link_to canoe_home_path(@canoe, discussions: :decided), style: "#{active_filter == :decided ? 'font-weight: bold; color: #999999;' : 'color: #c1c1c1;' }" do
+                  %i.fa.fa-thumb-tack
                   결정이 있는
-              %li{ style: "#{'font-weight: bold;' if active_filter == :undecided}" }
-                = link_to canoe_home_path(@canoe, discussions: :undecided) do
-                  %i.fa{ class: "fa-#{'check-' if active_filter == :undecided}square-o" }
+
+              %li
+                = link_to canoe_home_path(@canoe, discussions: :undecided), style: "#{active_filter == :undecided ? 'font-weight: bold; color: #999999;' : 'color: #c1c1c1;' }" do
+                  %i.fa.fa-question
                   결정이 없는
+
           %ul.list-group
             - @discussions.each do |discussion|
               = render discussion
