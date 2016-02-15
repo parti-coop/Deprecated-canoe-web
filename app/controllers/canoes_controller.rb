@@ -22,6 +22,8 @@ class CanoesController < ApplicationController
 
   def short
     @canoe = Canoe.find_by slug: params[:slug]
+    render_404 and return unless @canoe.present?
+
     @discussions = @canoe.discussions.persisted.order(discussed_at: :desc)
     if params[:discussions] == 'decided'
       @discussions = @discussions.where.not(decision: [nil, ''])
@@ -29,7 +31,6 @@ class CanoesController < ApplicationController
     if params[:discussions] == 'undecided'
       @discussions = @discussions.where(decision: [nil, ''])
     end
-    render_404 and return if @canoe.nil?
     render 'show'
   end
 
