@@ -19,6 +19,10 @@ $(document).on('ready', function(e) {
   hash && $('ul.nav a[href="' + hash + '"]').tab('show');
 
   $('.nav-tabs a').on('click', function (e) {
+    if ($(this).data('toggle') != 'tab') {
+      return;
+    }
+
     e.preventDefault();
     $(this).tab('show');
     var scrollmem = $('body').scrollTop();
