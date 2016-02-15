@@ -42,7 +42,6 @@ ActiveRecord::Schema.define(version: 20160214090615) do
 
   create_table "attachments", force: :cascade do |t|
     t.string   "source",            null: false
-    t.string   "content_type"
     t.string   "original_filename", null: false
     t.integer  "user_id",           null: false
     t.datetime "created_at",        null: false
@@ -54,6 +53,7 @@ ActiveRecord::Schema.define(version: 20160214090615) do
 
   add_index "attachments", ["attachable_type", "attachable_id"], name: "index_attachments_on_attachable_type_and_attachable_id"
   add_index "attachments", ["deleted_at"], name: "index_attachments_on_deleted_at"
+  add_index "attachments", ["user_id"], name: "index_attachments_on_user_id"
 
   create_table "canoes", force: :cascade do |t|
     t.string   "title",                                     null: false
