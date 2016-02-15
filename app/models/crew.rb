@@ -6,6 +6,9 @@ class Crew < ActiveRecord::Base
 
   after_save :clear_invitation
   after_save :clear_request_to_join
+
+  validates :user, uniqueness: {scope: [:canoe]}
+
   private
 
   def clear_invitation

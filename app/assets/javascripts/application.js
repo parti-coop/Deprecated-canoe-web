@@ -15,6 +15,17 @@ $(document).on('change', '.btn-file :file', function() {
 });
 
 $(document).on('ready', function(e) {
+  var hash = window.location.hash;
+  hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+
+  $('.nav-tabs a').on('click', function (e) {
+    e.preventDefault();
+    $(this).tab('show');
+    var scrollmem = $('body').scrollTop();
+    window.location.hash = this.hash;
+    $('html,body').scrollTop(scrollmem);
+  });
+
   var mySwiper = new Swiper ('.swiper-container', {
     spaceBetween: 40,
     slidesPerView: 3,
