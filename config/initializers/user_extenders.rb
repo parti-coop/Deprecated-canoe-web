@@ -21,6 +21,7 @@ Rails.application.config.to_prepare do
     has_many :joined_proposals, class_name: Proposal, through: :joined_canoes, source: :proposals
 
     after_create :set_invitation, unless: :skip_callbacks
+    before_create :set_home_visited_at, unless: :skip_callbacks
 
     def touch_home
       self.home_visited_at = DateTime.now
@@ -38,6 +39,10 @@ Rails.application.config.to_prepare do
         invitation.user = self
         invitation.save
       end
+    end
+
+    def set_home_visited_at
+      self.home_visited_at = DateTime.now
     end
   end
 end
