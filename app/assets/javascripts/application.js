@@ -49,7 +49,7 @@ $(document).on('ready', function(e) {
   $('[data-toggle="canoe-toggle"]').on('click', function(e) {
     e.preventDefault();
     var parent_id = $(e.currentTarget).data('parent');
-    $parent = $(parent_id);
+    var $parent = $(parent_id);
     $parent.find('.canoe-toggle-item').each(function(index, object) {
       $object = $(object);
       if($object.hasClass('hidden')) {
