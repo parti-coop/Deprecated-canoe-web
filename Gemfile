@@ -59,6 +59,7 @@ gem 'premailer-rails', '~> 1.8', '>= 1.8.2'
 gem 'nokogiri', '~> 1.6', '>= 1.6.7.2'
 gem 'kaminari', '~> 0.16.3'
 gem 'bootstrap-kaminari-views', '~> 0.0.5'
+gem 'meta-tags', '~> 2.1.0'
 
 group :development, :test do
   gem "letter_opener_web"

@@ -21,6 +21,13 @@ class DiscussionsController < ApplicationController
     @canoe = @discussion.canoe
     render_404 and return if @canoe.nil?
 
+    meta_description = "#{@canoe.title} 카누에서 의견을 교환하고 있습니다."
+    meta_description = "현재 결정 사항은 \"#{@discussion.decision}\" 입니다." if @discussion.decision.present?
+
+    prepare_meta_tags title: @discussion.subject,
+                      description: meta_description,
+                      image: @canoe.cover
+
     render template: 'discussions/show'
   end
 

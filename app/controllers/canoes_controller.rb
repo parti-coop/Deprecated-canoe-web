@@ -13,6 +13,8 @@ class CanoesController < ApplicationController
       @canoes = current_user.joined_canoes
     end
 
+    prepare_meta_tags title: "카누들", description: "모든 카누입니다."
+
     @canoes = @canoes.page(params[:page])
   end
 
@@ -23,6 +25,10 @@ class CanoesController < ApplicationController
   def short
     @canoe = Canoe.find_by slug: params[:slug]
     render_404 and return unless @canoe.present?
+
+    prepare_meta_tags title: @canoe.title,
+                      description: @canoe.theme,
+                      image: @canoe.cover
 
     @discussions = @canoe.discussions.persisted.order(discussed_at: :desc)
     if params[:discussions] == 'decided'
