@@ -6,15 +6,13 @@ class CanoesController < ApplicationController
   load_and_authorize_resource except: [:index, :short]
 
   def index
+    prepare_meta_tags title: "카누들", description: "모든 카누입니다."
     if params[:list] == 'all'
       @canoes = Canoe.all
     else
       authenticate_user!
       @canoes = current_user.joined_canoes
     end
-
-    prepare_meta_tags title: "카누들", description: "모든 카누입니다."
-
     @canoes = @canoes.page(params[:page])
   end
 

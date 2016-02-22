@@ -27,6 +27,7 @@ class ApplicationController < ActionController::Base
       image:       image_url(image),
       description: :description,
       keywords:    keywords,
+      canonical:   current_url,
       twitter: {
         site_name: title,
         site: '@parti_xyz',
@@ -45,9 +46,6 @@ class ApplicationController < ActionController::Base
     }
 
     options.reverse_merge!(defaults)
-
-    logger.debug "meta: #{options.inspect}"
-
     set_meta_tags options
   end
 
