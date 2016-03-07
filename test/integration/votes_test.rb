@@ -66,4 +66,13 @@ class VotesTest < ActionDispatch::IntegrationTest
     assert_equal 'proposal', activity.key
     assert_equal 'vote.unvote', activity.task
   end
+
+  test 'visitor can not vote' do
+    refute proposals(:proposal1).canoe.crew?(users(:visitor))
+
+    sign_in users(:visitor)
+    post in_favor_proposal_path(id: proposals(:proposal1).id)
+
+    refute proposals(:proposal1).voted_by?(users(:visitor))
+  end
 end

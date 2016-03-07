@@ -34,7 +34,7 @@
     .col-xs-3
       .pull-right.text-center
         %div
-          - if !user_signed_in?
+          - if !user_signed_in? or !proposal.canoe.crew?(current_user)
             %button.btn.btn-success.btn-sm.disabled
               %i.fa.fa-heart
               좋아요
@@ -53,7 +53,7 @@
               좋아요
               = proposal.votes.by_crews.in_favor.count
         %div(style="margin-top: 3px; font-size: 13px;")
-          - if !user_signed_in?
+          - if !user_signed_in? or !proposal.canoe.crew?(current_user)
             .text-danger
               %i.fa.fa-ban
               안돼요

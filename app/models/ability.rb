@@ -51,16 +51,6 @@ class Ability
       end
 
 
-      can :in_favor, Proposal do |proposal|
-        proposal.voted_by?(user, :in_favor)
-      end
-      can :opposed, Proposal do |proposal|
-        proposal.voted_by?(user, :opposed)
-      end
-      can :unvote, Proposal do |proposal|
-        proposal.voted_by?(user)
-      end
-
       can :create, Reaction
       can :destroy, Reaction do |reaction|
         reaction.user == user

@@ -3,6 +3,7 @@ class VotesController < ApplicationController
   include DiscussionActivityTraking
 
   before_filter :authenticate_user!
+  before_filter :assert_crew
   before_filter :proposal
 
   def in_favor
@@ -33,6 +34,10 @@ class VotesController < ApplicationController
   end
 
   private
+
+  def assert_crew
+    render_404 and return unless proposal.canoe.crew? current_user
+  end
 
   def proposal
     @proposal ||= Proposal.find params[:id]
