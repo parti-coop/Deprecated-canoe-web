@@ -65,6 +65,14 @@ Rails.application.routes.draw do
     get '/search/canoes', to: "search#canoes"
   end
 
+  scope :api do
+    api version: 1, module: "api/v1" do
+      get 'system/ping'
+      get 'system/last_version'
+      get 'home', to: 'pages#home'
+    end
+  end
+
   get '/:slug/discussions/:sequential_id', to: "discussions#short", as: 'short_discussion'
   get '/:slug', to: "canoes#short", as: 'short_canoe'
 

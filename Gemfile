@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '4.2.5'
+gem 'rocket_pants', '~> 1.13', '>= 1.13.1'
 
 # persistence
 gem 'mysql2', '~> 0.3.13'
