@@ -6,7 +6,6 @@ class CanoesController < ApplicationController
   load_and_authorize_resource except: [:index, :short]
 
   def index
-    prepare_meta_tags title: "카누들", description: "모든 카누입니다."
     if params[:list] == 'all'
       @canoes = Canoe.all
     else
@@ -25,8 +24,8 @@ class CanoesController < ApplicationController
     render_404 and return unless @canoe.present?
 
     prepare_meta_tags title: @canoe.title,
-                      description: @canoe.theme,
-                      image: @canoe.cover
+                      description: @canoe.theme
+    prepare_meta_tags image: @canoe.cover if @canoe.cover.present?
 
     @discussions = @canoe.discussions.persisted.order(discussed_at: :desc)
     if params[:discussions] == 'decided'

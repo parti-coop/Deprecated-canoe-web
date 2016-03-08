@@ -25,8 +25,8 @@ class DiscussionsController < ApplicationController
     meta_description = "현재 결정 사항은 \"#{@discussion.decision}\" 입니다." if @discussion.decision.present?
 
     prepare_meta_tags title: @discussion.subject,
-                      description: meta_description,
-                      image: @canoe.cover
+                      description: meta_description
+    prepare_meta_tags image: @canoe.cover if @canoe.cover.present?
 
     render template: 'discussions/show'
   end

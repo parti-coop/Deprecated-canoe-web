@@ -11,8 +11,6 @@ class PagesController < ApplicationController
       current_user.save
     end
 
-    prepare_meta_tags title: "안녕하세요?", description: "모든 카누입니다."
-
     @canoes ||= Canoe.limit(limit_count)
   end
 end
