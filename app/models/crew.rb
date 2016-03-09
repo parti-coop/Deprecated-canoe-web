@@ -2,7 +2,7 @@ class Crew < ActiveRecord::Base
   attr_accessor :user_key
   belongs_to :user
   belongs_to :host, class_name: User
-  belongs_to :canoe
+  belongs_to :canoe, counter_cache: true
 
   after_save :clear_invitation
   after_save :clear_request_to_join

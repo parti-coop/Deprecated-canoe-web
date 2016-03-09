@@ -5,8 +5,8 @@
 최선의 답은 구성원들의 의사에 따라 얼마든지 바뀔 수 있어야 합니다.
 ```
 
-카누는 자신의 삶에 영향을 미칠 수 있는 문제에 대한 결정 과정에    
-누구든 참여하고 그 공동체가 스스로 자유롭게,   
+카누는 자신의 삶에 영향을 미칠 수 있는 문제에 대한 결정 과정에
+누구든 참여하고 그 공동체가 스스로 자유롭게,
 더 좋은 방향으로 나아갈 수 있도록 돕는 도구입니다.
 
 * 프로젝트에 대한 이슈나 버그는 [여기](https://github.com/parti-xyz/canoe-web/issues)에 남겨주세요.
@@ -28,3 +28,18 @@ $ bundle exec rails s
 그래도 궁금한 점이나 나누고 싶은 이야기가 있으면 contact@parti.xyz로 알려주세요.
 
 [twitter](https://twitter.com/parti_xyz) [facebook](https://www.facebook.com/parti.xyz) [medium](https://medium.com/parti-xyz-developers)
+
+## 업그레이드 방법
+
+### 버전 xxx
+
+카누에 카운터 캐쉬를 넣었습니다. Rails console에서 아래를 수행합니다.
+
+Canoe.find_each do |canoe|
+    Canoe.reset_counters(canoe.id, :crews)
+    Canoe.reset_counters(canoe.id, :discussions)
+    Canoe.reset_counters(canoe.id, :opinions)
+end
+
+Opinion.counter_culture_fix_counts
+

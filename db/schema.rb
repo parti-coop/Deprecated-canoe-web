@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160214090615) do
+ActiveRecord::Schema.define(version: 20160309232249) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id"
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 20160214090615) do
 
   create_table "attachments", force: :cascade do |t|
     t.string   "source",            null: false
+    t.string   "content_type"
     t.string   "original_filename", null: false
     t.integer  "user_id",           null: false
     t.datetime "created_at",        null: false
@@ -53,7 +54,6 @@ ActiveRecord::Schema.define(version: 20160214090615) do
 
   add_index "attachments", ["attachable_type", "attachable_id"], name: "index_attachments_on_attachable_type_and_attachable_id"
   add_index "attachments", ["deleted_at"], name: "index_attachments_on_deleted_at"
-  add_index "attachments", ["user_id"], name: "index_attachments_on_user_id"
 
   create_table "canoes", force: :cascade do |t|
     t.string   "title",                                     null: false
@@ -68,6 +68,9 @@ ActiveRecord::Schema.define(version: 20160214090615) do
     t.datetime "deleted_at"
     t.boolean  "is_able_to_request_to_join", default: true
     t.datetime "sailed_at",                                 null: false
+    t.integer  "crews_count",                default: 0
+    t.integer  "discussions_count",          default: 0
+    t.integer  "opinions_count",             default: 0
   end
 
   add_index "canoes", ["deleted_at"], name: "index_canoes_on_deleted_at"

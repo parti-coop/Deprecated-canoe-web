@@ -6,8 +6,10 @@ class Api::V1::PagesController < Api::V1::BaseController
         {
           tutorial_id: "xxx",
           title: "반가워요!<br>유쾌한 민주주의 서비스<br>카누를 시작해보세요.",
-          image: "img_path",
-          link: "link"
+          image: {
+            url: "img_path"
+          },
+          url: "link"
         }
       ],
       recommend_canoes: Canoe.order(sailed_at: :desc).limit(10)

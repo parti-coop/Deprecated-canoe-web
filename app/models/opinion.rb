@@ -1,6 +1,7 @@
 class Opinion < ActiveRecord::Base
   acts_as_paranoid
   include CanoeTimestampable
+  counter_culture [:discussion, :canoe]
 
   belongs_to :user
   belongs_to :discussion

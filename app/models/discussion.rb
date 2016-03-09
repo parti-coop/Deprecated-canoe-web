@@ -7,7 +7,7 @@ class Discussion < ActiveRecord::Base
   acts_as_readable on: :discussed_at
 
   belongs_to :user
-  belongs_to :canoe
+  belongs_to :canoe, counter_cache: true
   has_many :opinions
   has_many :proposals do
     def top_of_votes_count(choice)
