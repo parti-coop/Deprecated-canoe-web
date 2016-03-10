@@ -72,6 +72,14 @@ class Discussion < ActiveRecord::Base
     current_activity_user
   end
 
+  def newest_opinion
+    opinions.newest
+  end
+
+  def newest_proposal
+    proposals.newest
+  end
+
   private
 
   def meargable_in_timeline?(m, n)

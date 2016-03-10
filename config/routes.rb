@@ -70,6 +70,9 @@ Rails.application.routes.draw do
       get 'system/ping'
       get 'system/last_versions'
       get 'home', to: 'pages#home'
+      get 'search/canoes', to: 'search#canoes'
+      get 'search/discussions', to: 'search#discussions'
+      resources :canoes
     end
   end
 
