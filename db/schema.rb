@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160309232249) do
+ActiveRecord::Schema.define(version: 20160310031300) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id"
@@ -252,6 +252,7 @@ ActiveRecord::Schema.define(version: 20160309232249) do
     t.integer  "canoe_id",   null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text     "reason"
   end
 
   add_index "request_to_joins", ["canoe_id"], name: "index_request_to_joins_on_canoe_id"

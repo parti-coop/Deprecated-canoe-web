@@ -5,7 +5,7 @@ class Api::V1::SearchController < Api::V1::BaseController
     if @all
       @discussions = Discussion.valid_parent.order(discussed_at: :desc).search_for(query)
     else
-      @discussions = @current_user.joined_discussions.order(discussed_at: :desc).search_for(query)
+      @discussions = current_user.joined_discussions.order(discussed_at: :desc).search_for(query)
     end
     paginated @discussions.page(params[:page])
   end

@@ -1,7 +1,7 @@
 class Api::V1::PagesController < Api::V1::BaseController
   def home
     expose({
-      canoes: @current_user.joined_canoes,
+      canoes: current_user.joined_canoes,
       tutorials: [
         {
           tutorial_id: "xxx",
@@ -23,7 +23,7 @@ class Api::V1::PagesController < Api::V1::BaseController
       if @all
         @discussions = Discussion.valid_parent.order(discussed_at: :desc).search_for(query)
       else
-        @discussions = @current_user.joined_discussions.order(discussed_at: :desc).search_for(query)
+        @discussions = current_user.joined_discussions.order(discussed_at: :desc).search_for(query)
       end
       @discussions_on_current_page = @discussions.page(params[:page]).per(5)
 
