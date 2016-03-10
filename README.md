@@ -43,3 +43,7 @@ end
 
 Opinion.counter_culture_fix_counts
 
+Discussion.find_each do |discussion|
+    Discussion.reset_counters(discussion.id, :opinions)
+    Discussion.reset_counters(discussion.id, :proposals)
+end

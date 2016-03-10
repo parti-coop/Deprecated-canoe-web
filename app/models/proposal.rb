@@ -5,7 +5,7 @@ class Proposal < ActiveRecord::Base
   acts_as_sequenced scope: :discussion_id
 
   belongs_to :user
-  belongs_to :discussion
+  belongs_to :discussion, counter_cache: true
   has_one :canoe, through: :discussion
   has_many :attachments, as: :attachable
   has_many :votes do

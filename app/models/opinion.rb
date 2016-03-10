@@ -4,7 +4,7 @@ class Opinion < ActiveRecord::Base
   counter_culture [:discussion, :canoe]
 
   belongs_to :user
-  belongs_to :discussion
+  belongs_to :discussion, counter_cache: true
   has_one :canoe, through: :discussion
   has_many :mentions
   has_many :reactions

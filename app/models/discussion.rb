@@ -50,6 +50,14 @@ class Discussion < ActiveRecord::Base
       .map { |chunk| [chunk.first, zip_activities(chunk)] }]
   end
 
+  def matched_newest_proposal(q)
+    newest_proposal = proposals.search_for(q).newest
+  end
+
+  def matched_newest_opinion(q)
+    newest_opinion = opinions.search_for(q).newest
+  end
+
   def newest_proposal_or_opinion(q = nil)
     if q.present?
       newest_proposal = proposals.search_for(q).newest

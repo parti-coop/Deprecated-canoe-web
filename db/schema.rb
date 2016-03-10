@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160310031300) do
+ActiveRecord::Schema.define(version: 20160310131517) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id"
@@ -90,15 +90,17 @@ ActiveRecord::Schema.define(version: 20160310031300) do
   add_index "crews", ["user_id", "canoe_id"], name: "index_crews_on_user_id_and_canoe_id", unique: true
 
   create_table "discussions", force: :cascade do |t|
-    t.string   "subject",       null: false
-    t.integer  "user_id",       null: false
-    t.integer  "canoe_id",      null: false
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.string   "subject",                     null: false
+    t.integer  "user_id",                     null: false
+    t.integer  "canoe_id",                    null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
     t.text     "decision"
-    t.datetime "discussed_at",  null: false
+    t.datetime "discussed_at",                null: false
     t.datetime "deleted_at"
-    t.integer  "sequential_id", null: false
+    t.integer  "sequential_id",               null: false
+    t.integer  "proposals_count", default: 0
+    t.integer  "opinions_count",  default: 0
   end
 
   add_index "discussions", ["canoe_id"], name: "index_discussions_on_canoe_id"

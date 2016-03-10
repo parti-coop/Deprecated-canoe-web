@@ -7,7 +7,10 @@ class Api::V1::SearchController < Api::V1::BaseController
     else
       @discussions = current_user.joined_discussions.order(discussed_at: :desc).search_for(query)
     end
-    paginated @discussions.page(params[:page])
+
+    paginated @discussions.page(params[:page]),
+      each_serializer: Api::V1::SearchedDiscussionSerializer,
+      serializer_params: { q: query }
   end
 
   def canoes
