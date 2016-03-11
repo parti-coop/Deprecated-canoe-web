@@ -3,3 +3,4 @@ ko:
     errors:
       invalid_resource: The given resource was invalid.
       forbidden: The requested action was forbidden.
+      not_found: The given resource could not be found.

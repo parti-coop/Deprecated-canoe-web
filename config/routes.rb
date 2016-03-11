@@ -76,6 +76,7 @@ Rails.application.routes.draw do
       resources :canoes, only: [:show] do
         delete 'crews/me', to: 'crews#destroy_me', on: :member
         shallow do
+          resources :discussions
           resources :request_to_joins, only: [:create, :destroy] do
             patch :accept, on: :member
           end
