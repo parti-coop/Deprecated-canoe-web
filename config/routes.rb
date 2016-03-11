@@ -78,7 +78,13 @@ Rails.application.routes.draw do
         shallow do
           resources :discussions, except: :destroy do
             resources :opinions
-            resources :proposals
+            resources :proposals do
+              member do
+                post :in_favor, to: 'votes#in_favor'
+                post :opposed, to: 'votes#opposed'
+                delete :unvote, to: 'votes#unvote'
+              end
+            end
           end
           resources :request_to_joins, only: [:create, :destroy] do
             patch :accept, on: :member
