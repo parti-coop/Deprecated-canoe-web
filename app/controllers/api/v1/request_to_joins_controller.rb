@@ -13,7 +13,7 @@ class Api::V1::RequestToJoinsController < Api::V1::BaseController
     if @request_to_join.save
       notify_to_crews(@request_to_join)
       push_to_slack(@request_to_join)
-      expose @request_to_join, status: :created
+      expose @request_to_join, status: :ok
     else
       error!(:invalid_resource, @request_to_join.errors)
     end
@@ -28,30 +28,44 @@ class Api::V1::RequestToJoinsController < Api::V1::BaseController
     if @request_to_join.destroy
       notify_to_crews(@request_to_join)
       push_to_slack(@request_to_join)
-      head :no_content
+      head :ok
     else
       error!(:invalid_resource, @request_to_join.errors)
+    end
+  end
+
+  def accept
+    @request_to_join = RequestToJoin.find params[:id]
+    @canoe = @request_to_join.canoe
+
+    check_errors_before_accept
+
+    @crew = @canoe.crews.find_or_initialize_by(user: @request_to_join.user)
+    @crew.host = current_user
+    if @crew.save
+      notify_to_crews(@request_to_join)
+      push_to_slack(@request_to_join)
+      head :ok
+    else
+      error!(:invalid_resource, @crew.errors)
     end
   end
 
   private
 
   def check_errors_before_create
-    if @canoe.crew?(current_user)
-      error! :conflict, 'already crew'
-    end
-    if !@canoe.is_able_to_request_to_join?
-      error! :conflict, 'this canoe was prohibited to request to join'
-    end
-    if @canoe.invited?(current_user)
-      error! :conflict, 'already invited'
-    end
+    refute_crew!
+    assert_canoe_to_be_able_to_request_to_join!
+    refute_invited!
   end
 
   def check_errors_before_destory
-    if !@canoe.crew?(current_user) and @request_to_join.user != current_user
-      error! :forbidden
-    end
+    assert_crew_or_current_user!(@request_to_join.user)
+  end
+
+  def check_errors_before_accept
+    assert_crew!
+    assert_canoe_to_be_able_to_request_to_join!
   end
 end
 

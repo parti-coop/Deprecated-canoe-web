@@ -4,4 +4,8 @@ class Api::BaseController < RocketPants::Base
 
   # For the api to always revalidate on expiry.
   caching_options[:must_revalidate] = true
+
+  def api?
+    true
+  end
 end

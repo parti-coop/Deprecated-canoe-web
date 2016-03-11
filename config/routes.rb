@@ -72,11 +72,14 @@ Rails.application.routes.draw do
       get 'home', to: 'pages#home'
       get 'search/canoes', to: 'search#canoes'
       get 'search/discussions', to: 'search#discussions'
+
       resources :canoes, only: [:show] do
+        delete 'crews/me', to: 'crews#destroy_me', on: :member
         shallow do
           resources :request_to_joins, only: [:create, :destroy] do
-            post :accept, on: :member
+            patch :accept, on: :member
           end
+          resources :invitations, only: [:create, :destroy]
         end
       end
     end

@@ -30,6 +30,10 @@ class ApplicationController < ActionController::Base
     render file: "#{Rails.root}/public/404.html", layout: false, status: 404
   end
 
+  def api?
+    false
+  end
+
   private
 
   def prepare_meta_tags(options={})

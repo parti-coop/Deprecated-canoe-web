@@ -5,6 +5,7 @@ module Messaging
 
   def notify_for_mentions(mentions)
     return unless user_signed_in?
+    return if api?
 
     mentions.each do |mention|
       not_used, body_for_the_concerned = render_bodies(mention)
@@ -14,6 +15,7 @@ module Messaging
 
   def notify_to_crews(object)
     return unless user_signed_in?
+    return if api?
 
     body, body_for_the_concerned = render_bodies(object)
     recipients, the_concerned = fetch_recipients(object)
