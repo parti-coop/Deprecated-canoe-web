@@ -1,16 +1,17 @@
 class Api::V1::SearchedDiscussionSerializer < ActiveModel::Serializer
-  attributes :discussion, :matched_proposal, :matched_opinion
+  attributes(*(Discussion.attribute_names.map(&:to_sym) << :matched_proposal << :matched_opinion))
 
+  cattr_accessor :serializer_params
   def initialize(serializer, object)
     super
-    @serialization_options = object[:serializer_params]
+    @serializer_params = object[:serializer_params]
   end
 
   def matched_proposal
-    object.matched_newest_proposal(@serialization_options[:q])
+    object.matched_newest_proposal(@serializer_params[:q])
   end
 
   def matched_opinion
-    object.matched_newest_opinion(@serialization_options[:q])
+    object.matched_newest_opinion(@serializer_params[:q])
   end
 end

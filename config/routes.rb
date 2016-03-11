@@ -73,6 +73,16 @@ Rails.application.routes.draw do
       get 'search/canoes', to: 'search#canoes'
       get 'search/discussions', to: 'search#discussions'
 
+      resources :messages, only: :index do
+        collection do
+          get 'unreads_count'
+          post 'mark_all_as_read'
+        end
+        member do
+          post 'mark_as_read'
+          post 'mark_as_unread'
+        end
+      end
       resources :canoes, only: [:show] do
         delete 'crews/me', to: 'crews#destroy_me', on: :member
         shallow do
