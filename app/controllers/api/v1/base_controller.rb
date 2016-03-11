@@ -24,6 +24,10 @@ class Api::V1::BaseController < Api::BaseController
     end
   end
 
+  def assert_canoe!
+    error! :not_found, metadata: { error_description: 'Not found canoe' } if @canoe.nil?
+  end
+
   def assert_crew!
     if !@canoe.crew?(current_user)
       error! :forbidden, metadata: { error_description: 'You are not crew' }

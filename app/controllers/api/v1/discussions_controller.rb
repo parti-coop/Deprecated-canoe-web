@@ -33,12 +33,14 @@ class Api::V1::DiscussionsController < Api::V1::BaseController
     @discussion = Discussion.find params[:id]
     @canoe = @discussion.canoe
 
+    assert_canoe!
+
     if user_signed_in?
       @discussion.mark_as_read! :for => current_user
     end
-    error! :not_found if @canoe.nil?
 
-    expose @discussion, include: {user: {}, canoe: { include: [:user] }, opinions: { include: [:user] }, proposals: { include: [:user] }}
+    expose @discussion,
+      serializer: Api::V1::DiscussionSerializer
   end
 
   def update
