@@ -1,6 +1,11 @@
 class Api::V1::PagesController < Api::V1::BaseController
   def home
-    expose({
+    limit_count = 30
+    discussions = current_user.joined_discussions.reorder(discussed_at: :desc).first(limit_count)
+    map = discussions.map do |discussion|
+      discussion.serializable_hash.merge(newest_opinion: discussion.newest_opinion, newest_proposal: discussion.newest_proposal)
+    end
+    result = {
       canoes: current_user.joined_canoes,
       tutorials: [
         {
@@ -12,8 +17,10 @@ class Api::V1::PagesController < Api::V1::BaseController
           url: "link"
         }
       ],
+      recent_discussions: map,
       recommend_canoes: Canoe.order(sailed_at: :desc).limit(10)
-     })
+    }
+    expose(result)
   end
 
   def search_discussions
