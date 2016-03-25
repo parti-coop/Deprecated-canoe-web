@@ -3,7 +3,9 @@ class Api::V1::PagesController < Api::V1::BaseController
     limit_count = 30
     discussions = current_user.joined_discussions.reorder(discussed_at: :desc).first(limit_count)
     map = discussions.map do |discussion|
-      discussion.serializable_hash.merge(newest_opinion: discussion.newest_opinion, newest_proposal: discussion.newest_proposal)
+      discussion.serializable_hash(include: [:user, :canoe]).merge(
+        newest_opinion: discussion.newest_opinion.try(:serializable_hash, {include: [:user]}),
+        newest_proposal: discussion.newest_proposal.try(:serializable_hash, {include: [:user]}))
     end
     result = {
       canoes: current_user.joined_canoes,
