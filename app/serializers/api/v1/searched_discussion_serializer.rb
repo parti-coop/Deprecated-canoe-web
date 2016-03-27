@@ -1,5 +1,7 @@
 class Api::V1::SearchedDiscussionSerializer < ActiveModel::Serializer
   attributes(*(Discussion.attribute_names.map(&:to_sym) << :matched_proposal << :matched_opinion))
+  has_one :user
+  has_one :canoe
 
   cattr_accessor :serializer_params
   def initialize(serializer, object)

@@ -2,6 +2,7 @@ class Api::V1::DiscussionSerializer < ActiveModel::Serializer
   attributes(*Discussion.attribute_names.map(&:to_sym))
   attributes(:activities)
   has_one :canoe
+  has_one :user
   has_many :proposals
 
   def activities
