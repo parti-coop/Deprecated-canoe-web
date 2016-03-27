@@ -10,10 +10,12 @@ class Api::V1::SearchedDiscussionSerializer < ActiveModel::Serializer
   end
 
   def matched_proposal
-    object.matched_newest_proposal(@serializer_params[:q])
+    result = object.matched_newest_proposal(@serializer_params[:q])
+    result.blank? ? nil : result.serializable_hash(include: [:user])
   end
 
   def matched_opinion
-    object.matched_newest_opinion(@serializer_params[:q])
+    result = object.matched_newest_opinion(@serializer_params[:q])
+    result.blank? ? nil : result.serializable_hash(include: [:user])
   end
 end
