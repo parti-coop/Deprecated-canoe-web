@@ -18,6 +18,7 @@ class DiscussionsController < ApplicationController
     if user_signed_in?
       @discussion.mark_as_read! :for => current_user
     end
+    render_404 and return if @discussion.nil?
     @canoe = @discussion.canoe
     render_404 and return if @canoe.nil?
 
