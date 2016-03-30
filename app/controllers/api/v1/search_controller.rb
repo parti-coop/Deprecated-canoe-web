@@ -16,7 +16,10 @@ class Api::V1::SearchController < Api::V1::BaseController
   def canoes
     query = params.require(:q)
     @canoes = Canoe.search_for(query)
-    paginated @canoes.page(params[:page]), metadata: { discussions_count: current_user.joined_discussions.search_for(query).count }
+    paginated @canoes.page(params[:page]), metadata: {
+      all_discussions_count: Discussion.valid_parent.order(discussed_at: :desc).search_for(query).count,
+      discussions_count: current_user.joined_discussions.search_for(query).count
+    }
   end
 end
 
