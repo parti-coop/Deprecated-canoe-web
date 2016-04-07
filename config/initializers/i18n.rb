@@ -2,7 +2,7 @@ module I18n
   class JustRaiseExceptionHandler < ExceptionHandler
     def call(exception, locale, key, options)
       if exception.is_a?(MissingTranslation)
-        key
+        key.to_s
       else
         super
       end
