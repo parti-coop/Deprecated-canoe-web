@@ -1,6 +1,5 @@
 class Api::V1::VotesController < Api::V1::BaseController
   before_filter :proposal
-  include SlackPushing
   include DiscussionActivityTraking
 
   def in_favor
@@ -11,7 +10,7 @@ class Api::V1::VotesController < Api::V1::BaseController
     if @vote.save
       @vote.proposal.reload
 
-      push_to_slack(@vote)
+      push_to_client(@vote)
       create_votes_in_favor_activty(@vote)
 
       expose @vote, include: { proposal: {} }
@@ -28,7 +27,7 @@ class Api::V1::VotesController < Api::V1::BaseController
     if @vote.save
       @vote.proposal.reload
 
-      push_to_slack(@vote)
+      push_to_client(@vote)
       create_votes_opposed_activty(@vote)
       expose @vote, include: { proposal: {} }
     else
@@ -39,7 +38,7 @@ class Api::V1::VotesController < Api::V1::BaseController
   def unvote
     @vote = proposal.votes.find_by user: current_user
     if @vote.present? and @vote.destroy
-      push_to_slack(@vote)
+      push_to_client(@vote)
       create_votes_unvote_activty(@vote)
       head :ok
     else

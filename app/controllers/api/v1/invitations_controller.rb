@@ -1,5 +1,4 @@
 class Api::V1::InvitationsController < Api::V1::BaseController
-  include SlackPushing
   include Messaging
 
   def create
@@ -18,7 +17,7 @@ class Api::V1::InvitationsController < Api::V1::BaseController
 
       if @crew.save
         notify_to_crews(@invitation)
-        push_to_slack(@invitation)
+        push_to_client(@invitation)
       end
       head :ok
     elsif @invitation.user_key =~ /@/
@@ -27,7 +26,7 @@ class Api::V1::InvitationsController < Api::V1::BaseController
       @invitation.host = current_user
       if @invitation.save
         notify_to_crews(@invitation)
-        push_to_slack(@invitation)
+        push_to_client(@invitation)
       end
       head :ok
     else
@@ -43,7 +42,7 @@ class Api::V1::InvitationsController < Api::V1::BaseController
 
     if @invitation.destroy
       notify_to_crews(@invitation)
-      push_to_slack(@invitation)
+      push_to_client(@invitation)
       head :ok
     else
       error!(:invalid_resource, @invitation.errors)

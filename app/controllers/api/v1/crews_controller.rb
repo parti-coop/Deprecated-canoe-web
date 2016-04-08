@@ -1,5 +1,4 @@
 class Api::V1::CrewsController < Api::V1::BaseController
-  include SlackPushing
   include Messaging
 
   def destroy_me
@@ -10,7 +9,7 @@ class Api::V1::CrewsController < Api::V1::BaseController
     @crew = @canoe.crews.find_by user: current_user
     if @crew.destroy
       notify_to_crews(@crew)
-      push_to_slack(@crew)
+      push_to_client(@crew)
       head :ok
     else
       error!(:invalid_resource, @crew.errors)

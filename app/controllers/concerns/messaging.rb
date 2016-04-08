@@ -5,7 +5,6 @@ module Messaging
 
   def notify_for_mentions(mentions)
     return unless user_signed_in?
-    return if api?
 
     mentions.each do |mention|
       not_used, body_for_the_concerned = render_bodies(mention)
@@ -15,7 +14,6 @@ module Messaging
 
   def notify_to_crews(object)
     return unless user_signed_in?
-    return if api?
 
     body, body_for_the_concerned = render_bodies(object)
     recipients, the_concerned = fetch_recipients(object)
@@ -59,8 +57,8 @@ module Messaging
       destroy: "'<%= link_to_canoe_title(object.canoe) %>' 카누에 초대가 취소되었습니다.",
     },
     opinions: {
-      create: "'<%= link_to_canoe_title(object.opinion.canoe) %>' 카누 '<%= link_to_discussion_subject object.opinion.discussion %>'논의에서 @<%= current_user.nickname %>님이 아래 의견을 올렸습니다.\n<blockquote class='message-box message-box__mention'><%= view_context.truncate(object.opinion.body) %></blockquote>",
-      update: "'<%= link_to_canoe_title(object.opinion.canoe) %>' 카누 '<%= link_to_discussion_subject object.opinion.discussion %>'논의에서 @<%= current_user.nickname %>님이 아래 의견을 올렸습니다.\n<blockquote class='message-box message-box__mention'><%= view_context.truncate(object.opinion.body) %></blockquote>"
+      create: "'<%= link_to_canoe_title(object.opinion.canoe) %>' 카누 '<%= link_to_discussion_subject object.opinion.discussion %>'논의에서 @<%= current_user.nickname %>님이 아래 의견을 올렸습니다.\n<blockquote class='message-box message-box__mention'><%= object.opinion.body.truncate(100) %></blockquote>",
+      update: "'<%= link_to_canoe_title(object.opinion.canoe) %>' 카누 '<%= link_to_discussion_subject object.opinion.discussion %>'논의에서 @<%= current_user.nickname %>님이 아래 의견을 올렸습니다.\n<blockquote class='message-box message-box__mention'><%= object.opinion.body.truncate(100) %></blockquote>"
     }
   }
 
@@ -90,11 +88,16 @@ module Messaging
     [recipients, the_concerned]
   end
 
+  include ActionView::Helpers::TagHelper
+  include ActionView::Helpers::UrlHelper
+  include ApplicationHelper
   def link_to_canoe_title(canoe)
-    view_context.link_to(canoe.title, view_context.canoe_home_path(canoe))
+    routes = Rails.application.routes.url_helpers
+    link_to(canoe.title, canoe_home_path(canoe))
   end
 
   def link_to_discussion_subject(discussion)
-    view_context.content_tag('span', discussion.sequential_id, class: %w(label label-default)) + view_context.link_to(discussion.subject, view_context.discussion_home_path(discussion))
+    routes = Rails.application.routes.url_helpers
+    content_tag('span', discussion.sequential_id, class: %w(label label-default)) + link_to(discussion.subject, discussion_home_path(discussion))
   end
 end

@@ -1,5 +1,4 @@
 class Api::V1::RequestToJoinsController < Api::V1::BaseController
-  include SlackPushing
   include Messaging
 
   def create
@@ -12,7 +11,7 @@ class Api::V1::RequestToJoinsController < Api::V1::BaseController
     @request_to_join.reason = params[:reason]
     if @request_to_join.save
       notify_to_crews(@request_to_join)
-      push_to_slack(@request_to_join)
+      push_to_client(@request_to_join)
       expose @request_to_join, status: :ok
     else
       error!(:invalid_resource, @request_to_join.errors)
@@ -27,7 +26,7 @@ class Api::V1::RequestToJoinsController < Api::V1::BaseController
 
     if @request_to_join.destroy
       notify_to_crews(@request_to_join)
-      push_to_slack(@request_to_join)
+      push_to_client(@request_to_join)
       head :ok
     else
       error!(:invalid_resource, @request_to_join.errors)
@@ -44,7 +43,7 @@ class Api::V1::RequestToJoinsController < Api::V1::BaseController
     @crew.host = current_user
     if @crew.save
       notify_to_crews(@request_to_join)
-      push_to_slack(@request_to_join)
+      push_to_client(@request_to_join)
       head :ok
     else
       error!(:invalid_resource, @crew.errors)

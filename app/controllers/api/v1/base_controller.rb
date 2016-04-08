@@ -11,6 +11,9 @@ class Api::V1::BaseController < Api::BaseController
     @current_user
   end
 
+  def push_to_client(object)
+  end
+
   private
 
   def authenticate_token!

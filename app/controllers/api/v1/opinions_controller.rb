@@ -1,7 +1,6 @@
 class Api::V1::OpinionsController < Api::V1::BaseController
   after_action :message_for_mentions, only: [:create, :update]
 
-  include SlackPushing
   include Messaging
   include DiscussionActivityTraking
 
@@ -19,7 +18,7 @@ class Api::V1::OpinionsController < Api::V1::BaseController
     end
     if @opinion.save
       create_opinions_create_activty @opinion
-      push_to_slack(@opinion)
+      push_to_client(@opinion)
 
       expose @opinion
     else
@@ -33,7 +32,7 @@ class Api::V1::OpinionsController < Api::V1::BaseController
     assert_current_user!(@opinion.user)
 
     if @opinion.update_attributes(opinion_params)
-      push_to_slack(@opinion)
+      push_to_client(@opinion)
       expose @opinion
     else
       error!(:invalid_resource, @opinion.errors)

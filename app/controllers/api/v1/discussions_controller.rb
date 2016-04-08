@@ -1,6 +1,4 @@
 class Api::V1::DiscussionsController < Api::V1::BaseController
-  include SlackPushing
-  include Messaging
   include DiscussionActivityTraking
 
   def create
@@ -21,7 +19,7 @@ class Api::V1::DiscussionsController < Api::V1::BaseController
       end
     end
     if @discussion.save
-      push_to_slack(@discussion)
+      push_to_client(@discussion)
       create_opinions_create_activty(@discussion.opinions.first) if @discussion.opinions.first.present?
       expose @discussion
     else
@@ -52,7 +50,7 @@ class Api::V1::DiscussionsController < Api::V1::BaseController
     @discussion.current_activity_user = current_user
 
     if @discussion.update_attributes(update_params)
-      push_to_slack(@discussion)
+      push_to_client(@discussion)
       create_discussions_update_decision_activty(@discussion) if @discussion.previous_changes['decision'].present?
       expose @discussion
     else
@@ -63,7 +61,7 @@ class Api::V1::DiscussionsController < Api::V1::BaseController
   private
 
   def create_params
-    params.require(:discussion).permit(:subject, :canoe_id, opinions_attributes: [ :body ])
+    params.require(:discussion).permit(:subject, opinions_attributes: [ :body ])
   end
 
   def update_params

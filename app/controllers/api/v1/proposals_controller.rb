@@ -1,5 +1,4 @@
 class Api::V1::ProposalsController < Api::V1::BaseController
-  include SlackPushing
   include DiscussionActivityTraking
 
   def create
@@ -15,7 +14,7 @@ class Api::V1::ProposalsController < Api::V1::BaseController
     end
     if @proposal.save
       create_porposals_create_activty(@proposal)
-      push_to_slack(@proposal)
+      push_to_client(@proposal)
       expose @proposal
     else
       error!(:invalid_resource, @proposal.errors)
@@ -28,7 +27,7 @@ class Api::V1::ProposalsController < Api::V1::BaseController
     assert_current_user!(@proposal.user)
 
     if @proposal.update_attributes(proposal_params)
-      push_to_slack(@proposal)
+      push_to_client(@proposal)
       expose @proposal
     else
       error!(:invalid_resource, @proposal.errors)
