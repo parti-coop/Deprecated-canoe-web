@@ -1,0 +1,15 @@
+%strong
+  %i.fa.fa-thumb-tack
+  현재 결정 사항
+
+- [nil, activities].flatten.each_cons(2) do |previous, activity|
+  - what = case activity.task
+  - when 'update'
+    - discussion_decision = activity.parameters.fetch(:discussion_decision, nil)
+    - if discussion_decision.present?
+      - what = "\"#{truncate discussion_decision}\"라고 작성"
+    - else
+      - what = "내용을 작성"
+  - when 'attachment.create'  then "#{activity.measure.original_filename} 파일을 업로드"
+  - when 'attachment.destroy' then "#{activity.measure.original_filename} 파일을 삭제"
+  #{what}#{(activities.last == activity or activity.task == 'update') ? '하였습니다.' : '하고'}

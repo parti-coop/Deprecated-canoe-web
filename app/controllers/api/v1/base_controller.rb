@@ -74,4 +74,73 @@ class Api::V1::BaseController < Api::BaseController
       error! :forbidden
     end
   end
+
+  def hashed_detail_canoe(canoe)
+    canoe.serializable_hash(include: {
+      user: {},
+      crews: { include: [:user] },
+      request_to_joins: { include: [:user] },
+      invitations: { include: [:user] },
+      request_to_joins: { include: [:user] },
+    }).update(am_i_crew?: canoe.crew?(current_user), have_requested_to_join?: canoe.request_to_join?(current_user))
+  end
+
+  def hashed_basic_canoe(canoe)
+    canoe.serializable_hash(include: {
+      user: {}
+    }).update(am_i_crew?: canoe.crew?(current_user), have_requested_to_join?: canoe.request_to_join?(current_user))
+  end
+
+  def hashed_basic_proposal(proposal)
+    proposal.serializable_hash(include: {
+      user: {}
+    })
+  end
+
+  def hashed_detail_discussion(discussion)
+    discussion.serializable_hash(include: {
+      user: {}
+    }).update(
+      activities: hashed_activities(discussion),
+      canoe: hashed_basic_canoe(discussion.canoe),
+      proposals: discussion.proposals.map{ |p| hashed_basic_proposal(p) })
+  end
+
+  def hashed_activities(discussion)
+    activities = discussion.activities_merged
+    activities.map do |first_activity, activities_groups|
+      if first_activity.key == 'opinion'
+        opinion = first_activity.subject
+        {
+          type: 'opinion',
+          user: opinion.user.serializable_hash,
+          items: [opinion.serializable_hash]
+        }
+      else
+        {
+          type: 'activity',
+          user: first_activity.owner.serializable_hash,
+          items: activities_groups.map do |activities_group|
+            subject = activities_group[:subject]
+            activities = activities_group[:activities]
+            key = activities.first.key
+            ac = ActionController::Base.new()
+            {
+              subject_type: key,
+              subject: subject.serializable_hash,
+              details: ac.render_to_string(partial: "public_activity/app/#{key.gsub('.','/')}", locals: { subject: subject, activities: activities })
+            }
+          end
+        }
+      end
+    end
+  end
+
+  def hashed_discussions_with_newest(discussions)
+    discussions.map do |discussion|
+      discussion.serializable_hash(include: [:user, :canoe]).merge(
+        newest_opinion: discussion.newest_opinion.try(:serializable_hash, {include: [:user]}),
+        newest_proposal: discussion.newest_proposal.try(:serializable_hash, {include: [:user]}))
+    end
+  end
 end

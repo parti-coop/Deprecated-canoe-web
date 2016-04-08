@@ -1,0 +1,23 @@
+%i.fa.fa-rocket
+제안#{subject.sequential_id}
+%strong
+  - proposal_body = activities.first.parameters.fetch(:proposal_body, nil)
+  "#{truncate(proposal_body || subject.body)}"
+
+- has_create_or_update = activities.any? { |activity| %(create update).include? activity.task}
+- [nil, activities].flatten.each_cons(2).to_a.each_with_index do |(previous, activity), index|
+  - what = case activity.task
+  - when 'vote.in_favor'      then "#{'곧바로' if previous.try(:measure_type) == Vote.to_s} 좋아요를 선택"
+  - when 'vote.opposed'       then "#{'곧바로' if previous.try(:measure_type) == Vote.to_s} 안돼요를 선택"
+  - when 'vote.unvote'        then "#{'곧바로' if previous.try(:measure_type) == Vote.to_s} 입장을 취소"
+  - when 'create'             then '새로 작성'
+  - when 'update'
+    - proposal_body = activity.parameters.fetch(:proposal_body, nil)
+    - if proposal_body.present?
+      - what = "제안 내용을 \"#{truncate proposal_body}\"라고 수정"
+    - else
+      - what = "제안 내용을 수정"
+  - when 'destroy'            then "#{'곧바로' if has_create_or_update} 제안을 삭제"
+  - when 'attachment.create'  then "#{activity.measure.original_filename} 파일을 업로드"
+  - when 'attachment.destroy' then "#{activity.measure.original_filename} 파일을 삭제"
+  #{what}#{(activities.last == activity or index.even?) ? '하였습니다.' : '하고'}

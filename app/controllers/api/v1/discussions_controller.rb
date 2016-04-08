@@ -37,8 +37,7 @@ class Api::V1::DiscussionsController < Api::V1::BaseController
       @discussion.mark_as_read! :for => current_user
     end
 
-    expose @discussion,
-      serializer: Api::V1::DiscussionSerializer
+    expose hashed_detail_discussion(@discussion)
   end
 
   def update
