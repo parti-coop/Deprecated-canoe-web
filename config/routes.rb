@@ -87,6 +87,7 @@ Rails.application.routes.draw do
         delete 'crews/me', to: 'crews#destroy_me', on: :member
         shallow do
           resources :discussions, except: :destroy do
+            get 'decision_histories', on: :member
             resources :opinions
             resources :proposals do
               member do

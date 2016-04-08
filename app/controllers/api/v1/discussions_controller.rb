@@ -40,6 +40,15 @@ class Api::V1::DiscussionsController < Api::V1::BaseController
     expose hashed_detail_discussion(@discussion)
   end
 
+  def decision_histories
+    @discussion = Discussion.find params[:id]
+    @canoe = @discussion.canoe
+
+    assert_canoe!
+
+    collection @discussion.activities.where('key': 'discussion.decision').order(created_at: :desc).select { |p| p.parameters.present? }, include: [:owner]
+  end
+
   def update
     @discussion = Discussion.find params[:id]
     @canoe = @discussion.canoe
