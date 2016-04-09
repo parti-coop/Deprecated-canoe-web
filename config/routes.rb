@@ -84,7 +84,10 @@ Rails.application.routes.draw do
         end
       end
       resources :canoes, only: [:show] do
-        delete 'crews/me', to: 'crews#destroy_me', on: :member
+        member do
+          delete 'crews/me', to: 'crews#destroy_me'
+          delete 'request_to_joins', to: 'request_to_joins#destroy_by_canoe'
+        end
         shallow do
           resources :discussions, except: :destroy do
             get 'decision_histories', on: :member

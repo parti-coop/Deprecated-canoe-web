@@ -4,6 +4,7 @@ class Api::V1::RequestToJoinsController < Api::V1::BaseController
   def create
     @canoe = Canoe.find params[:canoe_id]
 
+    assert_canoe!
     check_errors_before_create
 
     @request_to_join = @canoe.request_to_joins.build
@@ -22,7 +23,24 @@ class Api::V1::RequestToJoinsController < Api::V1::BaseController
     @request_to_join = RequestToJoin.find params[:id]
     @canoe = @request_to_join.canoe
 
+    assert_canoe!
     check_errors_before_destory
+
+    if @request_to_join.destroy
+      notify_to_crews(@request_to_join)
+      push_to_client(@request_to_join)
+      head :ok
+    else
+      error!(:invalid_resource, @request_to_join.errors)
+    end
+  end
+
+  def destroy_by_canoe
+    @canoe = Canoe.find params[:id]
+    assert_canoe!
+
+    @request_to_join = @canoe.request_to_joins.find_by(user: current_user)
+    refute_blank!(@request_to_join, 'Request to join')
 
     if @request_to_join.destroy
       notify_to_crews(@request_to_join)
@@ -37,6 +55,7 @@ class Api::V1::RequestToJoinsController < Api::V1::BaseController
     @request_to_join = RequestToJoin.find params[:id]
     @canoe = @request_to_join.canoe
 
+    assert_canoe!
     check_errors_before_accept
 
     @crew = @canoe.crews.find_or_initialize_by(user: @request_to_join.user)

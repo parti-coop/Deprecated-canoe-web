@@ -16,7 +16,7 @@ class Api::V1::PagesController < Api::V1::BaseController
         }
       ],
       recent_discussions: hashed_discussions_with_newest(discussions),
-      recommend_canoes: Canoe.order(sailed_at: :desc).limit(10)
+      recommend_canoes: Canoe.order(sailed_at: :desc).limit(10).map { |canoe| hashed_basic_canoe(canoe) }
     }
     expose(result)
   end

@@ -27,6 +27,12 @@ class Api::V1::BaseController < Api::BaseController
     end
   end
 
+  def refute_blank!(something, model_name)
+    if something.blank?
+      error! :forbidden, metadata: { error_description: "#{model_name} is not present" }
+    end
+  end
+
   def assert_canoe!
     error! :not_found, metadata: { error_description: 'Not found canoe' } if @canoe.nil?
   end
@@ -94,7 +100,7 @@ class Api::V1::BaseController < Api::BaseController
   def hashed_basic_proposal(proposal)
     proposal.serializable_hash(include: {
       user: {}
-    })
+    }).update(vote_by_me: proposal.votes.find_by(user: current_user))
   end
 
   def hashed_detail_discussion(discussion)
