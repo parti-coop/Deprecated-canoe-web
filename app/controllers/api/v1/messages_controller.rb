@@ -1,8 +1,6 @@
 class Api::V1::MessagesController < Api::V1::BaseController
   def index
-    paginated current_user.mailbox.notifications.page(params[:page]),
-      each_serializer: Api::V1::Mailboxer::NotificationSerializer,
-      serializer_params: { current_user: current_user }
+    paginated current_user.mailbox.notifications.page(params[:page]).map{ |n| hashed_notification(n) }
   end
 
   def unreads_count
@@ -31,8 +29,10 @@ class Api::V1::MessagesController < Api::V1::BaseController
     else
       @notification.mark_as_unread(current_user)
     end
-    expose @notification,
-      serializer: Api::V1::Mailboxer::NotificationSerializer,
-      serializer_params: { current_user: current_user }
+    expose hashed_notification(@notification)
+  end
+
+  def hashed_notification(notification)
+    notification.serializable_hash.update(is_read: notification.is_read?(current_user))
   end
 end
