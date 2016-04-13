@@ -73,6 +73,7 @@ Rails.application.routes.draw do
       get 'search/canoes', to: 'search#canoes'
       get 'search/discussions', to: 'search#discussions'
 
+      resources :devices, only: [:index, :create]
       resources :messages, only: :index do
         collection do
           get 'unreads_count'

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160310131517) do
+ActiveRecord::Schema.define(version: 20160413055818) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id"
@@ -88,6 +88,14 @@ ActiveRecord::Schema.define(version: 20160310131517) do
   add_index "crews", ["canoe_id"], name: "index_crews_on_canoe_id"
   add_index "crews", ["host_id"], name: "index_crews_on_host_id"
   add_index "crews", ["user_id", "canoe_id"], name: "index_crews_on_user_id_and_canoe_id", unique: true
+
+  create_table "devices", force: :cascade do |t|
+    t.integer "user_id",         null: false
+    t.string  "device_id"
+    t.string  "device_platform"
+  end
+
+  add_index "devices", ["user_id"], name: "index_devices_on_user_id"
 
   create_table "discussions", force: :cascade do |t|
     t.string   "subject",                     null: false
