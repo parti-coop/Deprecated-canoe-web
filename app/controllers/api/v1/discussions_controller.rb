@@ -73,6 +73,6 @@ class Api::V1::DiscussionsController < Api::V1::BaseController
   end
 
   def update_params
-    params.require(:discussion).permit(:decision)
+    params.require(:discussion).permit(:subject, :decision)
   end
 end
