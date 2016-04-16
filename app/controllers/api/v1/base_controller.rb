@@ -149,4 +149,11 @@ class Api::V1::BaseController < Api::BaseController
         newest_proposal: discussion.newest_proposal.try(:serializable_hash, {include: [:user]}))
     end
   end
+
+  def hashed_page_meta(collection)
+    {
+      count: collection.total_count,
+      pagination: RocketPants::Respondable.extract_pagination(collection)
+    }
+  end
 end
