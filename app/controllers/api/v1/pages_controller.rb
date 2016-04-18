@@ -49,5 +49,11 @@ class Api::V1::PagesController < Api::V1::BaseController
       error! :bad_request, 'no params'
     end
   end
+
+
+  def push
+    PushSender.new.push_now(current_user, params[:message])
+    head :ok
+  end
 end
 

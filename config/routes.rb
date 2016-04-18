@@ -67,6 +67,7 @@ Rails.application.routes.draw do
 
   scope :api do
     api version: 1, module: "api/v1", allow_prefix: "v" do
+      post 'push', to: 'pages#push'
       get 'system/ping'
       get 'system/last_versions'
       get 'home', to: 'pages#home'
