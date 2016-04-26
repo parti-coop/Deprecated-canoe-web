@@ -17,7 +17,7 @@ class Api::V1::BaseController < Api::BaseController
   private
 
   def authenticate_token!
-    @current_user ||= authenticate_with_http_token { |t,o| User.find_or_sync(t) }
+    @current_user ||= authenticate_with_http_token { |t,o| User.find_by_key(t) }
     error! :unauthenticated unless @current_user.present?
   end
 

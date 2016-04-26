@@ -7,7 +7,7 @@ class Api::V1::InvitationsController < Api::V1::BaseController
     assert_crew!
 
     @invitation = @canoe.invitations.build(create_params)
-    @invitation.user = User.find_or_sync(@invitation.user_key)
+    @invitation.user = User.find_by_key(@invitation.user_key)
 
     if @invitation.user.present?
       refute_crew_of!(@invitation.user)

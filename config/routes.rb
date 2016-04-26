@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   root 'pages#home'
 
   scope :app do
-    sso_devise
+    devise_for :users, controllers: { registrations: 'users/registrations', omniauth_callbacks: 'users/omniauth_callbacks' }
     resources :discussions
     get :proposals, to: 'proposals#index'
     get :opinions, to: 'opinions#index'

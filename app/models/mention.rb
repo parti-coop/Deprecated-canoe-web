@@ -11,7 +11,7 @@ class Mention < ActiveRecord::Base
       opinion.body.scan(PATTERN).flatten
     end
 
-    users = result.uniq.map { |nickname| User.find_or_sync_by_nickname(nickname) }.compact
+    users = result.uniq.map { |nickname| User.find_by(nickname: nickname) }.compact
     if result.include? 'crew'
       users += opinion.canoe.crews.map(&:user)
     end

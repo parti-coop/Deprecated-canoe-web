@@ -1,20 +1,40 @@
 one:
   email: 'one@gmail.com'
+  uid: 'one@gmail.com'
   nickname: 'nick1'
   home_visited_at: <%= 5.day.ago.to_s(:db) %>
+  provider: email
+  encrypted_password: <%= User.new.send(:password_digest, "password") %>
+  confirmed_at: <%= 5.day.ago.to_s(:db) %>
 two:
   email: 'two@gmail.com'
+  uid: 'two@gmail.com'
   nickname: 'nick2'
   home_visited_at: <%= 5.day.ago.to_s(:db) %>
+  provider: email
+  encrypted_password: <%= User.new.send(:password_digest, "password") %>
+  confirmed_at: <%= 5.day.ago.to_s(:db) %>
 crew:
   email: 'crew@gmail.com'
+  uid: 'crew@gmail.com'
   nickname: 'crew_nick'
   home_visited_at: <%= 5.day.ago.to_s(:db) %>
+  provider: email
+  encrypted_password: <%= User.new.send(:password_digest, "password") %>
+  confirmed_at: <%= 5.day.ago.to_s(:db) %>
 visitor:
   email: 'visitor@gmail.com'
+  uid: 'visitor@gmail.com'
   nickname: 'visitor_nick'
   home_visited_at: <%= 5.day.ago.to_s(:db) %>
+  provider: email
+  encrypted_password: <%= User.new.send(:password_digest, "password") %>
+  confirmed_at: <%= 5.day.ago.to_s(:db) %>
 guest:
   email: 'guest@gmail.com'
+  uid: 'guest@gmail.com'
   nickname: 'guest_nick'
   home_visited_at: <%= 5.day.ago.to_s(:db) %>
+  provider: email
+  encrypted_password: <%= User.new.send(:password_digest, "password") %>
+  confirmed_at: <%= 5.day.ago.to_s(:db) %>

@@ -1,7 +1,5 @@
 class PagesController < ApplicationController
   def home
-    session[SSO_RETURN_TO_KEY] = root_url
-
     limit_count = 30
     if user_signed_in?
       @discussions = current_user.joined_discussions.reorder(discussed_at: :desc).first(limit_count)

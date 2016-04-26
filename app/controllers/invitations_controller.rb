@@ -7,7 +7,7 @@ class InvitationsController < ApplicationController
   load_and_authorize_resource :invitation, through: :canoe, shallow: true, except: :accept
 
   def create
-    @invitation.user ||= User.find_or_sync(@invitation.user_key)
+    @invitation.user ||= User.find_by_key(@invitation.user_key)
     if @invitation.user.present?
       @crew = @invitation.canoe.crews.build(
         user: @invitation.user,

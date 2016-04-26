@@ -10,9 +10,14 @@ gem 'redis', '~> 3.2', '>= 3.2.2'
 gem 'redis-namespace', '~> 1.5', '>= 1.5.2'
 
 # auth
-gem 'devise'
-gem 'parti_sso_client', '~> 0.0.12', github: 'parti-xyz/parti_sso_client'
+gem 'devise', '~> 3.5', '>= 3.5.2'
 gem 'cancancan', '~> 1.10'
+gem 'omniauth', '~> 1.3', '>= 1.3.1'
+gem 'omniauth-facebook', '~> 3.0'
+gem 'omniauth-twitter', '~> 1.2', '>= 1.2.1'
+gem 'omniauth-google-oauth2', '~> 0.3.1'
+gem 'twitter', '~> 5.16'
+gem 'google-api-client', '~> 0.9.2'
 
 # model
 gem 'sequenced', '~> 2.0'
@@ -52,11 +57,14 @@ end
 gem 'grocer'
 gem 'gcm'
 
+# uploader and image
+gem 'carrierwave', '~> 0.10.0'
+gem "mini_magick"
+
 # tools
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'slack-notifier', '~> 1.4'
-gem 'carrierwave', '~> 0.10.0'
 gem 'exception_notification', '~> 4.1', '>= 4.1.4'
 gem 'gemoji', '~> 2.1'
 gem 'time_difference', '~> 0.4.2'
@@ -66,6 +74,7 @@ gem 'nokogiri', '~> 1.6', '>= 1.6.7.2'
 gem 'kaminari', '~> 0.16.3'
 gem 'bootstrap-kaminari-views', '~> 0.0.5'
 gem 'meta-tags', '~> 2.1.0'
+gem 'identicon', '~> 0.0.5'
 
 group :development, :test do
   gem "letter_opener_web"

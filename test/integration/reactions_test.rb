@@ -7,7 +7,7 @@ class ReactionsTest < ActionDispatch::IntegrationTest
     assert_equal assigns(:reaction).user, users(:one)
     assert_equal 'smile', assigns(:reaction).token
 
-    sign_out users(:one)
+    sign_out
     sign_in users(:two)
     post reactions_path(reaction: { opinion_id: opinions(:opinion1), token: :'smile' })
     assert_equal assigns(:reaction).user, users(:two)

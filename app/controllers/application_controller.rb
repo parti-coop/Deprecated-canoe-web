@@ -3,8 +3,6 @@ class ApplicationController < ActionController::Base
 
   cattr_accessor(:skip_slack) { !Rails.env.staging? }
 
-  include PartiSsoClient::Authentication
-  before_action :verify_authentication
   after_action :allow_iframe
 
   before_action :prepare_meta_tags, if: "request.get?"
