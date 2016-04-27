@@ -36,10 +36,14 @@ class User < ActiveRecord::Base
   before_save :downcase_nickname
   before_save :set_uid
   before_validation :strip_whitespace, only: :nickname
+  before_save :ensure_authentication_token, if: Proc.new { |user| !User.skip_callbacks and (user.confirmed_at_changed? and user.confirmed_at.present? and user.authentication_token.blank?) }
 
   # canoe filters
   after_create :set_invitation, unless: :skip_callbacks
   before_create :set_home_visited_at, unless: :skip_callbacks
+
+  # attrs
+  attr_encrypted :authentication_token, key: Rails.application.secrets.secret_key_base
 
   # associations
   has_many :crews
@@ -64,8 +68,7 @@ class User < ActiveRecord::Base
   # scopes
   scope :latest, -> { after(1.day.ago) }
 
-      cattr_accessor :skip_callbacks
-
+  cattr_accessor :skip_callbacks
 
   # canoe methods
 
@@ -149,9 +152,7 @@ class User < ActiveRecord::Base
   end
 
   def nickname_exclude_pattern
-    unless self.nickname !~ /\Aparti.*\z/i
-      errors.add(:nickname, I18n.t('errors.messages.taken'))
-    end
+    self.nickname !~ /\Aparti.*\z/i
   end
 
   def password_required?
@@ -160,5 +161,12 @@ class User < ActiveRecord::Base
 
   def strip_whitespace
     self.nickname = self.nickname.strip unless self.nickname.nil?
+  end
+
+  def ensure_authentication_token
+    loop do
+      self.authentication_token = Devise.friendly_token
+      break unless User.exists?(encrypted_authentication_token: self.encrypted_authentication_token)
+    end
   end
 end

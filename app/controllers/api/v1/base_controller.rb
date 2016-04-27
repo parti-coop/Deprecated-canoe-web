@@ -17,8 +17,30 @@ class Api::V1::BaseController < Api::BaseController
   private
 
   def authenticate_token!
-    @current_user ||= authenticate_with_http_token { |t,o| User.find_by_key(t) }
+    nickname = request.headers["X-CANOE-USER-NICKNAME"]
+    auth_token = request.headers["X-CANOE-AUTH-TOKEN"]
+    user = User.find_by(nickname: nickname)
+
+    # Notice how we use Devise.secure_compare to compare the token
+    # in the database with the token given in the params, mitigating
+    # timing attacks.
+    if user && Devise.secure_compare(user.authentication_token, auth_token)
+      @current_user = user
+    end
+
     error! :unauthenticated unless @current_user.present?
+  end
+
+  def authenticate_user_from_token!
+    user_email = params[:user_email].presence
+    user       = user_email && User.find_by_email(user_email)
+
+    # Notice how we use Devise.secure_compare to compare the token
+    # in the database with the token given in the params, mitigating
+    # timing attacks.
+    if user && Devise.secure_compare(user.authentication_token, params[:user_token])
+      sign_in user, store: false
+    end
   end
 
   def refute_captain!

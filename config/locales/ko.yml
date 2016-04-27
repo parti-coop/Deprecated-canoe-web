@@ -53,3 +53,11 @@ ko:
               confirmation: 새로 입력한 비밀번호가 서로 일치하지 않습니다.
             current_password:
               invalid: 가 일치하지 않습니다.
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            nickname:
+              invalid: 허용되지 않는 문자입니다.
+              exclusion: 이미 사용 중 입니다

@@ -73,6 +73,7 @@ Rails.application.routes.draw do
       get 'home', to: 'pages#home'
       get 'search/canoes', to: 'search#canoes'
       get 'search/discussions', to: 'search#discussions'
+      post 'sessions/facebook', to: 'sessions#facebook'
 
       resources :devices, only: [:index, :create]
       resources :messages, only: :index do
