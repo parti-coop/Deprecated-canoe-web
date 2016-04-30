@@ -74,6 +74,7 @@ Rails.application.routes.draw do
       get 'search/canoes', to: 'search#canoes'
       get 'search/discussions', to: 'search#discussions'
       post 'sessions/facebook', to: 'sessions#facebook'
+      get 'users/exist', to: 'users#exist'
 
       resources :devices, only: [:index, :create]
       resources :messages, only: :index do
