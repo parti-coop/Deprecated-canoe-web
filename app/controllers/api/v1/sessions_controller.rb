@@ -25,7 +25,7 @@ class Api::V1::SessionsController < Api::V1::BaseController
         password: Devise.friendly_token[0,20], confirmed_at: DateTime.now)
       user.remote_image_url = picture.try(:dig, 'data', 'url')
       if user.save
-        expose({ auth_token: user.authentication_token })
+        expose({ nickname: user.nickname, auth_token: user.authentication_token })
       else
         error!(:invalid_resource, user.errors)
       end
@@ -33,7 +33,7 @@ class Api::V1::SessionsController < Api::V1::BaseController
       if nickname.present? and (nickname != user.nickname)
         error!(:bad_request, metadata: {message: 'invalid nickname'})
       else
-        expose({ auth_token: user.authentication_token })
+        expose({ nickname: user.nickname, auth_token: user.authentication_token })
       end
     end
   end

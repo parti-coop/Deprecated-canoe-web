@@ -75,6 +75,9 @@ Rails.application.routes.draw do
       get 'search/discussions', to: 'search#discussions'
       post 'sessions/facebook', to: 'sessions#facebook'
       get 'users/exist', to: 'users#exist'
+      unless Rails.env.production?
+        get 'kill_me', to: 'users#kill_me'
+      end
 
       resources :devices, only: [:index, :create]
       resources :messages, only: :index do
