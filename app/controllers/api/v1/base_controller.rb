@@ -109,7 +109,6 @@ class Api::V1::BaseController < Api::BaseController
       crews: { include: [:user] },
       request_to_joins: { include: [:user] },
       invitations: { include: [:user] },
-      request_to_joins: { include: [:user] },
     }).update(am_i_crew?: canoe.crew?(current_user), have_requested_to_join?: canoe.request_to_join?(current_user))
   end
 

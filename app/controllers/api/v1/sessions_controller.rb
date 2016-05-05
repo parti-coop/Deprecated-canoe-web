@@ -7,7 +7,7 @@ class Api::V1::SessionsController < Api::V1::BaseController
       nickname = params[:nickname]
 
       @graph = Koala::Facebook::API.new access_token
-      profile = @graph.get_object("me")
+      profile = @graph.get_object("me", fields: ['id', 'email'])
       picture = @graph.get_picture_data("me")
     rescue Exception => e
       logger.info e.message
