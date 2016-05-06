@@ -5,7 +5,7 @@ class PushSender
     @android_pusher = GCM.new(ENV['GCM_API_KEY'])
     @ios_pusher = Grocer.pusher(
       certificate: Rails.root.join('config/apns.pem'),
-      gateway: (Rails.env.production? ? "gateway.sandbox.push.apple.com" : "gateway.push.apple.com")
+      gateway: (Rails.env.production? ? "gateway.push.apple.com" : "gateway.sandbox.push.apple.com")
     )
   end
 
