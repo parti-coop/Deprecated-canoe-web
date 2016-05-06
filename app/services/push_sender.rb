@@ -14,9 +14,9 @@ class PushSender
       if device.device_platform == 'android'
         options = {data: {alert: message}, collapse_key: "akey"}
         response = @android_pusher.send([device.device_id], options)
-      elsif user.device_os == 'ios'
+      elsif device.device_platform == 'ios'
         notification = Grocer::Notification.new(
-          device_token:      user.device_id,
+          device_token:      device.device_id,
           alert:             message,
           # badge:             42,
           # category:          "a category",         # optional; used for custom notification actions
