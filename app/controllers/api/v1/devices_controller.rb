@@ -1,8 +1,6 @@
 class Api::V1::DevicesController < Api::V1::BaseController
   def create
-    @device = Device.new(create_params)
-    @device.user = current_user
-
+    @device = Device.find_or_initialize_by(create_params.update(user: current_user))
     if @device.save
       head :ok
     else

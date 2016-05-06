@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160426170145) do
+ActiveRecord::Schema.define(version: 20160506080612) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id"
@@ -95,6 +95,7 @@ ActiveRecord::Schema.define(version: 20160426170145) do
     t.string  "device_platform"
   end
 
+  add_index "devices", ["user_id", "device_id", "device_platform"], name: "index_devices_on_user_id_and_device_id_and_device_platform", unique: true
   add_index "devices", ["user_id"], name: "index_devices_on_user_id"
 
   create_table "discussions", force: :cascade do |t|
