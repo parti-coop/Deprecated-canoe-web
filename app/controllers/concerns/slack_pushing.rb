@@ -1,5 +1,3 @@
-# TEST web hook url : "https://hooks.slack.com/services/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"
-
 module SlackPushing
   extend ActiveSupport::Concern
 
